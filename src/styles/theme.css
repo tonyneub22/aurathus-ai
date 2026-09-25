@@ -1,0 +1,24 @@
+@import 'tailwindcss';
+
+/*
+ * Brand tokens. Sampled directly from brand-source/Podocyte AI logo@1x.png:
+ * background #0A0A0C, gold #D4C39A. Adjust here and the whole app follows.
+ */
+@theme {
+  --color-podo-black: #0a0a0b;
+  --color-podo-gold: #d4c39a;
+  --color-podo-gold-soft: #a29578;
+  --color-podo-white: #f5f3ee;
+
+  --font-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-podo-black);
+  color: var(--color-podo-white);
+}
