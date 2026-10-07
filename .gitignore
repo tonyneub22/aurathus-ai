@@ -3,3 +3,9 @@ dist
 .env
 .env.local
 .DS_Store
+
+# test output
+coverage
+test-results
+playwright-report
+e2e/screenshots

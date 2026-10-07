@@ -1,8 +1,10 @@
-import UnderConstruction from './pages/UnderConstruction'
+import Home from './pages/Home'
+import ConsultRequest from './pages/ConsultRequest'
 
-// This placeholder site has exactly one page. When starting the full
-// revamp, swap this for a router (e.g. react-router) and real pages —
-// see README.md "Starting the full revamp".
+// Plain links and a full page load between pages: no router library needed
+// for two routes. Add one here if the site grows. vercel.json rewrites
+// /consult to index.html so deep links work in production.
 export default function App() {
-  return <UnderConstruction />
+  const path = window.location.pathname.replace(/\/+$/, '')
+  return path === '/consult' ? <ConsultRequest /> : <Home />
 }

@@ -1,24 +1,64 @@
 @import 'tailwindcss';
 
 /*
- * Brand tokens. Sampled directly from brand-source/Podocyte AI logo@1x.png:
- * background #0A0A0C, gold #D4C39A. Adjust here and the whole app follows.
+ * Brand tokens. Gold #D4C39A was sampled from the logo's ring mark; the
+ * background matches the logo export (#0A0A0C). Adjust here and the whole
+ * app follows. Three.js colours in src/three/statueScene.js mirror these.
  */
 @theme {
   --color-podo-black: #0a0a0b;
+  --color-podo-black-2: #11100e; /* raised surfaces */
   --color-podo-gold: #d4c39a;
+  --color-podo-gold-hot: #f3dfb4; /* highlight on the ring rim */
   --color-podo-gold-soft: #a29578;
+  --color-podo-ring: #f0dc8a; /* the statue ring as rendered (additive blend + tone mapping), not the raw gold; the beam uses it */
   --color-podo-white: #f5f3ee;
+  /* Testimonial accordion cells: the raised surface warmed with brand gold, so they read as lighter than the page and the box. */
+  --color-podo-panel: color-mix(in srgb, var(--color-podo-gold) 11%, var(--color-podo-black-2));
+  --color-podo-panel-open: color-mix(in srgb, var(--color-podo-gold) 17%, var(--color-podo-black-2));
+  --color-podo-line: color-mix(in srgb, var(--color-podo-gold) 16%, transparent);
 
   --font-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-podo: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-podo-soft: cubic-bezier(0.65, 0, 0.35, 1); /* symmetric in-out: gentle start and landing, for large layout moves */
 }
 
 :root {
   color-scheme: dark;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--color-podo-black);
   color: var(--color-podo-white);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Faint film grain over the whole page; sits above the WebGL canvas. */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+}
+
+/* Keyboard focus ring in brand gold. */
+:focus-visible {
+  outline: 1px solid var(--color-podo-gold);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
