@@ -5,8 +5,8 @@ import { submitConsult } from '../../lib/consult'
 const { consult } = site
 
 const control =
-  'w-full border-0 border-b border-podo-gold/30 bg-transparent py-3 font-serif text-[18px] text-podo-white placeholder:text-podo-white/30 transition-colors duration-500 focus:border-podo-gold focus:outline-none'
-const label = 'font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-podo-gold/70'
+  'w-full border-0 border-b border-aura-gold/30 bg-transparent py-3 font-serif text-[18px] text-aura-white placeholder:text-aura-white/30 transition-colors duration-500 focus:border-aura-gold focus:outline-none'
+const label = 'font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-gold/70'
 
 function Field({ id, text, children }) {
   return (
@@ -37,7 +37,7 @@ export default function ConsultForm({ send = submitConsult }) {
 
   if (status === 'sent') {
     return (
-      <p role="status" className="font-serif text-[22px] font-light leading-relaxed text-podo-white">
+      <p role="status" className="font-serif text-[22px] font-light leading-relaxed text-aura-white">
         {consult.sent}
       </p>
     )
@@ -57,7 +57,7 @@ export default function ConsultForm({ send = submitConsult }) {
       <Field id="interest" text={consult.fields.interest}>
         <select id="interest" name="interest" defaultValue={consult.interests[0]} className={control}>
           {consult.interests.map((option) => (
-            <option key={option} value={option} className="bg-podo-black">
+            <option key={option} value={option} className="bg-aura-black">
               {option}
             </option>
           ))}
@@ -71,14 +71,14 @@ export default function ConsultForm({ send = submitConsult }) {
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="justify-self-start border border-podo-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-podo-white transition-colors duration-500 hover:border-podo-gold disabled:opacity-50"
+          className="justify-self-start border border-aura-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-white transition-colors duration-500 hover:border-aura-gold disabled:opacity-50"
         >
           {status === 'sending' ? consult.sending : consult.submit}
         </button>
         {status === 'error' && (
-          <p role="alert" className="font-serif text-[17px] text-podo-white/70">
+          <p role="alert" className="font-serif text-[17px] text-aura-white/70">
             {consult.failed}{' '}
-            <a href={`mailto:${site.contact.email}`} className="text-podo-gold hover:text-podo-gold-hot">
+            <a href={`mailto:${site.contact.email}`} className="text-aura-gold hover:text-aura-gold-hot">
               {site.contact.email}
             </a>
             .

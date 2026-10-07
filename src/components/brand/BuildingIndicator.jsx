@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from 'motion/react'
 
 /**
  * Small motion glyph: a thin gold ring with a slowly rotating arc, echoing
- * the podocyte mark. Used as a quiet loading indicator.
+ * the ring around the Aurathus mark. Used as a quiet loading indicator.
  */
 export default function BuildingIndicator({ size = 40, label = 'Loading', className = '' }) {
   const reduceMotion = useReducedMotion()
@@ -20,7 +20,7 @@ export default function BuildingIndicator({ size = 40, label = 'Loading', classN
           cy="20"
           r="17.5"
           fill="none"
-          stroke="var(--color-podo-gold)"
+          stroke="var(--color-aura-gold)"
           strokeOpacity="0.25"
           strokeWidth="1"
         />
@@ -39,7 +39,7 @@ export default function BuildingIndicator({ size = 40, label = 'Loading', classN
           cy="20"
           r="17.5"
           fill="none"
-          stroke="var(--color-podo-gold)"
+          stroke="var(--color-aura-gold)"
           strokeWidth="1.25"
           strokeLinecap="round"
           strokeDasharray="16 94"

@@ -7,12 +7,12 @@ import { site } from '../../config/site'
  */
 export default function StatueCredit({ className = '' }) {
   const c = site.statue.credit
-  const link = 'underline decoration-podo-gold/30 underline-offset-4 transition hover:decoration-podo-gold'
+  const link = 'underline decoration-aura-gold/30 underline-offset-4 transition hover:decoration-aura-gold'
 
   return (
     <p
       data-testid="statue-credit"
-      className={`max-w-[70ch] font-serif text-[13px] font-medium leading-relaxed tracking-[0.04em] text-podo-white/40 ${className}`}
+      className={`max-w-[70ch] font-serif text-[13px] font-medium leading-relaxed tracking-[0.04em] text-aura-white/40 ${className}`}
     >
       3D figure: “
       <a href={c.titleUrl} className={link} rel="noopener noreferrer" target="_blank">

@@ -22,7 +22,7 @@ function StaticFibers() {
       className="absolute inset-0"
       style={{
         background:
-          'radial-gradient(ellipse 60% 70% at 70% 30%, color-mix(in srgb, var(--color-podo-gold) 14%, transparent), transparent 70%), repeating-linear-gradient(115deg, transparent 0 22px, color-mix(in srgb, var(--color-podo-gold-soft) 7%, transparent) 22px 23px)',
+          'radial-gradient(ellipse 60% 70% at 70% 30%, color-mix(in srgb, var(--color-aura-gold) 14%, transparent), transparent 70%), repeating-linear-gradient(115deg, transparent 0 22px, color-mix(in srgb, var(--color-aura-gold-soft) 7%, transparent) 22px 23px)',
       }}
     />
   )

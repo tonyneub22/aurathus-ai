@@ -2,7 +2,9 @@
 // Edit here — no copy should be hardcoded inside components.
 
 export const site = {
-  companyName: 'Podocyte AI',
+  companyName: 'Aurathus AI LLC',
+  shortName: 'Aurathus AI',
+  siteUrl: 'https://aurathus-ai.com',
   tagline: 'Design Services',
   location: 'Grand Rapids · Michigan',
 
@@ -13,12 +15,19 @@ export const site = {
     cta: { label: 'Request Consult', href: '/consult' },
   },
 
-  nav: [
-    { label: 'Services', href: '#services' },
-    { label: 'Work', href: '#testimonials' },
-    { label: 'Studio', href: '#about' },
-    { label: 'Contact', href: '#contact' },
-  ],
+  // Header and menu. Links use /#id so they work from /consult as well as the home page.
+  nav: {
+    home: { label: 'Home', href: '/#top' },
+    menuLabel: 'Menu',
+    links: [
+      { label: 'Services', href: '/#services' },
+      { label: 'Why Us', href: '/#why-us' },
+      { label: 'Work', href: '/#testimonials' },
+      { label: 'Studio', href: '/#about' },
+      { label: 'Contact', href: '/#contact' },
+    ],
+    cta: { label: 'Request Consult', href: '/consult' },
+  },
 
   services: {
     title: 'Services',
@@ -128,14 +137,13 @@ export const site = {
   },
 
   footer: {
-    text: '© 2026 Podocyte AI',
+    text: '© 2026 Aurathus AI LLC',
   },
 
+  // Brand pack: brand-source/aurathus-ai-brand/. Every logo is made for dark backgrounds only.
   brand: {
-    logo: '/brand/podocyte-logo.png', // full lockup on #0A0A0C, used for social previews
-    wordmark: '/brand/podocyte-wordmark.png', // trimmed, transparent cut of the same logo
-    logoAlt: 'Podocyte AI',
-    mark: '/brand/podocyte-mark.png',
+    logo: { src: '/brand/aurathus-logo-horizontal.svg', width: 3892, height: 1000 }, // size from its viewBox
+    logoAlt: 'Aurathus AI LLC',
   },
 
   /** 3D figure in the hero. CC BY 4.0 requires this credit stay visible on every page that shows it. */

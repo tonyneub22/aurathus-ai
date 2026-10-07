@@ -45,7 +45,7 @@ export default function Hero() {
         {/* Phones stack the copy over the figure; darken the lower half so it reads. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[62%] bg-gradient-to-t from-podo-black via-podo-black/80 to-transparent lg:hidden"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[62%] bg-gradient-to-t from-aura-black via-aura-black/80 to-transparent lg:hidden"
         />
         {webgl && !modelReady && (
           <BuildingIndicator
@@ -61,7 +61,7 @@ export default function Hero() {
         <div data-beam-clear className="max-w-[640px]">
           <h1
             id="hero-title"
-            className="font-serif text-[clamp(52px,9vw,112px)] font-light uppercase leading-[0.95] tracking-[0.08em] text-podo-white"
+            className="font-serif text-[clamp(52px,9vw,112px)] font-light uppercase leading-[0.95] tracking-[0.08em] text-aura-white"
           >
             {hero.headline.map((word, i) => (
               // The space sits between the masks, not inside them: trailing
@@ -84,14 +84,14 @@ export default function Hero() {
 
           <motion.p
             {...rise(2.0, reduce)}
-            className="mt-5 font-serif text-[clamp(18px,1.7vw,22px)] font-normal uppercase tracking-[0.24em] text-podo-gold lg:whitespace-nowrap"
+            className="mt-5 font-serif text-[clamp(18px,1.7vw,22px)] font-normal uppercase tracking-[0.24em] text-aura-gold lg:whitespace-nowrap"
           >
             {hero.subtitle}
           </motion.p>
 
           <motion.p
             {...rise(2.2, reduce)}
-            className="mt-3 font-serif text-[clamp(20px,2vw,26px)] font-light tracking-[0.06em] text-podo-white/80 lg:mt-4"
+            className="mt-3 font-serif text-[clamp(20px,2vw,26px)] font-light tracking-[0.06em] text-aura-white/80 lg:mt-4"
           >
             {hero.tagline}
           </motion.p>
@@ -99,12 +99,12 @@ export default function Hero() {
           <motion.a
             {...rise(2.5, reduce)}
             href={hero.cta.href}
-            className="group mt-16 inline-flex lg:mt-40 items-center gap-4 border border-podo-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-podo-white transition-colors duration-500 hover:border-podo-gold"
+            className="group mt-16 inline-flex lg:mt-40 items-center gap-4 border border-aura-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-white transition-colors duration-500 hover:border-aura-gold"
           >
             {hero.cta.label}
             <span
               aria-hidden="true"
-              className="relative h-px w-7 bg-podo-gold transition-all duration-500 ease-podo group-hover:w-11 after:absolute after:-top-[3px] after:right-0 after:h-[6px] after:w-[6px] after:rotate-45 after:border-r after:border-t after:border-podo-gold"
+              className="relative h-px w-7 bg-aura-gold transition-all duration-500 ease-aura group-hover:w-11 after:absolute after:-top-[3px] after:right-0 after:h-[6px] after:w-[6px] after:rotate-45 after:border-r after:border-t after:border-aura-gold"
             />
           </motion.a>
         </div>

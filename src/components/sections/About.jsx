@@ -9,7 +9,7 @@ function Scrim() {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-0 bg-gradient-to-b from-podo-black-2/85 via-podo-black-2/70 to-podo-black-2/55 md:bg-gradient-to-r md:from-podo-black-2/95 md:via-podo-black-2/60 md:to-podo-black-2/10"
+      className="absolute inset-0 bg-gradient-to-b from-aura-black-2/85 via-aura-black-2/70 to-aura-black-2/55 md:bg-gradient-to-r md:from-aura-black-2/95 md:via-aura-black-2/60 md:to-aura-black-2/10"
     />
   )
 }
@@ -36,7 +36,7 @@ export default function About() {
           <motion.p
             key={i}
             {...reveal(reduce, i * 0.12)}
-            className="font-serif text-[clamp(18px,1.5vw,21px)] leading-relaxed text-podo-white/80"
+            className="font-serif text-[clamp(18px,1.5vw,21px)] leading-relaxed text-aura-white/80"
           >
             {text}
           </motion.p>
@@ -44,7 +44,7 @@ export default function About() {
         <motion.a
           {...reveal(reduce, 0.3)}
           href={hero.cta.href}
-          className="mt-4 justify-self-start font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-podo-gold transition-colors duration-500 hover:text-podo-gold-hot"
+          className="mt-4 justify-self-start font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-gold transition-colors duration-500 hover:text-aura-gold-hot"
         >
           {hero.cta.label} →
         </motion.a>

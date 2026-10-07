@@ -7,7 +7,7 @@ import About from './About'
 import { site } from '../../config/site'
 
 // The hero and the two WebGL effects can't run in jsdom; the page structure still can.
-vi.mock('../hero/Hero', () => ({ default: () => <h1>Hero</h1> }))
+vi.mock('../hero/Hero', () => ({ default: () => <section id="top"><h1>Hero</h1></section> }))
 vi.mock('../effects/ServicesBeam', () => ({ default: () => null }))
 vi.mock('../effects/GhostFibersBackground', () => ({ default: () => <div data-testid="ghost-fibers" /> }))
 
@@ -38,10 +38,12 @@ describe('home page boxes', () => {
     expect(targets[0].closest('section')).toHaveAttribute('id', 'services')
   })
 
-  it('links the nav to the new boxes', () => {
-    const hrefs = Object.fromEntries(site.nav.map((n) => [n.label, n.href]))
-    expect(hrefs.Work).toBe('#testimonials')
-    expect(hrefs.Studio).toBe('#about')
+  it('gives every menu link a target on the home page', () => {
+    const { container } = render(<Home />)
+    for (const { href } of [site.nav.home, ...site.nav.links]) {
+      expect(href).toMatch(/^\/#[a-z-]+$/)
+      expect(container.querySelector(href.slice(1))).toBeInTheDocument()
+    }
   })
 })
 

@@ -20,7 +20,7 @@ Attribution for CC BY assets must stay visible on the site wherever the asset ap
 
 ## Own brand assets
 
-- `public/brand/podocyte-wordmark.png` is a trimmed, transparent-background cut of `public/brand/podocyte-logo.png` (Podocyte AI's own logo), made for use over imagery.
+- `public/brand/aurathus-*`, the favicons, `site.webmanifest` and `og-image.png` in `public/` are Aurathus AI LLC's own brand assets, from `brand-source/aurathus-ai-brand/`. The wordmark is Cormorant Garamond (SIL OFL 1.1) converted to outlines.
 
 ## Fonts
 
@@ -43,7 +43,7 @@ Attribution for CC BY assets must stay visible on the site wherever the asset ap
 - **Used in:** the animated background of the About box (`src/three/ghostFibersShader.js`, `src/three/ghostFibers.js`, driven by `src/components/effects/GhostFibers*.jsx`)
 - **Source:** https://reactbits.dev/c/backgrounds/ghost-fibers — `src/tailwind/Backgrounds/GhostFibers` in https://github.com/DavidHDev/react-bits
 - **License:** MIT + Commons Clause v1.0, Copyright (c) 2026 David Haz. **Not plain MIT.** Same terms as Laser Flow above, and the full text is kept in the header of `ghostFibersShader.js`. `src/three/licenseHeaders.test.js` fails if either header is lost.
-- **Modifications made:** runs on three.js instead of the `ogl` library (so no new dependency); GLSL ES 3.00 converted to WebGL1 syntax; `uBackdrop` uniform replaces the hard-coded indigo-black backdrop; recoloured to brand gold (`--color-podo-gold`, `--color-podo-gold-soft`) with the blue boost off; rendered at 1x pixel density and 30 fps; a still mode for reduced motion.
+- **Modifications made:** runs on three.js instead of the `ogl` library (so no new dependency); GLSL ES 3.00 converted to WebGL1 syntax; `uBackdrop` uniform replaces the hard-coded indigo-black backdrop; recoloured to brand gold (`--color-aura-gold`, `--color-aura-gold-soft`) with the blue boost off; rendered at 1x pixel density and 30 fps; a still mode for reduced motion.
 - **Copied:** 2026-10-04 (license checked the same day)
 
 ### Other

@@ -18,14 +18,14 @@ export default function Panel({ id, title, decoration, boxProps, boxClassName = 
     >
       <div
         {...boxProps}
-        className={`relative border border-podo-line bg-podo-black-2 px-6 py-12 sm:px-12 lg:px-16 lg:py-16 ${boxClassName}`}
+        className={`relative border border-aura-line bg-aura-black-2 px-6 py-12 sm:px-12 lg:px-16 lg:py-16 ${boxClassName}`}
       >
         {decoration}
         <div className="relative">
           <motion.h2
             {...reveal(reduce)}
             id={titleId}
-            className="font-serif text-[clamp(28px,3vw,40px)] font-light uppercase leading-none tracking-[0.2em] text-podo-white"
+            className="font-serif text-[clamp(28px,3vw,40px)] font-light uppercase leading-none tracking-[0.2em] text-aura-white"
           >
             {title}
           </motion.h2>

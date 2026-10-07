@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { GOLD, GOLD_HOT, GOLD_SOFT, RING_LIGHT, SURFACE } from './palette'
 
 const theme = readFileSync(resolve(process.cwd(), 'src/styles/theme.css'), 'utf8') // vitest runs from the repo root
-const token = (name) => theme.match(new RegExp(`--color-podo-${name}:\\s*(#[0-9a-f]{6})`, 'i'))?.[1].toLowerCase()
+const token = (name) => theme.match(new RegExp(`--color-aura-${name}:\\s*(#[0-9a-f]{6})`, 'i'))?.[1].toLowerCase()
 
 describe('palette', () => {
   it('matches the brand tokens in theme.css', () => {

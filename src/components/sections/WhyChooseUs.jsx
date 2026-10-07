@@ -14,16 +14,16 @@ export default function WhyChooseUs() {
           <motion.li
             key={item.title}
             {...reveal(reduce, (i % 2) * 0.12)}
-            className="grid content-start gap-4 border-t border-podo-line pt-6"
+            className="grid content-start gap-4 border-t border-aura-line pt-6"
           >
             {/* Lining figures, so every numeral stands the same height at this size. */}
-            <span aria-hidden="true" className="font-serif text-[clamp(48px,5vw,64px)] font-light leading-none text-podo-gold lining-nums">
+            <span aria-hidden="true" className="font-serif text-[clamp(48px,5vw,64px)] font-light leading-none text-aura-gold lining-nums">
               {i + 1}
             </span>
-            <h3 className="font-serif text-[28px] font-normal leading-[1.1] tracking-[0.04em] text-podo-white">
+            <h3 className="font-serif text-[28px] font-normal leading-[1.1] tracking-[0.04em] text-aura-white">
               {item.title}
             </h3>
-            <p className="max-w-[44ch] font-serif text-[17px] leading-relaxed text-podo-white/60">{item.body}</p>
+            <p className="max-w-[44ch] font-serif text-[17px] leading-relaxed text-aura-white/60">{item.body}</p>
           </motion.li>
         ))}
       </ol>

@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { site } from './site'
 
@@ -61,6 +63,32 @@ describe('copy', () => {
       expect(item.title).toBeTruthy()
       expect(item.body).toBeTruthy()
       expect(item.meta).toBeTruthy()
+    }
+  })
+})
+
+describe('brand', () => {
+  const html = readFileSync(resolve(process.cwd(), 'index.html'), 'utf8')
+
+  it('names the company and its domain', () => {
+    expect(site.companyName).toBe('Aurathus AI LLC')
+    expect(site.siteUrl).toBe('https://aurathus-ai.com')
+    expect(site.footer.text).toBe('© 2026 Aurathus AI LLC')
+  })
+
+  it('points at brand files that exist in public/', () => {
+    expect(existsSync(resolve(process.cwd(), 'public', site.brand.logo.src.slice(1)))).toBe(true)
+  })
+
+  it('takes the domain in index.html from siteUrl, never hardcoded', () => {
+    expect(html).not.toMatch(/aurathus-ai\.com/)
+    expect(html).toContain('<link rel="canonical" href="__SITE_URL__/" />')
+    expect(html).toContain('content="__SITE_URL__/og-image.png"')
+  })
+
+  it('links every icon and the manifest that index.html names', () => {
+    for (const [, path] of html.matchAll(/href="\/([^"]+\.(?:ico|png|webmanifest))"/g)) {
+      expect(existsSync(resolve(process.cwd(), 'public', path)), path).toBe(true)
     }
   })
 })

@@ -21,7 +21,7 @@ const GLYPHS = [
   </svg>,
 ]
 
-const BLOOM = 'radial-gradient(ellipse at center, color-mix(in srgb, var(--color-podo-ring) 22%, transparent), transparent 70%)'
+const BLOOM = 'radial-gradient(ellipse at center, color-mix(in srgb, var(--color-aura-ring) 22%, transparent), transparent 70%)'
 
 /**
  * Where the beam lands: a brighter stretch of the top border and a soft bloom
@@ -32,7 +32,7 @@ function BeamGlow() {
   const place = { left: 'var(--beam-x, 50%)', opacity: 'var(--beam-glow, 0)' }
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0">
-      <div className="absolute -top-px h-px w-[min(360px,70%)] -translate-x-1/2 bg-gradient-to-r from-transparent via-podo-ring to-transparent transition-opacity duration-1000" style={place} />
+      <div className="absolute -top-px h-px w-[min(360px,70%)] -translate-x-1/2 bg-gradient-to-r from-transparent via-aura-ring to-transparent transition-opacity duration-1000" style={place} />
       <div className="absolute top-0 h-20 w-[min(520px,90%)] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-1000" style={{ ...place, background: BLOOM }} />
     </div>
   )
@@ -51,23 +51,23 @@ export default function Services() {
       boxProps={{ 'data-beam-target': '' }}
       decoration={<BeamGlow />}
     >
-      <div className="mt-10 grid divide-y divide-podo-line border-t border-podo-line md:grid-cols-3 md:divide-x md:divide-y-0 lg:mt-14">
+      <div className="mt-10 grid divide-y divide-aura-line border-t border-aura-line md:grid-cols-3 md:divide-x md:divide-y-0 lg:mt-14">
         {services.items.map((item, i) => (
           <article
             key={item.title}
-            className="min-w-0 py-10 transition-colors duration-700 hover:bg-podo-black/40 md:px-8 md:first:pl-0 md:last:pr-0"
+            className="min-w-0 py-10 transition-colors duration-700 hover:bg-aura-black/40 md:px-8 md:first:pl-0 md:last:pr-0"
           >
             <motion.div {...reveal(reduce, i * 0.12)} className="grid content-start gap-4">
-              <div className="text-podo-gold [&_*]:fill-none [&_*]:stroke-current [&_*]:stroke-[1]">
+              <div className="text-aura-gold [&_*]:fill-none [&_*]:stroke-current [&_*]:stroke-[1]">
                 {GLYPHS[i]}
               </div>
-              <h3 className="font-serif text-[28px] font-normal leading-[1.1] tracking-[0.04em] text-podo-white">
+              <h3 className="font-serif text-[28px] font-normal leading-[1.1] tracking-[0.04em] text-aura-white">
                 {item.title}
               </h3>
-              <p className="max-w-[34ch] font-serif text-[17px] leading-relaxed text-podo-white/60">
+              <p className="max-w-[34ch] font-serif text-[17px] leading-relaxed text-aura-white/60">
                 {item.body}
               </p>
-              <small className="font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-podo-gold/70">
+              <small className="font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-gold/70">
                 {item.meta}
               </small>
             </motion.div>

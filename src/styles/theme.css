@@ -1,27 +1,28 @@
 @import 'tailwindcss';
 
 /*
- * Brand tokens. Gold #D4C39A was sampled from the logo's ring mark; the
- * background matches the logo export (#0A0A0C). Adjust here and the whole
- * app follows. Three.js colours in src/three/statueScene.js mirror these.
+ * Brand tokens for the site. These are the site's own values, separate from the
+ * gold in the logo artwork (brand-source/aurathus-ai-brand/). Adjust here and the
+ * whole app follows. Three.js colours come from src/three/palette.js, which
+ * mirrors these (tested).
  */
 @theme {
-  --color-podo-black: #0a0a0b;
-  --color-podo-black-2: #11100e; /* raised surfaces */
-  --color-podo-gold: #d4c39a;
-  --color-podo-gold-hot: #f3dfb4; /* highlight on the ring rim */
-  --color-podo-gold-soft: #a29578;
-  --color-podo-ring: #f0dc8a; /* the statue ring as rendered (additive blend + tone mapping), not the raw gold; the beam uses it */
-  --color-podo-white: #f5f3ee;
+  --color-aura-black: #0a0a0b;
+  --color-aura-black-2: #11100e; /* raised surfaces */
+  --color-aura-gold: #d4c39a;
+  --color-aura-gold-hot: #f3dfb4; /* highlight on the ring rim */
+  --color-aura-gold-soft: #a29578;
+  --color-aura-ring: #f0dc8a; /* the statue ring as rendered (additive blend + tone mapping), not the raw gold; the beam uses it */
+  --color-aura-white: #f5f3ee;
   /* Testimonial accordion cells: the raised surface warmed with brand gold, so they read as lighter than the page and the box. */
-  --color-podo-panel: color-mix(in srgb, var(--color-podo-gold) 11%, var(--color-podo-black-2));
-  --color-podo-panel-open: color-mix(in srgb, var(--color-podo-gold) 17%, var(--color-podo-black-2));
-  --color-podo-line: color-mix(in srgb, var(--color-podo-gold) 16%, transparent);
+  --color-aura-panel: color-mix(in srgb, var(--color-aura-gold) 11%, var(--color-aura-black-2));
+  --color-aura-panel-open: color-mix(in srgb, var(--color-aura-gold) 17%, var(--color-aura-black-2));
+  --color-aura-line: color-mix(in srgb, var(--color-aura-gold) 16%, transparent);
 
   --font-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
 
-  --ease-podo: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --ease-podo-soft: cubic-bezier(0.65, 0, 0.35, 1); /* symmetric in-out: gentle start and landing, for large layout moves */
+  --ease-aura: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-aura-soft: cubic-bezier(0.65, 0, 0.35, 1); /* symmetric in-out: gentle start and landing, for large layout moves */
 }
 
 :root {
@@ -32,9 +33,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Anchor targets land below the fixed header. */
+section[id],
+footer[id] {
+  scroll-margin-top: 5.5rem;
+}
+
 body {
-  background-color: var(--color-podo-black);
-  color: var(--color-podo-white);
+  background-color: var(--color-aura-black);
+  color: var(--color-aura-white);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -53,7 +60,7 @@ body {
 
 /* Keyboard focus ring in brand gold. */
 :focus-visible {
-  outline: 1px solid var(--color-podo-gold);
+  outline: 1px solid var(--color-aura-gold);
   outline-offset: 4px;
 }
 

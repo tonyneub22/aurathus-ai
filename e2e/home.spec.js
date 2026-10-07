@@ -18,7 +18,7 @@ test.describe('home page', () => {
   })
 
   test('renders the hero copy and title', async ({ page }) => {
-    await expect(page).toHaveTitle(/Podocyte AI/)
+    await expect(page).toHaveTitle(/Aurathus AI LLC/)
     // innerText respects layout, so this fails if the words visually run together.
     const h1 = (await page.getByRole('heading', { level: 1 }).innerText()).replace(/\s+/g, ' ').trim()
     expect(h1.toLowerCase()).toBe('aurathus ai')
@@ -128,6 +128,13 @@ test.describe('home page', () => {
     await expect(page.getByRole('img', { name: /loading figure/i })).toBeHidden({ timeout: 20_000 })
     await page.waitForTimeout(5000) // intro complete, beam faded in
     await shot('hero')
+    await page.getByRole('button', { name: 'Menu' }).click()
+    await expect(page.getByRole('dialog', { name: 'Menu' })).toBeInViewport()
+    await page.waitForTimeout(900) // slide-in finished
+    await shot('menu-open')
+    await page.keyboard.press('Escape')
+    await page.waitForTimeout(900)
+    await page.evaluate(() => document.activeElement.blur()) // the returned focus ring would sit in every later shot
     // Instant scroll: the page uses smooth scrolling, which makes captures land mid-animation.
     // Frame the beam landing: box top a little below the middle of the screen.
     await page.evaluate(() => {
@@ -157,9 +164,157 @@ test.describe('home page', () => {
       await page.waitForTimeout(600)
       await shot(id)
     }
+    // Mid-page, part way into a box, so the header's backing shows against content.
+    await page.evaluate(() => {
+      const top = document.getElementById('testimonials').getBoundingClientRect().top + window.scrollY
+      window.scrollTo({ top: top + 120, behavior: 'instant' })
+    })
+    await page.waitForTimeout(1000)
+    await shot('header-scrolled')
     await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }))
     await page.waitForTimeout(1500)
     await shot('footer')
+  })
+})
+
+test.describe('brand and head', () => {
+  test('has the canonical, social and icon tags, and every asset they name loads', async ({ page, request }) => {
+    const missing = []
+    page.on('response', (res) => {
+      if (res.status() >= 400) missing.push(`${res.status()} ${res.url()}`)
+    })
+    await page.goto('/')
+    const attr = (selector, name) => page.locator(selector).getAttribute(name)
+
+    expect(await attr('link[rel="canonical"]', 'href')).toBe('https://aurathus-ai.com/')
+    expect(await attr('meta[property="og:url"]', 'content')).toBe('https://aurathus-ai.com/')
+    expect(await attr('meta[property="og:site_name"]', 'content')).toBe('Aurathus AI LLC')
+    expect(await attr('meta[property="og:title"]', 'content')).toMatch(/Aurathus AI LLC/)
+    expect(await attr('meta[property="og:description"]', 'content')).toBeTruthy()
+    expect(await attr('meta[property="og:image"]', 'content')).toBe('https://aurathus-ai.com/og-image.png')
+    expect(await attr('meta[property="og:image:width"]', 'content')).toBe('1200')
+    expect(await attr('meta[property="og:image:height"]', 'content')).toBe('630')
+    expect(await attr('meta[property="og:image:alt"]', 'content')).toBeTruthy()
+    expect(await attr('meta[name="twitter:card"]', 'content')).toBe('summary_large_image')
+    expect(await attr('meta[name="twitter:image"]', 'content')).toBe('https://aurathus-ai.com/og-image.png')
+    expect(await attr('meta[name="theme-color"]', 'content')).toBe('#0a0a0b')
+
+    // Icons, manifest and the og image, as served by this build (the absolute URLs point at production).
+    const paths = await page.locator('head link[rel="icon"], head link[rel="apple-touch-icon"], head link[rel="manifest"]')
+      .evaluateAll((links) => links.map((l) => new URL(l.href).pathname))
+    expect(paths).toEqual(
+      expect.arrayContaining(['/favicon.ico', '/favicon-32x32.png', '/favicon-16x16.png', '/apple-touch-icon.png', '/site.webmanifest']),
+    )
+    for (const path of [...paths, '/og-image.png', '/icon-192.png', '/icon-512.png']) {
+      expect((await request.get(path)).status(), path).toBe(200)
+    }
+    const manifest = await (await request.get('/site.webmanifest')).json()
+    expect(manifest).toMatchObject({ name: 'Aurathus AI LLC', theme_color: '#0a0a0b', background_color: '#0a0a0b' })
+
+    await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }))
+    await expect(page.getByRole('img', { name: 'Aurathus AI LLC' })).toBeVisible()
+    expect(missing).toEqual([])
+  })
+})
+
+test.describe('header and menu', () => {
+  const overflow = (page) =>
+    page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+
+  test('the Home icon returns to the top of the page', async ({ page }) => {
+    await page.goto('/')
+    await page.evaluate(() => window.scrollTo({ top: 2000, behavior: 'instant' }))
+    const home = page.getByRole('link', { name: 'Home', exact: true })
+    await expect(home).toBeInViewport()
+    await home.click()
+    await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 10_000 }).toBe(0)
+  })
+
+  test('opens, traps focus, closes on Esc and returns focus', async ({ page }) => {
+    await page.goto('/')
+    const button = page.getByRole('button', { name: 'Menu' })
+    const dialog = page.getByRole('dialog', { name: 'Menu' })
+    await expect(dialog).toBeHidden()
+
+    await button.click()
+    await expect(button).toHaveAttribute('aria-expanded', 'true')
+    await expect(dialog).toBeInViewport()
+    await expect(dialog.getByRole('link', { name: 'Services' })).toBeFocused()
+    expect(await page.evaluate(() => getComputedStyle(document.documentElement).overflow)).toBe('hidden')
+    expect(await overflow(page)).toBeLessThanOrEqual(0)
+
+    for (let i = 0; i < 8; i++) await page.keyboard.press('Tab')
+    const focusInMenu = await page.evaluate(
+      () => !!document.activeElement.closest('#site-menu') || document.activeElement.getAttribute('aria-label') === 'Menu',
+    )
+    expect(focusInMenu).toBe(true)
+
+    await page.keyboard.press('Escape')
+    await expect(button).toHaveAttribute('aria-expanded', 'false')
+    await expect(button).toBeFocused()
+    await expect(dialog).toBeHidden({ timeout: 20_000 })
+    expect(await page.evaluate(() => getComputedStyle(document.documentElement).overflow)).not.toBe('hidden')
+  })
+
+  test('closes when the backdrop is clicked', async ({ page }) => {
+    await page.goto('/')
+    const button = page.getByRole('button', { name: 'Menu' })
+    await button.click()
+    await page.getByTestId('menu-backdrop').click({ position: { x: 10, y: 300 } })
+    await expect(button).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  for (const [label, id] of [
+    ['Services', 'services'],
+    ['Why Us', 'why-us'],
+    ['Work', 'testimonials'],
+    ['Studio', 'about'],
+    ['Contact', 'contact'],
+  ]) {
+    test(`the ${label} link reaches #${id}, clear of the header`, async ({ page }) => {
+      await page.goto('/')
+      await page.getByRole('button', { name: 'Menu' }).click()
+      await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: label, exact: true }).click()
+      await expect(page).toHaveURL(new RegExp(`/#${id}$`))
+      // Long timeout: software WebGL in headless Chrome can starve the slide-out's frames.
+      await expect(page.getByRole('dialog', { name: 'Menu' })).toBeHidden({ timeout: 20_000 })
+      const target = page.locator(`#${id}`)
+      await expect(target).toBeInViewport()
+      // Smooth scroll: wait for it to settle, then check the section isn't tucked under the header.
+      await expect
+        .poll(async () => {
+          const a = await page.evaluate(() => window.scrollY)
+          await page.waitForTimeout(250)
+          return a === (await page.evaluate(() => window.scrollY))
+        }, { timeout: 10_000 })
+        .toBe(true)
+      const header = await page.locator('header').first().boundingBox()
+      const atBottom = await page.evaluate(
+        () => Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight,
+      )
+      if (!atBottom) expect((await target.boundingBox()).y).toBeGreaterThanOrEqual(header.height - 1)
+    })
+  }
+
+  test('Request Consult opens /consult, whose menu links back to the home sections', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Menu' }).click()
+    await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: /request consult/i }).click()
+    await expect(page).toHaveURL(/\/consult$/)
+    await expect(page).toHaveTitle(/Aurathus AI LLC/)
+    await expect(page.getByRole('link', { name: 'Home', exact: true })).toHaveAttribute('href', '/#top')
+
+    await page.getByRole('button', { name: 'Menu' }).click()
+    await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: 'Services', exact: true }).click()
+    await expect(page).toHaveURL(/\/#services$/)
+    await expect(page.locator('#services')).toBeInViewport()
+  })
+
+  test('the footer logo is labelled and links to the top', async ({ page }) => {
+    await page.goto('/')
+    const logo = page.locator('footer').getByRole('img', { name: 'Aurathus AI LLC' })
+    await expect(logo).toHaveAttribute('alt', 'Aurathus AI LLC')
+    await expect(logo.locator('xpath=..')).toHaveAttribute('href', '/#top')
   })
 })
 
@@ -182,6 +337,12 @@ test.describe('consult request', () => {
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
     )
     expect(overflow).toBeLessThanOrEqual(0)
+  })
+
+  test('screenshot for review', async ({ page }, testInfo) => {
+    await page.goto('/consult')
+    await page.waitForTimeout(1000)
+    await page.screenshot({ path: `e2e/screenshots/${testInfo.project.name}-consult.png` })
   })
 })
 

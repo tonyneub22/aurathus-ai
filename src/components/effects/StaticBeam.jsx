@@ -1,4 +1,4 @@
-const GLOW = 'color-mix(in srgb, var(--color-podo-ring) 40%, transparent)'
+const GLOW = 'color-mix(in srgb, var(--color-aura-ring) 40%, transparent)'
 
 /**
  * The still version of the beam, for reduced motion or no WebGL: a gold line
@@ -8,7 +8,7 @@ export default function StaticBeam({ x, hitY }) {
   return (
     <>
       <div
-        className="absolute top-0 w-px -translate-x-1/2 bg-gradient-to-b from-podo-ring/0 via-podo-ring/70 to-podo-ring"
+        className="absolute top-0 w-px -translate-x-1/2 bg-gradient-to-b from-aura-ring/0 via-aura-ring/70 to-aura-ring"
         style={{ left: x, height: hitY, boxShadow: `0 0 12px 1px ${GLOW}` }}
       />
       <div

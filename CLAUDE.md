@@ -1,4 +1,4 @@
-# Podocyte AI — working rules for Claude
+# Aurathus AI LLC — working rules for Claude
 
 Read this before touching the codebase. These rules hold for every session.
 
@@ -24,16 +24,25 @@ Playwright writes review screenshots to `e2e/screenshots/`.
 ## Where things live
 
 - `src/config/site.js` — every piece of copy, link and attribution. No copy in components.
-- `src/styles/theme.css` — brand tokens (`--color-podo-*`, fonts). Components use Tailwind classes built on these.
+- `src/styles/theme.css` — brand tokens (`--color-aura-*`, `--ease-aura*`, fonts). Components use Tailwind classes built on these.
 - `src/three/` — framework-free WebGL. `layout.js` is pure math (unit tested). `statueScene.js` builds the scene and returns a controller. No React imports here.
 - `src/components/hero/` — the hero. `StatueCanvas.jsx` and `effects/LaserFlow.jsx` are the only React files that drive three.js scenes, and both are lazy-loaded.
 - `src/components/sections/` — the home-page boxes (Services, Client Testimonials, Why Choose Us?, About), all built on `Panel.jsx`. Their copy is **placeholder** until replaced in `site.js`.
 - `src/components/effects/` — the gold beam from the hero ring to the Services box, and the Ghost Fibers background behind About. `ServicesBeam.jsx` places it using the pure math in `src/three/beam.js` and `layout.js` (`ringScreenPosition`).
 - `src/three/palette.js` — brand colours for WebGL. Must match `theme.css` (tested). The beam uses `RING_LIGHT` (the ring as rendered), not the raw gold.
-- `src/components/brand/` — logo, loading indicator, attribution. These survive redesigns.
+- `src/components/layout/header/` — the fixed header on every page: Home icon left (`HomeLink`, to `/#top`), hamburger right (`MenuButton`) opening a slide-in `MenuPanel`. `useMenu` owns open/close, Esc, focus trap, focus return and scroll lock. Labels and links come from `site.nav`; links use the `/#id` form so they work from `/consult`.
+- `src/components/brand/` — loading indicator, attribution. These survive redesigns.
 - `src/components/layout/`, `src/components/sections/` — page chrome and content sections.
-- `src/pages/` — one file per route. `App.jsx` picks the page; a router goes there when a second page exists.
-- `public/brand/` — logo and favicon exports. `public/models/` — 3D assets with their license files.
+- `src/pages/` — one file per route. `App.jsx` picks the page by path (Home or `/consult`); add a router if the site grows.
+- `public/brand/` — Aurathus logos and icons. `public/` root — favicons, `site.webmanifest`, `og-image.png`. `public/models/` — 3D assets with their license files.
+
+## Brand
+
+- Company name **Aurathus AI LLC** (`site.companyName`; `site.shortName` is "Aurathus AI"). Domain https://aurathus-ai.com (`site.siteUrl`; `index.html` gets it through `__SITE_URL__`). GitHub repo `tonyneub22/aurathus-ai`.
+- Brand pack: `brand-source/aurathus-ai-brand/` (plain assets, never run anything from it). Copies live in `public/brand/` (logos, icons) and the `public/` root (favicons, manifest, og image).
+- Every logo is made for dark backgrounds. Never place one on a light surface.
+- `aurathus-icon.svg` is ~300 KB with ~680 paths: only as an `<img>` at 64px or larger, never inline. Anything smaller uses `aurathus-icon-small.svg`.
+- Site colours stay as defined in `theme.css` (gold `#D4C39A`, black `#0A0A0B`, …). The brand pack's artwork colours (`#c9a24a`, `#000`) are for the logo files only.
 
 ## Code style
 
