@@ -26,11 +26,11 @@ test.describe('home page', () => {
     await expect(page.locator('#top').getByRole('link', { name: /request consult/i })).toBeVisible()
   })
 
-  test('has no scroll cue and a framed Services box', async ({ page }) => {
+  test('has no scroll cue and a framed Services box with four services', async ({ page }) => {
     await expect(page.getByText(/^scroll$/i)).toHaveCount(0)
     const services = page.getByRole('region', { name: 'Services' })
     await expect(services.getByRole('heading', { level: 2, name: 'Services' })).toBeVisible()
-    await expect(services.getByRole('heading', { level: 3 })).toHaveCount(3)
+    await expect(services.getByRole('heading', { level: 3 })).toHaveCount(4)
     await expect(page.getByText(/what we make|finished to a standard most studios skip/i)).toHaveCount(0)
   })
 

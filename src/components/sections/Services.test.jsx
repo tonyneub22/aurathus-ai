@@ -1,27 +1,36 @@
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
+import { renderInRouter as render } from '../../test/router'
 import Services from './Services'
-import { site } from '../../config/site'
+import { services } from '../../config/services'
 
 describe('<Services />', () => {
-  it('is one box titled "Services", labelled by its heading', () => {
+  it('is one box titled "Services", labelled by its heading, that the beam aims at', () => {
     render(<Services />)
-    const heading = screen.getByRole('heading', { level: 2, name: 'Services' })
-    expect(screen.getByRole('region', { name: 'Services' })).toContainElement(heading)
+    const region = screen.getByRole('region', { name: 'Services' })
+    expect(region).toContainElement(screen.getByRole('heading', { level: 2, name: 'Services' }))
+    expect(region.querySelector('[data-beam-target]')).toBeInTheDocument()
   })
 
-  it('keeps the three service cards with their copy', () => {
+  it('renders four cards: glyph, name, card line and Read more, in that order', () => {
     render(<Services />)
-    for (const item of site.services.items) {
-      expect(screen.getByRole('heading', { level: 3, name: item.title })).toBeInTheDocument()
-      expect(screen.getByText(item.body)).toBeInTheDocument()
-      expect(screen.getByText(item.meta)).toBeInTheDocument()
+    const cards = screen.getAllByRole('article')
+    expect(cards).toHaveLength(4)
+    cards.forEach((card, i) => {
+      const s = services[i]
+      const kids = [...card.firstElementChild.children]
+      expect(kids[0].querySelector('svg')).toHaveAttribute('aria-hidden', 'true')
+      expect(kids[1]).toHaveTextContent(s.name)
+      expect(kids[2]).toHaveTextContent(s.cardLine)
+      expect(within(kids[3]).getByRole('link')).toHaveTextContent('Read more')
+    })
+  })
+
+  it('links each Read more to its service page, named for the service', () => {
+    render(<Services />)
+    for (const s of services) {
+      expect(screen.getByRole('heading', { level: 3, name: s.name })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: `Read more about ${s.name}` })).toHaveAttribute('href', `/services/${s.slug}`)
     }
-  })
-
-  it('drops the old eyebrow and headline', () => {
-    render(<Services />)
-    expect(screen.queryByText(/what we make/i)).not.toBeInTheDocument()
-    expect(screen.queryByText(/built by hand/i)).not.toBeInTheDocument()
   })
 })

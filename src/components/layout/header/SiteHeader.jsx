@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from 'motion/react'
+import { useLocation } from 'react-router'
 import HomeLink from './HomeLink'
 import MenuButton from './MenuButton'
 import MenuPanel from './MenuPanel'
@@ -15,7 +16,7 @@ const MENU_ID = 'site-menu'
 export default function SiteHeader({ introDelay = 0 }) {
   const reduceMotion = useReducedMotion()
   const scrolled = useScrolled(80)
-  const { open, toggle, close, buttonRef, panelRef } = useMenu()
+  const { open, toggle, close, buttonRef, panelRef } = useMenu(useLocation().key)
   const fadeIn = !reduceMotion && introDelay > 0
 
   return (

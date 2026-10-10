@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { renderInRouter as render } from '../../test/router'
 import Hero from './Hero'
 import { site } from '../../config/site'
 import { supportsWebGL } from '../../three/webgl'

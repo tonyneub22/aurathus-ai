@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
+import { renderInRouter as render } from '../../../test/router'
 import { describe, expect, it } from 'vitest'
 import { site } from '../../../config/site'
 import SiteHeader from './SiteHeader'

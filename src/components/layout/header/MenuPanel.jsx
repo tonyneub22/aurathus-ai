@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router'
 import { site } from '../../../config/site'
 
 // Visibility flips at once on open (so focus can move in) and only after the slide on close.
@@ -35,24 +36,24 @@ export default function MenuPanel({ id, open, onClose, panelRef }) {
           <ul className="grid gap-1">
             {links.map((link) => (
               <li key={link.href}>
-                <a
-                  href={link.href}
+                <Link
+                  to={link.href}
                   onClick={onClose}
                   className="inline-block py-3 font-serif text-[15px] font-medium uppercase tracking-[0.28em] text-aura-white/70 transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
         </nav>
-        <a
-          href={cta.href}
+        <Link
+          to={cta.href}
           onClick={onClose}
           className="mt-10 self-start border border-aura-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-white transition-colors duration-500 hover:border-aura-gold focus-visible:border-aura-gold"
         >
           {cta.label}
-        </a>
+        </Link>
       </div>
     </>
   )

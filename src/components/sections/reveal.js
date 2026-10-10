@@ -1,4 +1,4 @@
-const EASE = [0.2, 0.7, 0.2, 1]
+export const EASE = [0.2, 0.7, 0.2, 1] // --ease-aura, as Motion takes it
 
 /** Fade-and-rise as an element scrolls into view; no motion at all when reduced. */
 export function reveal(reduce, delay = 0) {

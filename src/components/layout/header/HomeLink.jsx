@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { site } from '../../../config/site'
 
 /** Thin-line house that returns to the top of the home page, from any page. */
@@ -5,8 +6,8 @@ export default function HomeLink() {
   const { home } = site.nav
 
   return (
-    <a
-      href={home.href}
+    <Link
+      to={home.href}
       aria-label={home.label}
       className="flex h-11 w-11 items-center justify-center text-aura-white transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
     >
@@ -15,6 +16,6 @@ export default function HomeLink() {
         <path d="M5.5 9.5V20h13V9.5" strokeLinejoin="round" />
         <path d="M10 20v-5.5h4V20" strokeLinejoin="round" />
       </svg>
-    </a>
+    </Link>
   )
 }

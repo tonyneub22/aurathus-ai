@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { renderInRouter as render } from '../../test/router'
 import Home from '../../pages/Home'
 import Testimonials from './Testimonials'
 import WhyChooseUs from './WhyChooseUs'

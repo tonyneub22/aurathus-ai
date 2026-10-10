@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { site } from '../../config/site'
+import MotionLink from '../routing/MotionLink'
 import Panel from './Panel'
 import GhostFibersBackground from '../effects/GhostFibersBackground'
 import { reveal } from './reveal'
@@ -41,13 +42,13 @@ export default function About() {
             {text}
           </motion.p>
         ))}
-        <motion.a
+        <MotionLink
           {...reveal(reduce, 0.3)}
-          href={hero.cta.href}
+          to={hero.cta.href}
           className="mt-4 justify-self-start font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-gold transition-colors duration-500 hover:text-aura-gold-hot"
         >
           {hero.cta.label} →
-        </motion.a>
+        </MotionLink>
       </div>
     </Panel>
   )

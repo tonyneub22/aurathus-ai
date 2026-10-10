@@ -5,6 +5,12 @@ export const site = {
   companyName: 'Aurathus AI LLC',
   shortName: 'Aurathus AI',
   siteUrl: 'https://aurathus-ai.com',
+  // Home page <title> and description. index.html gets them at build time too.
+  meta: {
+    title: 'Aurathus AI LLC — Design Services',
+    description:
+      'Aurathus AI designs and builds websites, software and AI systems for businesses in Grand Rapids, Michigan and beyond.',
+  },
   tagline: 'Design Services',
   location: 'Grand Rapids · Michigan',
 
@@ -29,25 +35,25 @@ export const site = {
     cta: { label: 'Request Consult', href: '/consult' },
   },
 
+  // The services themselves live in services.js. These are the labels around them.
   services: {
     title: 'Services',
-    items: [
-      {
-        title: 'Websites',
-        body: 'Landing pages and full sites with real motion, real typography and a brand that holds up at any size.',
-        meta: 'Design · Build · Launch',
-      },
-      {
-        title: 'Software',
-        body: 'Accounts, payments, dashboards and the backend that runs quietly behind the brand.',
-        meta: 'Full stack · Secure by default',
-      },
-      {
-        title: 'AI Engineering',
-        body: 'Agents and automations that do the repetitive work for small and mid-sized businesses.',
-        meta: 'Consulting · Implementation',
-      },
-    ],
+    readMore: 'Read more',
+    readMoreAbout: (name) => `Read more about ${name}`,
+  },
+
+  /** Template for /services/:slug. */
+  servicePage: {
+    plans: 'Plans',
+    technical: 'Technical details',
+    back: { label: 'Back to services', href: '/#services' },
+    /** The page's Request Consult target. One place to change when booking moves elsewhere. */
+    consultHref: (service) => `/consult?service=${encodeURIComponent(service.slug)}`,
+  },
+
+  notFound: {
+    title: 'Page not found',
+    body: "This page doesn't exist or has moved.",
   },
 
   // PLACEHOLDER copy for the three boxes below (testimonials, whyUs, about):
@@ -128,7 +134,7 @@ export const site = {
       interest: 'What do you need?',
       message: 'About the project',
     },
-    interests: ['Website', 'Software', 'AI engineering', 'Not sure yet'],
+    interests: ['Website', 'Software', 'AI engineering', 'Video', 'Not sure yet'],
     submit: 'Send request',
     sending: 'Sending',
     sent: 'Thank you. Your request is in and we will be in touch shortly.',

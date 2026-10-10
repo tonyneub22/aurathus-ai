@@ -14,7 +14,7 @@ Attribution for CC BY assets must stay visible on the site wherever the asset ap
 - **License:** Creative Commons Attribution 4.0 International (CC BY 4.0) — http://creativecommons.org/licenses/by/4.0/
 - **Commercial use:** allowed
 - **Modifications made:** original material replaced (dark stone), re-lit with a gold rim light, scaled and animated. No changes to the mesh itself.
-- **Attribution shown on site:** `src/components/brand/StatueCredit.jsx`, rendered in the footer. Covered by `src/config/site.test.js`, `StatueCredit.test.jsx` and `e2e/home.spec.js`.
+- **Attribution shown on site:** `src/components/brand/StatueCredit.jsx`, rendered in the footer of the home page, the only page that shows the figure. Covered by `src/config/site.test.js`, `StatueCredit.test.jsx`, `Footer.test.jsx`, `AppRoutes.test.jsx` and `e2e/home.spec.js`.
 - **Downloaded:** 2026-10-03
 - **License checked:** 2026-10-03 (license.txt bundled with the download confirms CC-BY-4.0)
 

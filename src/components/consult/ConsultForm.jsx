@@ -19,8 +19,11 @@ function Field({ id, text, children }) {
   )
 }
 
-/** Request form. `send` is injectable so tests don't touch the network. */
-export default function ConsultForm({ send = submitConsult }) {
+/**
+ * Request form. `send` is injectable so tests don't touch the network.
+ * `interest` preselects an option (one of consult.interests).
+ */
+export default function ConsultForm({ send = submitConsult, interest = consult.interests[0] }) {
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
 
   async function onSubmit(event) {
@@ -55,7 +58,7 @@ export default function ConsultForm({ send = submitConsult }) {
         <input id="company" name="company" autoComplete="organization" className={control} />
       </Field>
       <Field id="interest" text={consult.fields.interest}>
-        <select id="interest" name="interest" defaultValue={consult.interests[0]} className={control}>
+        <select id="interest" name="interest" defaultValue={interest} className={control}>
           {consult.interests.map((option) => (
             <option key={option} value={option} className="bg-aura-black">
               {option}

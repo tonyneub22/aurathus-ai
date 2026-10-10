@@ -55,16 +55,6 @@ describe('copy', () => {
     }
     expect(site.about.paragraphs.length).toBeGreaterThan(0)
   })
-
-  it('has a Services box with three services with complete copy', () => {
-    expect(site.services.title).toBe('Services')
-    expect(site.services.items).toHaveLength(3)
-    for (const item of site.services.items) {
-      expect(item.title).toBeTruthy()
-      expect(item.body).toBeTruthy()
-      expect(item.meta).toBeTruthy()
-    }
-  })
 })
 
 describe('brand', () => {
@@ -80,8 +70,10 @@ describe('brand', () => {
     expect(existsSync(resolve(process.cwd(), 'public', site.brand.logo.src.slice(1)))).toBe(true)
   })
 
-  it('takes the domain in index.html from siteUrl, never hardcoded', () => {
+  it('takes the domain, title and description in index.html from site.js, never hardcoded', () => {
     expect(html).not.toMatch(/aurathus-ai\.com/)
+    expect(html).toContain('<title>__SITE_TITLE__</title>')
+    expect(html).toContain('content="__SITE_DESCRIPTION__"')
     expect(html).toContain('<link rel="canonical" href="__SITE_URL__/" />')
     expect(html).toContain('content="__SITE_URL__/og-image.png"')
   })

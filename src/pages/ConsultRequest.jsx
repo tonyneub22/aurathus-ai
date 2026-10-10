@@ -1,14 +1,17 @@
-import { useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router'
 import { site } from '../config/site'
+import { serviceBySlug } from '../config/services'
+import usePageMeta from '../lib/usePageMeta'
 import ConsultForm from '../components/consult/ConsultForm'
 import SiteHeader from '../components/layout/header/SiteHeader'
 
 export default function ConsultRequest() {
   const { consult } = site
+  const [params] = useSearchParams()
+  // Arriving from a service page (?service=video) preselects that service.
+  const interest = serviceBySlug(params.get('service'))?.interest
 
-  useEffect(() => {
-    document.title = `${consult.title} — ${site.companyName}`
-  }, [consult.title])
+  usePageMeta(`${consult.title} — ${site.companyName}`, consult.intro)
 
   return (
     <>
@@ -29,16 +32,16 @@ export default function ConsultRequest() {
             <p className="mb-12 mt-5 max-w-[46ch] font-serif text-[18px] leading-relaxed text-aura-white/60">
               {consult.intro}
             </p>
-            <ConsultForm />
+            <ConsultForm interest={interest} />
           </section>
         </main>
 
-        <a
-          href="/"
+        <Link
+          to="/"
           className="mt-16 inline-block font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-white/50 transition-colors hover:text-aura-white"
         >
           {consult.back}
-        </a>
+        </Link>
       </div>
     </>
   )

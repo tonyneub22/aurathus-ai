@@ -6,16 +6,19 @@ import { lockScroll } from './scrollLock'
  * State and behaviour for the slide-in menu: Esc and hash changes close it,
  * focus moves into the panel and is trapped there (the menu button stays in
  * the cycle as the close control), and returns to the button on close.
- * The page behind doesn't scroll while it is open.
+ * The page behind doesn't scroll while it is open. Pass the router location
+ * key as `routeKey`: the menu is open only at the location it was opened at,
+ * so any navigation (even same-page, which fires no hashchange) closes it.
  */
-export default function useMenu() {
-  const [open, setOpen] = useState(false)
+export default function useMenu(routeKey = null) {
+  const [openAt, setOpenAt] = useState(undefined)
+  const open = openAt === routeKey
   const buttonRef = useRef(null)
   const panelRef = useRef(null)
   const wasOpen = useRef(false)
 
-  const close = useCallback(() => setOpen(false), [])
-  const toggle = useCallback(() => setOpen((o) => !o), [])
+  const close = useCallback(() => setOpenAt(undefined), [])
+  const toggle = useCallback(() => setOpenAt((at) => (at === routeKey ? undefined : routeKey)), [routeKey])
 
   useEffect(() => {
     if (!open) return undefined

@@ -6,8 +6,8 @@ Read this before touching the codebase. These rules hold for every session.
 
 - **Never run `git commit`, `git push`, `git rebase`, or anything that writes history.** Anthony commits and deploys manually after reviewing on his local dev server. Leave the working tree for him to inspect.
 - **Never add secrets, API keys or tokens to the repo.** Env values go in `.env.local` (gitignored). The client bundle must never contain anything private.
-- **No new dependencies without saying why.** Prefer what is installed: React, motion, three, Tailwind v4. Pin major versions.
-- **Keep the CC BY attribution for the hero figure.** See `LICENSES.md`. Tests enforce it.
+- **No new dependencies without saying why.** Prefer what is installed: React, react-router, motion, three, Tailwind v4. Pin major versions.
+- **Keep the CC BY attribution for the hero figure.** It shows on every page that shows the statue (home only: `<Footer credit />`). See `LICENSES.md`. Tests enforce it.
 
 ## How work is checked
 
@@ -24,6 +24,7 @@ Playwright writes review screenshots to `e2e/screenshots/`.
 ## Where things live
 
 - `src/config/site.js` — every piece of copy, link and attribution. No copy in components.
+- `src/config/services.js` — the four services (cards and `/services/:slug` pages render from it). Copy is final as supplied by Anthony; don't reword it.
 - `src/styles/theme.css` — brand tokens (`--color-aura-*`, `--ease-aura*`, fonts). Components use Tailwind classes built on these.
 - `src/three/` — framework-free WebGL. `layout.js` is pure math (unit tested). `statueScene.js` builds the scene and returns a controller. No React imports here.
 - `src/components/hero/` — the hero. `StatueCanvas.jsx` and `effects/LaserFlow.jsx` are the only React files that drive three.js scenes, and both are lazy-loaded.
@@ -33,7 +34,8 @@ Playwright writes review screenshots to `e2e/screenshots/`.
 - `src/components/layout/header/` — the fixed header on every page: Home icon left (`HomeLink`, to `/#top`), hamburger right (`MenuButton`) opening a slide-in `MenuPanel`. `useMenu` owns open/close, Esc, focus trap, focus return and scroll lock. Labels and links come from `site.nav`; links use the `/#id` form so they work from `/consult`.
 - `src/components/brand/` — loading indicator, attribution. These survive redesigns.
 - `src/components/layout/`, `src/components/sections/` — page chrome and content sections.
-- `src/pages/` — one file per route. `App.jsx` picks the page by path (Home or `/consult`); add a router if the site grows.
+- `src/pages/` — one file per route. `App.jsx` holds the `react-router` routes: `/`, `/consult`, `/services/:slug` (lazy-loaded) and a 404. Internal links use `Link`; `ScrollManager` handles `/#id` targets and scroll-to-top. `vercel.json` rewrites every path to `index.html`.
+- `src/components/service/` — the service page template (title ring, tier boxes, includes band, Technical details, consult CTA).
 - `public/brand/` — Aurathus logos and icons. `public/` root — favicons, `site.webmanifest`, `og-image.png`. `public/models/` — 3D assets with their license files.
 
 ## Brand
