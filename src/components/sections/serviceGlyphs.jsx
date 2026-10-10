@@ -1,5 +1,5 @@
-// Thin line glyphs for the service cards. Stroke and colour come from the card.
-const svg = { viewBox: '0 0 40 40', className: 'h-10 w-10', 'aria-hidden': true }
+// Thin line glyphs for the service rows. Stroke and colour come from the row.
+const svg = { viewBox: '0 0 40 40', className: 'h-[30px] w-[30px]', 'aria-hidden': true }
 
 export const serviceGlyphs = {
   // window / site
@@ -15,12 +15,10 @@ export const serviceGlyphs = {
       <path d="M20 5l4 11 11 4-11 4-4 11-4-11-11-4 11-4z" />
     </svg>
   ),
-  // target / system
+  // </> code brackets
   'software-development': (
     <svg {...svg}>
-      <path d="M8 20h24M20 8v24" />
-      <circle cx="20" cy="20" r="14" />
-      <circle cx="20" cy="20" r="3" />
+      <path d="M13 12l-8 8 8 8M27 12l8 8-8 8M23 8l-6 24" />
     </svg>
   ),
   // camera

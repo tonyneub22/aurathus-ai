@@ -1,7 +1,7 @@
 import { Fragment, lazy, Suspense, useCallback, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { site } from '../../config/site'
-import MotionLink from '../routing/MotionLink'
+import CtaButton from '../layout/CtaButton'
 import BuildingIndicator from '../brand/BuildingIndicator'
 import { supportsWebGL } from '../../three/webgl'
 
@@ -97,17 +97,9 @@ export default function Hero() {
             {hero.tagline}
           </motion.p>
 
-          <MotionLink
-            {...rise(2.5, reduce)}
-            to={hero.cta.href}
-            className="group mt-16 inline-flex lg:mt-40 items-center gap-4 border border-aura-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-white transition-colors duration-500 hover:border-aura-gold"
-          >
+          <CtaButton {...rise(2.5, reduce)} to={hero.cta.href} className="mt-16 lg:mt-40">
             {hero.cta.label}
-            <span
-              aria-hidden="true"
-              className="relative h-px w-7 bg-aura-gold transition-all duration-500 ease-aura group-hover:w-11 after:absolute after:-top-[3px] after:right-0 after:h-[6px] after:w-[6px] after:rotate-45 after:border-r after:border-t after:border-aura-gold"
-            />
-          </MotionLink>
+          </CtaButton>
         </div>
       </div>
     </section>

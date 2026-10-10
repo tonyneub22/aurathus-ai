@@ -1,7 +1,10 @@
+import { useReducedMotion } from 'motion/react'
 import { site } from '../../config/site'
 import { services } from '../../config/services'
+import CtaButton from '../layout/CtaButton'
 import Panel from './Panel'
-import ServiceCard from './ServiceCard'
+import ServiceRow from './ServiceRow'
+import { reveal } from './reveal'
 
 const BLOOM = 'radial-gradient(ellipse at center, color-mix(in srgb, var(--color-aura-ring) 22%, transparent), transparent 70%)'
 
@@ -21,6 +24,9 @@ function BeamGlow() {
 }
 
 export default function Services() {
+  const reduce = useReducedMotion()
+  const { cta } = site.hero
+
   return (
     <Panel
       id="services"
@@ -30,12 +36,14 @@ export default function Services() {
       boxProps={{ 'data-beam-target': '' }}
       decoration={<BeamGlow />}
     >
-      {/* 1px gaps over the hairline colour draw the grid lines between opaque cells. */}
-      <div className="mt-10 grid gap-px border-t border-aura-line bg-aura-line sm:grid-cols-2 lg:mt-14">
+      <div className="mt-10 grid gap-5 lg:mt-14">
         {services.map((service, i) => (
-          <ServiceCard key={service.slug} service={service} index={i} />
+          <ServiceRow key={service.slug} service={service} index={i} />
         ))}
       </div>
+      <CtaButton {...reveal(reduce, 0.2)} to={cta.href} className="mt-12">
+        {cta.label}
+      </CtaButton>
     </Panel>
   )
 }

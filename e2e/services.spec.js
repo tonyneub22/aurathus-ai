@@ -51,7 +51,7 @@ async function revealAll(page) {
 }
 
 test.describe('home: services', () => {
-  test('shows four cards, each Read more opening its service page', async ({ page }) => {
+  test('shows four rows, each Read more opening its service page', async ({ page }) => {
     test.setTimeout(180_000)
     await page.goto('/')
     const section = page.getByRole('region', { name: 'Services' })
@@ -67,15 +67,39 @@ test.describe('home: services', () => {
     }
   })
 
-  test('lines up Read more across each row on wider screens', async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== 'desktop', 'one column on phones')
+  test('stacks the rows in order, with columns aligned down the list', async ({ page }, testInfo) => {
     await page.goto('/')
-    const links = page.getByRole('region', { name: 'Services' }).getByRole('link', { name: /read more/i })
-    await links.first().scrollIntoViewIfNeeded()
+    const rows = page.getByRole('region', { name: 'Services' }).getByRole('article')
+    await rows.last().scrollIntoViewIfNeeded()
     await page.waitForTimeout(3000) // staggered reveals finished
-    const ys = await links.evaluateAll((els) => els.map((el) => el.getBoundingClientRect().top))
-    expect(Math.abs(ys[0] - ys[1])).toBeLessThanOrEqual(1)
-    expect(Math.abs(ys[2] - ys[3])).toBeLessThanOrEqual(1)
+    const boxes = await rows.evaluateAll((els) =>
+      els.map((el) => {
+        const left = (sel) => Math.round(el.querySelector(sel).getBoundingClientRect().left)
+        return { top: el.getBoundingClientRect().top, name: el.querySelector('h3').textContent, h3: left('h3'), p: left('p'), a: left('a') }
+      }),
+    )
+    const byTop = [...boxes].sort((a, b) => a.top - b.top).map((b) => b.name)
+    expect(byTop).toEqual(SERVICES.map((s) => s.name))
+    for (const key of ['h3', 'p', 'a']) {
+      const xs = boxes.map((b) => b[key])
+      expect(Math.max(...xs) - Math.min(...xs)).toBeLessThanOrEqual(1)
+    }
+    if (testInfo.project.name === 'desktop') {
+      // Four columns: name, card line and Read more side by side.
+      expect(boxes[0].p).toBeGreaterThan(boxes[0].h3)
+      expect(boxes[0].a).toBeGreaterThan(boxes[0].p)
+    } else {
+      // Stacked: card line and Read more start at the row's left edge.
+      expect(boxes[0].a).toBe(boxes[0].p)
+    }
+  })
+
+  test('Request Consult below the rows opens the consult form', async ({ page }) => {
+    await page.goto('/')
+    const cta = page.getByRole('region', { name: 'Services' }).getByRole('link', { name: 'Request Consult' })
+    await cta.scrollIntoViewIfNeeded()
+    await cta.click(HOME)
+    await expect(page).toHaveURL(/\/consult$/)
   })
 
   test('Read more glows on keyboard focus', async ({ page }) => {
@@ -224,5 +248,7 @@ test('screenshot: home services section', async ({ page }, testInfo) => {
     window.scrollTo({ top: top + 40, behavior: 'instant' })
   })
   await page.waitForTimeout(1500)
+  // The fixed header would otherwise cover part of the section in the capture.
+  await page.addStyleTag({ content: 'header { visibility: hidden !important; }' })
   await section.screenshot({ path: `e2e/screenshots/${testInfo.project.name}-services-section.png` })
 })
