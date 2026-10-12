@@ -38,13 +38,13 @@ function ServiceDetail({ service }) {
             >
               {service.name}
             </h1>
-            <p className="mt-8 max-w-[60ch] font-serif text-[clamp(19px,1.6vw,22px)] font-light leading-relaxed text-aura-body">
+            <p className="mt-8 max-w-[48ch] font-sans text-[clamp(18px,1.4vw,20px)] leading-[1.65] text-aura-body">
               {service.startLine}
             </p>
             <div className="mt-12">
               <ConsultCta service={service} />
             </div>
-            <p className="mt-10 font-serif text-[17px] italic text-aura-muted">{service.pricingNote}</p>
+            <p className="mt-10 font-sans text-[16px] text-aura-muted">{service.pricingNote}</p>
           </div>
         </section>
 

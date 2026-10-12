@@ -5,7 +5,7 @@ import { submitConsult } from '../../lib/consult'
 const { consult } = site
 
 const control =
-  'w-full border-0 border-b border-aura-gold/30 bg-transparent py-3 font-serif text-[18px] text-aura-text placeholder:text-aura-muted transition-colors duration-500 focus:border-aura-gold focus:outline-none'
+  'w-full border-0 border-b border-aura-gold/30 bg-transparent py-3 font-sans text-[17px] text-aura-text placeholder:text-aura-muted transition-colors duration-500 focus:border-aura-gold focus:outline-none'
 const label = 'font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-gold/70'
 
 function Field({ id, text, children }) {
@@ -79,7 +79,7 @@ export default function ConsultForm({ send = submitConsult, interest = consult.i
           {status === 'sending' ? consult.sending : consult.submit}
         </button>
         {status === 'error' && (
-          <p role="alert" className="font-serif text-[17px] text-aura-muted">
+          <p role="alert" className="font-sans text-[16px] leading-[1.65] text-aura-body">
             {consult.failed}{' '}
             <a href={`mailto:${site.contact.email}`} className="text-aura-gold hover:text-aura-gold-hot">
               {site.contact.email}

@@ -18,8 +18,15 @@ const contrast = (a, b) => {
 }
 
 describe('matte surfaces', () => {
-  // Every stop of the page spotlight and of the panel gradient, so no part of either fails.
-  const surfaces = [value('bg-base'), ...hexes(value('bg-gradient')), ...hexes(value('panel'))]
+  // Every stop of the page spotlight and of both leathers, plus the testimonial cells, so no part fails.
+  const surfaces = [
+    value('bg-base'),
+    ...hexes(value('bg-gradient')),
+    ...hexes(value('panel')),
+    ...hexes(value('panel-inset')),
+    value('color-aura-panel'),
+    value('color-aura-panel-open'),
+  ]
   const texts = ['text', 'text-heading', 'text-body', 'text-muted', 'color-aura-gold'].map((name) => [name, value(name)])
 
   it.each(texts)('--%s clears 4.5:1 on the black page and the charcoal panels', (_, color) => {

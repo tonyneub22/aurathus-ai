@@ -94,6 +94,16 @@ test.describe('home: services', () => {
     }
   })
 
+  test('the whole index row is the link, not only its label', async ({ page }) => {
+    await page.goto('/')
+    const row = page.getByRole('region', { name: 'Services' }).getByRole('article').nth(1)
+    await row.scrollIntoViewIfNeeded()
+    // Over the name, well away from the Read more label: the row's stretched link takes the click.
+    await row.click({ position: { x: 24, y: 40 }, ...HOME })
+    await expect(page).toHaveURL(/\/services\/ai-integration$/)
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('AI Integration')
+  })
+
   test('Request Consult below the rows opens the consult form', async ({ page }) => {
     await page.goto('/')
     const cta = page.getByRole('region', { name: 'Services' }).getByRole('link', { name: 'Request Consult' })
@@ -117,6 +127,7 @@ test.describe('home: services', () => {
 test.describe('service pages', () => {
   for (const s of SERVICES) {
     test(`/services/${s.slug} deep-links and lays out its plans`, async ({ page }, testInfo) => {
+      test.setTimeout(60_000) // waits for every plan's reveal, then two full-page captures
       const errors = watchErrors(page)
       await page.goto(`/services/${s.slug}`)
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(s.name)

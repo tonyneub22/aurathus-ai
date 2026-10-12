@@ -1,4 +1,5 @@
 import { useId, useRef, useState } from 'react'
+import MatteGrain from '../effects/MatteGrain'
 
 const pad = (n) => String(n + 1).padStart(2, '0')
 
@@ -45,6 +46,7 @@ export default function AccordionGallery({ items }) {
                 className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-aura-soft motion-reduce:transition-none ${isOpen ? 'opacity-35' : 'opacity-15'}`}
               />
             )}
+            <MatteGrain variant="inset" />
             <h3 className={`relative ${isOpen ? '' : 'md:flex md:flex-1 md:flex-col'}`}>
               <button
                 ref={(el) => (buttons.current[i] = el)}

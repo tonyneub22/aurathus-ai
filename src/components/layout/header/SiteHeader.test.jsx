@@ -39,7 +39,6 @@ describe('<SiteHeader />', () => {
     expect(links).toEqual([
       ['Services', '/#services'],
       ['Why Us', '/#why-us'],
-      ['Work', '/#testimonials'],
       ['Studio', '/#about'],
       ['Contact', '/#contact'],
       [site.nav.cta.label, '/consult'],

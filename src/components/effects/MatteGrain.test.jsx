@@ -5,27 +5,31 @@ import MatteGrain from './MatteGrain'
 const filterOf = (svg) => svg.querySelector('rect').getAttribute('filter').match(/#([^)]+)/)[1]
 
 describe('<MatteGrain />', () => {
-  it('page: fixed mottle and grain layers, behind content, screened', () => {
+  it('page: fixed, behind content, screened lightly so the black stays black', () => {
     render(<MatteGrain variant="page" />)
-    const mottle = screen.getByTestId('matte-mottle')
-    const grain = screen.getByTestId('matte-grain')
-    for (const [svg, opacity] of [[mottle, '0.02'], [grain, '0.025']]) {
+    for (const svg of [screen.getByTestId('matte-mottle'), screen.getByTestId('matte-pebble')]) {
       expect(svg).toHaveAttribute('aria-hidden', 'true')
       expect(svg).toHaveClass('pointer-events-none')
-      expect(svg.style).toMatchObject({ position: 'fixed', zIndex: '-1', opacity, mixBlendMode: 'screen' })
+      expect(svg.style).toMatchObject({ position: 'fixed', zIndex: '-1', mixBlendMode: 'screen' })
+      expect(Number(svg.style.opacity)).toBeLessThanOrEqual(0.03)
     }
-    const turbulence = mottle.querySelector('feTurbulence')
-    expect(turbulence).toHaveAttribute('baseFrequency', '0.006')
-    expect(turbulence).toHaveAttribute('numOctaves', '4')
-    expect(turbulence).toHaveAttribute('seed', '7')
-    expect(grain.querySelector('feTurbulence')).toHaveAttribute('stitchTiles', 'stitch')
-    expect(mottle.querySelector('feColorMatrix')).toHaveAttribute('values', '0')
   })
 
-  it('panel: grain only, overlaid, filling its parent', () => {
+  it('panel and inset: two overlaid leathers, the inset with the finer grain', () => {
+    const { unmount } = render(<MatteGrain variant="panel" />)
+    expect(screen.getByTestId('matte-pebble').style).toMatchObject({ position: 'absolute', mixBlendMode: 'overlay' })
+    unmount()
+    render(<MatteGrain variant="inset" />)
+    expect(screen.queryByTestId('matte-pebble')).not.toBeInTheDocument()
+    expect(screen.getByTestId('matte-pebble-fine').style).toMatchObject({ position: 'absolute', mixBlendMode: 'overlay' })
+  })
+
+  it('lights the pebble grain diffusely (matte) and never animates', () => {
     render(<MatteGrain variant="panel" />)
-    expect(screen.queryByTestId('matte-mottle')).not.toBeInTheDocument()
-    expect(screen.getByTestId('matte-grain').style).toMatchObject({ position: 'absolute', opacity: '0.07', mixBlendMode: 'overlay' })
+    const pebble = screen.getByTestId('matte-pebble')
+    expect(pebble.querySelector('feDiffuseLighting')).toBeInTheDocument()
+    expect(pebble.querySelector('feSpecularLighting')).not.toBeInTheDocument()
+    expect(pebble.querySelector('animate, animateTransform')).not.toBeInTheDocument()
   })
 
   it('gives every instance its own filter ids, each pointing at a filter that exists', () => {
@@ -35,7 +39,7 @@ describe('<MatteGrain />', () => {
         <MatteGrain variant="panel" />
       </>,
     )
-    const ids = screen.getAllByTestId('matte-grain').map(filterOf)
+    const ids = screen.getAllByTestId('matte-pebble').map(filterOf)
     expect(new Set(ids).size).toBe(2)
     for (const id of ids) expect(document.getElementById(id).tagName.toLowerCase()).toBe('filter')
   })

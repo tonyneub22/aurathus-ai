@@ -23,7 +23,7 @@ export default function Home() {
           <ServicesBeam />
           <Services />
           <WhyChooseUs />
-          <Testimonials />
+          {site.testimonials.enabled && <Testimonials />}
           <About />
         </main>
         <Footer credit />

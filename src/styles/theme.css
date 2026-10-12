@@ -8,22 +8,24 @@
  */
 @theme {
   --color-aura-black: var(--bg-base);
-  --color-aura-black-2: #1e1c1a; /* flat stand-in for --panel (its midpoint), for surfaces that can't take the gradient */
+  --color-aura-black-2: #392920; /* flat stand-in for --panel (its midpoint), for surfaces that can't take the gradient */
   --color-aura-gold: #d4c39a;
   --color-aura-gold-hot: #f3dfb4; /* highlight on the ring rim */
   --color-aura-gold-soft: #a29578;
   --color-aura-ring: #f0dc8a; /* the statue ring as rendered (additive blend + tone mapping), not the raw gold; the beam uses it */
-  /* Text on black and on the charcoal panels; every one clears 4.5:1 on both (contrast.test.js). */
+  /* Text on the black page and both leathers; every one clears 4.5:1 on all of them (contrast.test.js). */
   --color-aura-text: var(--text);
   --color-aura-heading: var(--text-heading);
   --color-aura-body: var(--text-body);
   --color-aura-muted: var(--text-muted);
-  /* Testimonial accordion cells: the raised surface warmed with brand gold, so they read as lighter than the page and the box. */
-  --color-aura-panel: color-mix(in srgb, var(--color-aura-gold) 11%, var(--color-aura-black-2));
-  --color-aura-panel-open: color-mix(in srgb, var(--color-aura-gold) 17%, var(--color-aura-black-2));
+  /* Testimonial accordion cells sit inside a box, so they take the inset espresso leather; the open cell is a shade lighter. */
+  --color-aura-panel: #211812;
+  --color-aura-panel-open: #2c2018;
   --color-aura-line: color-mix(in srgb, var(--color-aura-gold) 16%, transparent);
 
+  /* Cormorant for display type and the wide-tracked small caps (the logo's lettering); Hanken for reading. */
   --font-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
+  --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
 
   --ease-aura: cubic-bezier(0.2, 0.7, 0.2, 1);
   --ease-aura-soft: cubic-bezier(0.65, 0, 0.35, 1); /* symmetric in-out: gentle start and landing, for large layout moves */
@@ -32,14 +34,21 @@
 :root {
   color-scheme: dark;
 
-  /* Matte surfaces: black page, warm charcoal panels framed in brand gold (212 195 154 = --color-aura-gold). */
-  --bg-base: #080808;
-  --bg-gradient: radial-gradient(ellipse 120% 80% at 50% 0%, #141414 0%, #0c0c0c 45%, #050505 100%);
-  --panel: linear-gradient(180deg, #211f1d 0%, #1a1917 100%);
+  /*
+   * Matte leather. The page is warm black hide with almost no sheen; boxes are
+   * saddle-brown leather; boxes inside boxes are a darker espresso leather, set
+   * into the one around them. All framed in brand gold (212 195 154 = --color-aura-gold).
+   */
+  --bg-base: #090807;
+  --bg-gradient: radial-gradient(ellipse 120% 80% at 50% 0%, #100e0c 0%, #0a0908 50%, #060505 100%);
+  --panel: linear-gradient(180deg, #3f2d20 0%, #33251a 100%);
+  --panel-inset: linear-gradient(180deg, #241a13 0%, #1d1510 100%);
   --panel-border: rgba(212, 195, 154, 0.55);
   --panel-border-hover: rgba(212, 195, 154, 0.9);
-  --panel-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 40px -18px rgba(0, 0, 0, 0.6);
-  --panel-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 28px 60px -20px rgba(0, 0, 0, 0.75);
+  --panel-shadow: inset 0 1px 0 rgba(255, 236, 205, 0.03), 0 18px 40px -18px rgba(0, 0, 0, 0.7);
+  --panel-shadow-hover: inset 0 1px 0 rgba(255, 236, 205, 0.04), 0 28px 60px -20px rgba(0, 0, 0, 0.8);
+  /* Pressed into the surrounding leather rather than floating above it. */
+  --panel-inset-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 236, 205, 0.03);
   --text: #ede6d8;
   --text-heading: #f4eee2;
   --text-body: #cfc6b6;
@@ -69,7 +78,7 @@ body {
 
 /*
  * Every card and boxed section. A layer, so utilities (padding, overflow) still
- * override it. Put <MatteGrain variant="panel" /> inside and keep the content
+ * override it. Put <MatteGrain variant="panel" /> ("inset" inside .matte-inset) in it and keep the content
  * positioned so it sits above the grain.
  */
 @layer components {
@@ -85,12 +94,32 @@ body {
       box-shadow 0.4s ease;
   }
 
+  /* A box inside a box: the second, darker leather. Use with .matte-panel. */
+  .matte-panel.matte-inset {
+    background: var(--panel-inset);
+    box-shadow: var(--panel-inset-shadow);
+  }
+
   @media (hover: hover) {
     .matte-panel:hover {
       border-color: var(--panel-border-hover);
       box-shadow: var(--panel-shadow-hover);
     }
+
+    .matte-panel.matte-inset:hover {
+      box-shadow: var(--panel-inset-shadow);
+    }
   }
+}
+
+/* The parts the browser draws carry the palette too. */
+::selection {
+  background: color-mix(in srgb, var(--color-aura-gold) 35%, transparent);
+  color: var(--text-heading);
+}
+
+html {
+  scrollbar-color: #4a3727 var(--bg-base);
 }
 
 /* Keyboard focus ring in brand gold. */

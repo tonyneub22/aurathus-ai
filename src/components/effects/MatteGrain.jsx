@@ -6,51 +6,83 @@ import { useId } from 'react'
  * layers in a shared, z-indexed element would isolate them and the blend
  * would have nothing to mix with.
  */
-const NOISE = {
-  // Large, soft clouds: the uneven tone of a matte material.
-  mottle: { type: 'fractalNoise', baseFrequency: '0.006', numOctaves: '4', seed: '7' },
-  // Fine tooth.
-  grain: { type: 'fractalNoise', baseFrequency: '0.9', numOctaves: '2', stitchTiles: 'stitch' },
+const TEXTURES = {
+  // Large, soft clouds: the uneven tone of a hide.
+  mottle: (
+    <>
+      <feTurbulence type="fractalNoise" baseFrequency="0.004" numOctaves="4" seed="7" />
+      <feColorMatrix type="saturate" values="0" />
+    </>
+  ),
+  // The pebbled grain of leather: fine noise used as a height map and lit from
+  // the top left, so each pore reads as relief. Diffuse only, no specular: matte.
+  pebble: (
+    <>
+      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="3" stitchTiles="stitch" />
+      <feDiffuseLighting surfaceScale="1.6" diffuseConstant="1" lightingColor="#ffffff">
+        <feDistantLight azimuth="225" elevation="52" />
+      </feDiffuseLighting>
+    </>
+  ),
+  // The same grain, tighter, for the smaller inset leather.
+  'pebble-fine': (
+    <>
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="11" stitchTiles="stitch" />
+      <feDiffuseLighting surfaceScale="1.2" diffuseConstant="1" lightingColor="#ffffff">
+        <feDistantLight azimuth="225" elevation="52" />
+      </feDiffuseLighting>
+    </>
+  ),
 }
 
 const VARIANTS = {
-  // Fixed behind everything: above the body background, below all content.
-  // Opacities are about 40% of the first spec (.05 / .06), which
-  // lifted the black by ~10/255 and read grey; these lift it by ~4.
+  // Matte black hide, fixed behind everything: above the body background,
+  // below all content. Screen is the only blend that shows on black, and it
+  // lifts it, so these stay low (about +4/255 in all).
   page: {
     position: 'fixed',
     zIndex: -1,
     layers: [
-      { noise: 'mottle', opacity: 0.02, blend: 'screen' },
-      { noise: 'grain', opacity: 0.025, blend: 'screen' },
+      { texture: 'mottle', opacity: 0.02, blend: 'screen' },
+      { texture: 'pebble', opacity: 0.012, blend: 'screen' },
     ],
   },
-  // Inside a .matte-panel, under its content.
+  // Saddle-brown leather inside a .matte-panel, under its content.
   panel: {
     position: 'absolute',
-    layers: [{ noise: 'grain', opacity: 0.07, blend: 'overlay' }],
+    layers: [
+      { texture: 'mottle', opacity: 0.3, blend: 'overlay' },
+      { texture: 'pebble', opacity: 0.16, blend: 'overlay' },
+    ],
+  },
+  // Espresso leather inside a .matte-panel.matte-inset: quieter tone, finer grain.
+  inset: {
+    position: 'absolute',
+    layers: [
+      { texture: 'mottle', opacity: 0.2, blend: 'overlay' },
+      { texture: 'pebble-fine', opacity: 0.14, blend: 'overlay' },
+    ],
   },
 }
 
-/** Static SVG noise that gives a surface a matte finish. No image files, never animated. */
+/** Static SVG texture that gives a surface a matte leather finish. No image files, never animated. */
 export default function MatteGrain({ variant = 'panel' }) {
   const id = useId().replace(/:/g, '')
   const { position, zIndex, layers } = VARIANTS[variant]
 
-  return layers.map(({ noise, opacity, blend }) => {
-    const filterId = `${id}-${noise}`
+  return layers.map(({ texture, opacity, blend }) => {
+    const filterId = `${id}-${texture}`
     return (
       <svg
-        key={noise}
+        key={texture}
         aria-hidden="true"
         focusable="false"
-        data-testid={`matte-${noise}`}
+        data-testid={`matte-${texture}`}
         className="pointer-events-none inset-0 h-full w-full"
         style={{ position, zIndex, opacity, mixBlendMode: blend }}
       >
-        <filter id={filterId}>
-          <feTurbulence {...NOISE[noise]} />
-          <feColorMatrix type="saturate" values="0" />
+        <filter id={filterId} colorInterpolationFilters="sRGB">
+          {TEXTURES[texture]}
         </filter>
         <rect width="100%" height="100%" filter={`url(#${filterId})`} />
       </svg>

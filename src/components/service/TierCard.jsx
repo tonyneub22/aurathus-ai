@@ -32,7 +32,7 @@ export default function TierCard({ tier, index }) {
           {tier.name}
         </h3>
         <p className={`${small} mt-6 border-t border-aura-line pt-5 leading-relaxed text-aura-gold`}>{tier.timeline}</p>
-        <p className="mt-6 font-serif text-[17px] leading-relaxed text-aura-muted">{tier.body}</p>
+        <p className="mt-6 font-sans text-[16px] leading-[1.7] text-aura-body">{tier.body}</p>
       </div>
     </motion.article>
   )

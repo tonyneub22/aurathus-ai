@@ -20,16 +20,13 @@ export default function ConsultRequest() {
       <div className="relative z-10 mx-auto w-full max-w-[720px] px-5 pb-20 pt-32 sm:px-10">
         <main>
           <section aria-labelledby="consult-title">
-            <p className="font-serif text-[13px] font-medium uppercase tracking-[0.3em] text-aura-gold/70">
-              {consult.eyebrow}
-            </p>
             <h1
               id="consult-title"
-              className="mt-4 font-serif text-[clamp(36px,6vw,64px)] font-light uppercase leading-[1.05] tracking-[0.08em] text-aura-heading"
+              className="font-serif text-[clamp(36px,6vw,64px)] font-light uppercase leading-[1.05] tracking-[0.08em] text-aura-heading"
             >
               {consult.title}
             </h1>
-            <p className="mb-12 mt-5 max-w-[46ch] font-serif text-[18px] leading-relaxed text-aura-muted">
+            <p className="mb-12 mt-5 max-w-[46ch] font-sans text-[18px] leading-[1.65] text-aura-body">
               {consult.intro}
             </p>
             <div className="matte-panel px-6 py-10 sm:px-10 sm:py-12">

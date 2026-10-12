@@ -47,23 +47,10 @@ test.describe('home page', () => {
     expect(b.y + b.height).toBeGreaterThan(t.y)
   })
 
-  test('stacks the boxes in order and the testimonial accordion works', async ({ page }) => {
+  test('runs its sections in order, with the placeholder testimonials switched off', async ({ page }) => {
     const titles = await page.getByRole('heading', { level: 2 }).allTextContents()
-    expect(titles.map((t) => t.trim())).toEqual(['Services', 'Why Choose Us?', 'Client Testimonials', 'About'])
-
-    const buttons = page.getByRole('region', { name: 'Client Testimonials' }).getByRole('button')
-    await buttons.first().scrollIntoViewIfNeeded()
-    await expect(buttons.first()).toHaveAttribute('aria-expanded', 'true')
-    // Hovering another panel must not open it; only a click does.
-    await buttons.nth(3).hover()
-    await page.waitForTimeout(500)
-    await expect(buttons.first()).toHaveAttribute('aria-expanded', 'true')
-    await expect(buttons.nth(3)).toHaveAttribute('aria-expanded', 'false')
-    await buttons.nth(1).click()
-    await expect(buttons.nth(1)).toHaveAttribute('aria-expanded', 'true')
-    await expect(buttons.first()).toHaveAttribute('aria-expanded', 'false')
-    await buttons.nth(1).press('ArrowRight') // keyboard moves on to the next panel
-    await expect(buttons.nth(2)).toHaveAttribute('aria-expanded', 'true')
+    expect(titles.map((t) => t.trim())).toEqual(['Services', 'Why Choose Us?', 'About'])
+    await expect(page.locator('#testimonials')).toHaveCount(0)
   })
 
   test('draws gold fibers behind About, hidden from assistive tech', async ({ page }) => {
@@ -143,7 +130,7 @@ test.describe('home page', () => {
     })
     await page.waitForTimeout(1500)
     await shot('beam')
-    for (const id of ['why-us', 'testimonials', 'about']) {
+    for (const id of ['why-us', 'about']) {
       await page.evaluate((target) => {
         const top = document.getElementById(target).getBoundingClientRect().top + window.scrollY
         window.scrollTo({ top: top - 24, behavior: 'instant' })
@@ -164,9 +151,9 @@ test.describe('home page', () => {
       await page.waitForTimeout(600)
       await shot(id)
     }
-    // Mid-page, part way into a box, so the header's backing shows against content.
+    // Mid-page, part way into a section, so the header's backing shows against content.
     await page.evaluate(() => {
-      const top = document.getElementById('testimonials').getBoundingClientRect().top + window.scrollY
+      const top = document.getElementById('why-us').getBoundingClientRect().top + window.scrollY
       window.scrollTo({ top: top + 120, behavior: 'instant' })
     })
     await page.waitForTimeout(1000)
@@ -197,7 +184,7 @@ test.describe('brand and head', () => {
     expect(await attr('meta[property="og:image:alt"]', 'content')).toBeTruthy()
     expect(await attr('meta[name="twitter:card"]', 'content')).toBe('summary_large_image')
     expect(await attr('meta[name="twitter:image"]', 'content')).toBe('https://aurathus-ai.com/og-image.png')
-    expect(await attr('meta[name="theme-color"]', 'content')).toBe('#080808')
+    expect(await attr('meta[name="theme-color"]', 'content')).toBe('#090807')
 
     // Icons, manifest and the og image, as served by this build (the absolute URLs point at production).
     const paths = await page.locator('head link[rel="icon"], head link[rel="apple-touch-icon"], head link[rel="manifest"]')
@@ -209,7 +196,7 @@ test.describe('brand and head', () => {
       expect((await request.get(path)).status(), path).toBe(200)
     }
     const manifest = await (await request.get('/site.webmanifest')).json()
-    expect(manifest).toMatchObject({ name: 'Aurathus AI LLC', theme_color: '#080808', background_color: '#080808' })
+    expect(manifest).toMatchObject({ name: 'Aurathus AI LLC', theme_color: '#090807', background_color: '#090807' })
 
     await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }))
     await expect(page.getByRole('img', { name: 'Aurathus AI LLC' })).toBeVisible()
@@ -267,7 +254,6 @@ test.describe('header and menu', () => {
   for (const [label, id] of [
     ['Services', 'services'],
     ['Why Us', 'why-us'],
-    ['Work', 'testimonials'],
     ['Studio', 'about'],
     ['Contact', 'contact'],
   ]) {

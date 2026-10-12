@@ -43,7 +43,7 @@ export default function TechnicalDetails({ id, label, paragraphs }) {
             >
               <div className="grid max-w-[68ch] gap-5 pb-6 pt-8">
                 {paragraphs.map((text) => (
-                  <p key={text.slice(0, 24)} className="font-serif text-[16px] leading-[1.8] text-aura-muted">
+                  <p key={text.slice(0, 24)} className="font-sans text-[16px] leading-[1.75] text-aura-body">
                     {text}
                   </p>
                 ))}

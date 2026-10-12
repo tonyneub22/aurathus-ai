@@ -13,29 +13,33 @@ const ORDER = [
 ]
 
 describe('<Services />', () => {
-  it('is one box titled "Services", labelled by its heading, that the beam aims at', () => {
-    render(<Services />)
+  it('is an unboxed region titled "Services" whose top rule the beam aims at', () => {
+    const { container } = render(<Services />)
     const region = screen.getByRole('region', { name: 'Services' })
     expect(within(region).getAllByRole('heading', { level: 2 })).toHaveLength(1)
-    expect(region).toContainElement(screen.getByRole('heading', { level: 2, name: 'Services' }))
-    expect(region.querySelector('[data-beam-target]')).toBeInTheDocument()
+    const target = region.querySelector('[data-beam-target]')
+    expect(target).toHaveClass('border-t')
+    expect(target.firstElementChild.nextElementSibling.tagName).toBe('ARTICLE')
+    expect(container.querySelector('.matte-panel')).not.toBeInTheDocument()
   })
 
-  it('renders four rows in order, each with a hidden icon, an h3 and Read more to its page', () => {
+  it('indexes four services in order, each a whole-row link to its page', () => {
     render(<Services />)
     const rows = screen.getAllByRole('article')
     expect(rows).toHaveLength(4)
     rows.forEach((row, i) => {
       const [name, href] = ORDER[i]
       expect(within(row).getByRole('heading', { level: 3 })).toHaveTextContent(name)
-      expect(row.querySelector('svg').closest('[aria-hidden="true"]')).toBeInTheDocument()
+      expect(row).toHaveClass('relative')
       const link = within(row).getByRole('link', { name: `Read more about ${name}` })
       expect(link).toHaveAttribute('href', href)
       expect(link).toHaveTextContent('Read more')
+      expect(link).toHaveClass('after:absolute', 'after:inset-0') // stretched over the row
+      expect(row.querySelector('svg')).not.toBeInTheDocument() // no icon tiles
     })
   })
 
-  it('ends with the general Request Consult button instead of a lead-in line', () => {
+  it('ends with the general Request Consult button', () => {
     render(<Services />)
     const region = screen.getByRole('region', { name: 'Services' })
     expect(within(region).getByRole('link', { name: site.hero.cta.label })).toHaveAttribute('href', site.hero.cta.href)

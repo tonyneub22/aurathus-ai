@@ -7,7 +7,7 @@ export default function IncludesBand({ includes }) {
       <MatteGrain variant="panel" />
       <div className="relative">
         <h3 className="font-serif text-[13px] font-medium uppercase tracking-[0.3em] text-aura-gold/80">{includes.heading}</h3>
-        <p className="mt-4 max-w-[90ch] font-serif text-[18px] leading-relaxed text-aura-muted">{includes.body}</p>
+        <p className="mt-4 max-w-[75ch] font-sans text-[17px] leading-[1.7] text-aura-body">{includes.body}</p>
       </div>
     </div>
   )

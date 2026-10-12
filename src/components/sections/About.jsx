@@ -23,7 +23,7 @@ export default function About() {
     <Panel
       id="about"
       title={about.title}
-      spacing="pb-20"
+      spacing="pb-28 lg:pb-40"
       boxClassName="isolate overflow-hidden"
       decoration={
         <>
@@ -37,7 +37,7 @@ export default function About() {
           <motion.p
             key={i}
             {...reveal(reduce, i * 0.12)}
-            className="font-serif text-[clamp(18px,1.5vw,21px)] leading-relaxed text-aura-body"
+            className="font-sans text-[18px] leading-[1.75] text-aura-body"
           >
             {text}
           </motion.p>

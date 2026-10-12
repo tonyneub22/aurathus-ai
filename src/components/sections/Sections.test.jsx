@@ -12,19 +12,32 @@ vi.mock('../hero/Hero', () => ({ default: () => <section id="top"><h1>Hero</h1><
 vi.mock('../effects/ServicesBeam', () => ({ default: () => null }))
 vi.mock('../effects/GhostFibersBackground', () => ({ default: () => <div data-testid="ghost-fibers" /> }))
 
-describe('home page boxes', () => {
-  it('stack in order: Services, Why Choose Us?, Client Testimonials, About', () => {
+describe('home page sections', () => {
+  it('run in order: Services, Why Choose Us?, About', () => {
     render(<Home />)
     const titles = screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)
-    expect(titles).toEqual(['Services', 'Why Choose Us?', 'Client Testimonials', 'About'])
+    expect(titles).toEqual(['Services', 'Why Choose Us?', 'About'])
   })
 
-  it('makes each box a labelled region with a matching anchor', () => {
+  it('leave out the placeholder testimonials, and their menu link, while they are switched off', () => {
+    expect(site.testimonials.enabled).toBe(false)
+    const { container } = render(<Home />)
+    expect(container.querySelector('#testimonials')).not.toBeInTheDocument()
+    expect(site.nav.links.map((l) => l.href)).not.toContain('/#testimonials')
+  })
+
+  it('box only About: the rest sit on the page itself', () => {
+    const { container } = render(<Home />)
+    const boxes = [...container.querySelectorAll('.matte-panel')]
+    expect(boxes).toHaveLength(1)
+    expect(boxes[0].closest('section')).toHaveAttribute('id', 'about')
+  })
+
+  it('makes each section a labelled region with a matching anchor', () => {
     const { container } = render(<Home />)
     for (const [id, name] of [
       ['services', 'Services'],
       ['why-us', 'Why Choose Us?'],
-      ['testimonials', 'Client Testimonials'],
       ['about', 'About'],
     ]) {
       expect(screen.getByRole('region', { name })).toHaveAttribute('id', id)
@@ -32,7 +45,7 @@ describe('home page boxes', () => {
     }
   })
 
-  it('aims the laser beam at the Services box only', () => {
+  it('aims the laser beam at the Services index only', () => {
     const { container } = render(<Home />)
     const targets = container.querySelectorAll('[data-beam-target]')
     expect(targets).toHaveLength(1)
@@ -56,10 +69,10 @@ describe('<Testimonials />', () => {
 })
 
 describe('<WhyChooseUs />', () => {
-  it('numbers the reasons 1 to 4, without a leading zero', () => {
+  it('carries no decorative section numbers', () => {
     const { container } = render(<WhyChooseUs />)
-    const numerals = [...container.querySelectorAll('li > span[aria-hidden="true"]')].map((n) => n.textContent)
-    expect(numerals).toEqual(['1', '2', '3', '4'])
+    expect(container.querySelectorAll('li > span[aria-hidden="true"]')).toHaveLength(0)
+    expect(container.textContent).not.toMatch(/\b0?[1-4]\b/)
   })
 
   it('lists every reason from config under its own heading', () => {

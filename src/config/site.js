@@ -1,6 +1,9 @@
 // Single source of truth for all copy, links and attribution on the site.
 // Edit here — no copy should be hardcoded inside components.
 
+// Off until real client quotes exist: hides the section and its menu link.
+const showTestimonials = false
+
 export const site = {
   companyName: 'Aurathus AI LLC',
   shortName: 'Aurathus AI',
@@ -28,7 +31,7 @@ export const site = {
     links: [
       { label: 'Services', href: '/#services' },
       { label: 'Why Us', href: '/#why-us' },
-      { label: 'Work', href: '/#testimonials' },
+      ...(showTestimonials ? [{ label: 'Work', href: '/#testimonials' }] : []),
       { label: 'Studio', href: '/#about' },
       { label: 'Contact', href: '/#contact' },
     ],
@@ -56,10 +59,11 @@ export const site = {
     body: "This page doesn't exist or has moved.",
   },
 
-  // PLACEHOLDER copy for the three boxes below (testimonials, whyUs, about):
+  // PLACEHOLDER copy for the three sections below (testimonials, whyUs, about):
   // auto-filled to show the layout. Replace with real content before launch.
   // Testimonials may gain `image` (a path under /public) and `imageAlt`.
   testimonials: {
+    enabled: showTestimonials,
     title: 'Client Testimonials',
     items: [
       {
@@ -124,7 +128,6 @@ export const site = {
   /** The /consult page. Submissions POST to `endpoint`; the Resend function behind it is not built yet. */
   consult: {
     endpoint: '/api/consult',
-    eyebrow: 'Consultations',
     title: 'Request a consultation',
     intro: 'Tell us what you are building and we will reply personally, usually within two business days.',
     fields: {

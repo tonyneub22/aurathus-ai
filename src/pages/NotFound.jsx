@@ -20,7 +20,7 @@ export default function NotFound() {
           >
             {notFound.title}
           </h1>
-          <p className="mt-6 max-w-[46ch] font-serif text-[clamp(18px,1.6vw,21px)] leading-relaxed text-aura-muted">
+          <p className="mt-6 max-w-[46ch] font-sans text-[18px] leading-[1.65] text-aura-body">
             {notFound.body}
           </p>
           <Link
