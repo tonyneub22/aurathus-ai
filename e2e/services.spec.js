@@ -194,6 +194,7 @@ test.describe('service pages', () => {
   })
 
   test('Back to services and the menu return to the home sections', async ({ page }) => {
+    test.setTimeout(60_000) // lands on the WebGL home twice
     await page.goto('/services/software-development')
     const back = page.getByRole('link', { name: 'Back to services' })
     await back.scrollIntoViewIfNeeded()
@@ -241,7 +242,8 @@ test('screenshot: home services section', async ({ page }, testInfo) => {
   const cards = section.getByRole('article')
   for (let i = 0; i < 4; i++) {
     await cards.nth(i).evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }))
-    await expect.poll(() => cards.nth(i).evaluate((el) => getComputedStyle(el.firstElementChild).opacity), HOME).toBe('1')
+    // The content wrapper fades in; the matte grain beside it stays put.
+    await expect.poll(() => cards.nth(i).evaluate((el) => getComputedStyle(el.querySelector(':scope > div')).opacity), HOME).toBe('1')
   }
   await page.evaluate(() => {
     const top = document.getElementById('services').getBoundingClientRect().top + window.scrollY

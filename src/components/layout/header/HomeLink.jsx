@@ -9,7 +9,7 @@ export default function HomeLink() {
     <Link
       to={home.href}
       aria-label={home.label}
-      className="flex h-11 w-11 items-center justify-center text-aura-white transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
+      className="flex h-11 w-11 items-center justify-center text-aura-text transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
     >
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true">
         <path d="M3 11.5 12 4l9 7.5" strokeLinecap="round" strokeLinejoin="round" />

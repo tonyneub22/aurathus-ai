@@ -62,7 +62,7 @@ export default function Hero() {
         <div data-beam-clear className="max-w-[640px]">
           <h1
             id="hero-title"
-            className="font-serif text-[clamp(52px,9vw,112px)] font-light uppercase leading-[0.95] tracking-[0.08em] text-aura-white"
+            className="font-serif text-[clamp(52px,9vw,112px)] font-light uppercase leading-[0.95] tracking-[0.08em] text-aura-heading"
           >
             {hero.headline.map((word, i) => (
               // The space sits between the masks, not inside them: trailing
@@ -92,7 +92,7 @@ export default function Hero() {
 
           <motion.p
             {...rise(2.2, reduce)}
-            className="mt-3 font-serif text-[clamp(20px,2vw,26px)] font-light tracking-[0.06em] text-aura-white/80 lg:mt-4"
+            className="mt-3 font-serif text-[clamp(20px,2vw,26px)] font-light tracking-[0.06em] text-aura-body lg:mt-4"
           >
             {hero.tagline}
           </motion.p>

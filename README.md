@@ -29,7 +29,7 @@ Playwright saves review screenshots to `e2e/screenshots/` and an HTML report to 
 ## Where things live
 
 - **Copy, links, attribution:** `src/config/site.js`; the four services in `src/config/services.js`. No copy is hardcoded in components.
-- **Brand tokens:** `src/styles/theme.css` (Tailwind v4 `@theme`): `--color-aura-*` and `--ease-aura*`. Gold `#D4C39A` is the site gold; the brand pack's artwork colours stay inside the logo files.
+- **Brand tokens:** `src/styles/theme.css` (Tailwind v4 `@theme`): `--color-aura-*` and `--ease-aura*`, plus the matte surface tokens (`--bg-*`, `--panel*`, `--text*`) and the `.matte-panel` class. Gold `#D4C39A` is the site gold; the brand pack's artwork colours stay inside the logo files.
 - **3D hero:** `src/three/statueScene.js` (scene, lights, halo, dust) and `src/three/layout.js` (pure layout math, unit tested). `src/components/hero/StatueCanvas.jsx` mounts it in React and is lazy-loaded so three.js ships in its own chunk.
 - **Figure tuning:** the `FIGURE` constants at the top of `statueScene.js` set the head's size, turn and the halo radius.
 - **Header:** `src/components/layout/header/` — Home icon left, menu button right; menu links come from `site.nav`.

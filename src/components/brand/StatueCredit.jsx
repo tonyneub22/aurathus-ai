@@ -12,7 +12,7 @@ export default function StatueCredit({ className = '' }) {
   return (
     <p
       data-testid="statue-credit"
-      className={`max-w-[70ch] font-serif text-[13px] font-medium leading-relaxed tracking-[0.04em] text-aura-white/40 ${className}`}
+      className={`max-w-[70ch] font-serif text-[13px] font-medium leading-relaxed tracking-[0.04em] text-aura-muted ${className}`}
     >
       3D figure: “
       <a href={c.titleUrl} className={link} rel="noopener noreferrer" target="_blank">

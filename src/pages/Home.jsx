@@ -14,7 +14,6 @@ export default function Home() {
 
   return (
     <>
-      <div className="grain" aria-hidden="true" />
       {/* Fixed, so it floats over the hero without taking layout space; fades in after the intro. */}
       <SiteHeader introDelay={1.8} />
       <div className="relative">

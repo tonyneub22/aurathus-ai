@@ -7,13 +7,17 @@
  * mirrors these (tested).
  */
 @theme {
-  --color-aura-black: #0a0a0b;
-  --color-aura-black-2: #11100e; /* raised surfaces */
+  --color-aura-black: var(--bg-base);
+  --color-aura-black-2: #1e1c1a; /* flat stand-in for --panel (its midpoint), for surfaces that can't take the gradient */
   --color-aura-gold: #d4c39a;
   --color-aura-gold-hot: #f3dfb4; /* highlight on the ring rim */
   --color-aura-gold-soft: #a29578;
   --color-aura-ring: #f0dc8a; /* the statue ring as rendered (additive blend + tone mapping), not the raw gold; the beam uses it */
-  --color-aura-white: #f5f3ee;
+  /* Text on black and on the charcoal panels; every one clears 4.5:1 on both (contrast.test.js). */
+  --color-aura-text: var(--text);
+  --color-aura-heading: var(--text-heading);
+  --color-aura-body: var(--text-body);
+  --color-aura-muted: var(--text-muted);
   /* Testimonial accordion cells: the raised surface warmed with brand gold, so they read as lighter than the page and the box. */
   --color-aura-panel: color-mix(in srgb, var(--color-aura-gold) 11%, var(--color-aura-black-2));
   --color-aura-panel-open: color-mix(in srgb, var(--color-aura-gold) 17%, var(--color-aura-black-2));
@@ -27,6 +31,19 @@
 
 :root {
   color-scheme: dark;
+
+  /* Matte surfaces: black page, warm charcoal panels framed in brand gold (212 195 154 = --color-aura-gold). */
+  --bg-base: #080808;
+  --bg-gradient: radial-gradient(ellipse 120% 80% at 50% 0%, #141414 0%, #0c0c0c 45%, #050505 100%);
+  --panel: linear-gradient(180deg, #211f1d 0%, #1a1917 100%);
+  --panel-border: rgba(212, 195, 154, 0.55);
+  --panel-border-hover: rgba(212, 195, 154, 0.9);
+  --panel-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 40px -18px rgba(0, 0, 0, 0.6);
+  --panel-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 28px 60px -20px rgba(0, 0, 0, 0.75);
+  --text: #ede6d8;
+  --text-heading: #f4eee2;
+  --text-body: #cfc6b6;
+  --text-muted: #c4bcae;
 }
 
 html {
@@ -40,22 +57,40 @@ footer[id] {
 }
 
 body {
-  background-color: var(--color-aura-black);
-  color: var(--color-aura-white);
+  background-color: var(--bg-base);
+  /* Fixed, so the soft top spotlight stays put instead of stretching down long pages. */
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* Faint film grain over the whole page; sits above the WebGL canvas. */
-.grain {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.06;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+/*
+ * Every card and boxed section. A layer, so utilities (padding, overflow) still
+ * override it. Put <MatteGrain variant="panel" /> inside and keep the content
+ * positioned so it sits above the grain.
+ */
+@layer components {
+  .matte-panel {
+    position: relative;
+    overflow: hidden;
+    background: var(--panel);
+    border: 2px solid var(--panel-border);
+    border-radius: 2px;
+    box-shadow: var(--panel-shadow);
+    transition:
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  @media (hover: hover) {
+    .matte-panel:hover {
+      border-color: var(--panel-border-hover);
+      box-shadow: var(--panel-shadow-hover);
+    }
+  }
 }
 
 /* Keyboard focus ring in brand gold. */

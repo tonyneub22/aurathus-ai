@@ -54,7 +54,7 @@ export default function AccordionGallery({ items }) {
                 aria-controls={regionId}
                 onClick={() => setOpen(i)}
                 onKeyDown={(e) => onKeyDown(e, i)}
-                className={`flex w-full items-center gap-4 px-6 py-5 text-left font-serif transition-colors duration-500 hover:text-aura-white md:px-5 md:py-6 ${isOpen ? 'text-aura-white md:flex-none' : 'cursor-pointer text-aura-white/70 md:flex-1 md:flex-col md:items-start md:justify-between'}`}
+                className={`flex w-full items-center gap-4 px-6 py-5 text-left font-serif transition-colors duration-500 hover:text-aura-heading md:px-5 md:py-6 ${isOpen ? 'text-aura-text md:flex-none' : 'cursor-pointer text-aura-muted md:flex-1 md:flex-col md:items-start md:justify-between'}`}
               >
                 <span className="text-[13px] font-medium tracking-[0.28em] text-aura-gold">{pad(i)}</span>
                 <span
@@ -81,11 +81,11 @@ export default function AccordionGallery({ items }) {
                   <span aria-hidden="true" className="block font-serif text-[72px] leading-none text-aura-gold/40">
                     &ldquo;
                   </span>
-                  <blockquote className="max-w-[34ch] font-serif text-[clamp(21px,2.1vw,28px)] font-light leading-snug text-aura-white">
+                  <blockquote className="max-w-[34ch] font-serif text-[clamp(21px,2.1vw,28px)] font-light leading-snug text-aura-text">
                     {item.quote}
                   </blockquote>
                   <figcaption className="mt-6 font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-gold/80">
-                    {item.name} <span className="text-aura-white/40">·</span> {item.role}
+                    {item.name} <span className="text-aura-muted">·</span> {item.role}
                   </figcaption>
                 </figure>
               </div>

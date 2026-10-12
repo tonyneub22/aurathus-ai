@@ -197,7 +197,7 @@ test.describe('brand and head', () => {
     expect(await attr('meta[property="og:image:alt"]', 'content')).toBeTruthy()
     expect(await attr('meta[name="twitter:card"]', 'content')).toBe('summary_large_image')
     expect(await attr('meta[name="twitter:image"]', 'content')).toBe('https://aurathus-ai.com/og-image.png')
-    expect(await attr('meta[name="theme-color"]', 'content')).toBe('#0a0a0b')
+    expect(await attr('meta[name="theme-color"]', 'content')).toBe('#080808')
 
     // Icons, manifest and the og image, as served by this build (the absolute URLs point at production).
     const paths = await page.locator('head link[rel="icon"], head link[rel="apple-touch-icon"], head link[rel="manifest"]')
@@ -209,7 +209,7 @@ test.describe('brand and head', () => {
       expect((await request.get(path)).status(), path).toBe(200)
     }
     const manifest = await (await request.get('/site.webmanifest')).json()
-    expect(manifest).toMatchObject({ name: 'Aurathus AI LLC', theme_color: '#0a0a0b', background_color: '#0a0a0b' })
+    expect(manifest).toMatchObject({ name: 'Aurathus AI LLC', theme_color: '#080808', background_color: '#080808' })
 
     await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }))
     await expect(page.getByRole('img', { name: 'Aurathus AI LLC' })).toBeVisible()
@@ -307,7 +307,8 @@ test.describe('header and menu', () => {
     await page.getByRole('button', { name: 'Menu' }).click()
     await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: 'Services', exact: true }).click()
     await expect(page).toHaveURL(/\/#services$/)
-    await expect(page.locator('#services')).toBeInViewport()
+    // Landing on home boots the WebGL hero, which can hold the main thread for seconds headless.
+    await expect(page.locator('#services')).toBeInViewport({ timeout: 20_000 })
   })
 
   test('the footer logo is labelled and links to the top', async ({ page }) => {

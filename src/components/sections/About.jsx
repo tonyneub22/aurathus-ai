@@ -37,7 +37,7 @@ export default function About() {
           <motion.p
             key={i}
             {...reveal(reduce, i * 0.12)}
-            className="font-serif text-[clamp(18px,1.5vw,21px)] leading-relaxed text-aura-white/80"
+            className="font-serif text-[clamp(18px,1.5vw,21px)] leading-relaxed text-aura-body"
           >
             {text}
           </motion.p>

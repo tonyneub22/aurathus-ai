@@ -18,7 +18,7 @@ export default function TechnicalDetails({ id, label, paragraphs }) {
           aria-expanded={open}
           aria-controls={panelId}
           onClick={() => setOpen((o) => !o)}
-          className="flex w-full items-center justify-between gap-6 border-y border-aura-line py-6 text-left font-serif text-[15px] font-medium uppercase tracking-[0.28em] text-aura-white transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
+          className="flex w-full items-center justify-between gap-6 border-y border-aura-line py-6 text-left font-serif text-[15px] font-medium uppercase tracking-[0.28em] text-aura-text transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
         >
           {label}
           <span
@@ -43,7 +43,7 @@ export default function TechnicalDetails({ id, label, paragraphs }) {
             >
               <div className="grid max-w-[68ch] gap-5 pb-6 pt-8">
                 {paragraphs.map((text) => (
-                  <p key={text.slice(0, 24)} className="font-serif text-[16px] leading-[1.8] text-aura-white/70">
+                  <p key={text.slice(0, 24)} className="font-serif text-[16px] leading-[1.8] text-aura-muted">
                     {text}
                   </p>
                 ))}

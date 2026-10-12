@@ -11,7 +11,7 @@ export default function ReadMoreLink({ to, label, ariaLabel }) {
       to={to}
       aria-label={ariaLabel}
       // The glow and the brightened rule double as the focus indicator.
-      className="group inline-flex items-center gap-5 whitespace-nowrap border-b border-aura-gold/40 pb-3 font-serif text-[12px] font-medium uppercase tracking-[0.34em] text-aura-white/90 transition-[color,border-color,box-shadow,text-shadow] duration-[400ms] ease-aura hover:border-aura-gold hover:text-aura-gold hover:shadow-[0_8px_18px_-10px_color-mix(in_srgb,var(--color-aura-gold)_70%,transparent)] hover:[text-shadow:0_0_14px_color-mix(in_srgb,var(--color-aura-gold)_55%,transparent)] focus-visible:border-aura-gold focus-visible:text-aura-gold focus-visible:shadow-[0_8px_18px_-10px_color-mix(in_srgb,var(--color-aura-gold)_70%,transparent)] focus-visible:outline-none focus-visible:[text-shadow:0_0_14px_color-mix(in_srgb,var(--color-aura-gold)_55%,transparent)]"
+      className="group inline-flex items-center gap-5 whitespace-nowrap border-b border-aura-gold/40 pb-3 font-serif text-[12px] font-medium uppercase tracking-[0.34em] text-aura-body transition-[color,border-color,box-shadow,text-shadow] duration-[400ms] ease-aura hover:border-aura-gold hover:text-aura-gold hover:shadow-[0_8px_18px_-10px_color-mix(in_srgb,var(--color-aura-gold)_70%,transparent)] hover:[text-shadow:0_0_14px_color-mix(in_srgb,var(--color-aura-gold)_55%,transparent)] focus-visible:border-aura-gold focus-visible:text-aura-gold focus-visible:shadow-[0_8px_18px_-10px_color-mix(in_srgb,var(--color-aura-gold)_70%,transparent)] focus-visible:outline-none focus-visible:[text-shadow:0_0_14px_color-mix(in_srgb,var(--color-aura-gold)_55%,transparent)]"
     >
       {label}
       <span

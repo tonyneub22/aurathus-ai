@@ -25,11 +25,12 @@ Playwright writes review screenshots to `e2e/screenshots/`.
 
 - `src/config/site.js` — every piece of copy, link and attribution. No copy in components.
 - `src/config/services.js` — the four services, in display order (the home-page rows and `/services/:slug` pages render from it). Copy is final as supplied by Anthony; don't reword it.
-- `src/styles/theme.css` — brand tokens (`--color-aura-*`, `--ease-aura*`, fonts). Components use Tailwind classes built on these.
+- `src/styles/theme.css` — brand tokens (`--color-aura-*`, `--ease-aura*`, fonts) and the matte surface tokens (`--bg-*`, `--panel*`, `--text*`). Components use Tailwind classes built on these. Text uses `text-aura-heading`, `-text`, `-body` or `-muted` (all clear 4.5:1 on page and panels; `contrast.test.js`), never dimmed white.
+- Every card and boxed section is a `.matte-panel` (theme.css) with `<MatteGrain variant="panel" />` inside and its content positioned above it. `App.jsx` mounts the one page-wide `<MatteGrain variant="page" />`. Keep the grain subtle: if the page reads grey, lower the page opacities.
 - `src/three/` — framework-free WebGL. `layout.js` is pure math (unit tested). `statueScene.js` builds the scene and returns a controller. No React imports here.
 - `src/components/hero/` — the hero. `StatueCanvas.jsx` and `effects/LaserFlow.jsx` are the only React files that drive three.js scenes, and both are lazy-loaded.
 - `src/components/sections/` — the home-page boxes (Services, Client Testimonials, Why Choose Us?, About), all built on `Panel.jsx`. Their copy is **placeholder** until replaced in `site.js`.
-- `src/components/effects/` — the gold beam from the hero ring to the Services box, and the Ghost Fibers background behind About. `ServicesBeam.jsx` places it using the pure math in `src/three/beam.js` and `layout.js` (`ringScreenPosition`).
+- `src/components/effects/` — `MatteGrain.jsx` (static SVG noise), the gold beam from the hero ring to the Services box, and the Ghost Fibers background behind About. `ServicesBeam.jsx` places it using the pure math in `src/three/beam.js` and `layout.js` (`ringScreenPosition`).
 - `src/three/palette.js` — brand colours for WebGL. Must match `theme.css` (tested). The beam uses `RING_LIGHT` (the ring as rendered), not the raw gold.
 - `src/components/layout/header/` — the fixed header on every page: Home icon left (`HomeLink`, to `/#top`), hamburger right (`MenuButton`) opening a slide-in `MenuPanel`. `useMenu` owns open/close, Esc, focus trap, focus return and scroll lock. Labels and links come from `site.nav`; links use the `/#id` form so they work from `/consult`.
 - `src/components/brand/` — loading indicator, attribution. These survive redesigns.
@@ -44,7 +45,7 @@ Playwright writes review screenshots to `e2e/screenshots/`.
 - Brand pack: `brand-source/aurathus-ai-brand/` (plain assets, never run anything from it). Copies live in `public/brand/` (logos, icons) and the `public/` root (favicons, manifest, og image).
 - Every logo is made for dark backgrounds. Never place one on a light surface.
 - `aurathus-icon.svg` is ~300 KB with ~680 paths: only as an `<img>` at 64px or larger, never inline. Anything smaller uses `aurathus-icon-small.svg`.
-- Site colours stay as defined in `theme.css` (gold `#D4C39A`, black `#0A0A0B`, …). The brand pack's artwork colours (`#c9a24a`, `#000`) are for the logo files only.
+- Site colours stay as defined in `theme.css` (gold `#D4C39A`, black `#080808`, …). The brand pack's artwork colours (`#c9a24a`, `#000`) are for the logo files only.
 
 ## Code style
 
@@ -57,4 +58,4 @@ Playwright writes review screenshots to `e2e/screenshots/`.
 
 ## Design direction
 
-Dark warm black, champagne gold (`#D4C39A` from the logo), bone white. Classical serif (Cormorant Garamond) set light and wide; the same serif, in wide-tracked caps, for small labels (matches the logo lettering; no sans). One light source. Motion is slow, eased and purposeful; no bouncing, no parallax for its own sake. When in doubt, remove something.
+Matte black page, warm charcoal matte panels framed in gold, champagne gold (`#D4C39A` from the logo), bone white. Classical serif (Cormorant Garamond) set light and wide; the same serif, in wide-tracked caps, for small labels (matches the logo lettering; no sans). One light source. Motion is slow, eased and purposeful; no bouncing, no parallax for its own sake. When in doubt, remove something.

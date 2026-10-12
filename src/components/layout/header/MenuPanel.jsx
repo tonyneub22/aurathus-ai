@@ -39,7 +39,7 @@ export default function MenuPanel({ id, open, onClose, panelRef }) {
                 <Link
                   to={link.href}
                   onClick={onClose}
-                  className="inline-block py-3 font-serif text-[15px] font-medium uppercase tracking-[0.28em] text-aura-white/70 transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
+                  className="inline-block py-3 font-serif text-[15px] font-medium uppercase tracking-[0.28em] text-aura-muted transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
                 >
                   {link.label}
                 </Link>
@@ -50,7 +50,7 @@ export default function MenuPanel({ id, open, onClose, panelRef }) {
         <Link
           to={cta.href}
           onClick={onClose}
-          className="mt-10 self-start border border-aura-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-white transition-colors duration-500 hover:border-aura-gold focus-visible:border-aura-gold"
+          className="mt-10 self-start border border-aura-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-text transition-colors duration-500 hover:border-aura-gold focus-visible:border-aura-gold"
         >
           {cta.label}
         </Link>

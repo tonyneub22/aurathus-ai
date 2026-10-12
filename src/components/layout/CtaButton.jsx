@@ -10,7 +10,7 @@ export default function CtaButton({ to, className = '', children, ...props }) {
     <MotionLink
       {...props}
       to={to}
-      className={`group inline-flex items-center gap-4 border border-aura-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-white transition-colors duration-500 hover:border-aura-gold ${className}`}
+      className={`group inline-flex items-center gap-4 border border-aura-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-text transition-colors duration-500 hover:border-aura-gold ${className}`}
     >
       {children}
       <span

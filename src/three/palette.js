@@ -5,7 +5,7 @@
  */
 export const GOLD = '#d4c39a' // --color-aura-gold, the logo's ring
 export const GOLD_HOT = '#f3dfb4' // --color-aura-gold-hot, highlight on the ring rim
-export const SURFACE = '#11100e' // --color-aura-black-2, the raised surface the section boxes use
+export const SURFACE = '#1e1c1a' // --color-aura-black-2, the matte panel's midpoint, so the About fibers blend into their box
 export const GOLD_SOFT = '#a29578' // --color-aura-gold-soft, the quieter gold
 // The ring on the statue is additively blended and tone-mapped, so on screen it
 // is a brighter yellow-gold than GOLD. Measured from the hero screenshot: core

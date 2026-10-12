@@ -1,10 +1,11 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { reveal } from './reveal'
+import MatteGrain from '../effects/MatteGrain'
 
 /**
  * The framed box every home-page section lives in: a labelled region with a
- * title and the raised surface. `decoration` renders behind the content (a glow,
- * a background); `boxProps` / `boxClassName` land on the box itself.
+ * title and the matte panel surface. `decoration` renders behind the grain and
+ * the content (a glow, a background); `boxProps` / `boxClassName` land on the box itself.
  */
 export default function Panel({ id, title, decoration, boxProps, boxClassName = '', spacing = 'pb-14', children }) {
   const reduce = useReducedMotion()
@@ -18,14 +19,15 @@ export default function Panel({ id, title, decoration, boxProps, boxClassName = 
     >
       <div
         {...boxProps}
-        className={`relative border border-aura-line bg-aura-black-2 px-6 py-12 sm:px-12 lg:px-16 lg:py-16 ${boxClassName}`}
+        className={`matte-panel px-6 py-12 sm:px-12 lg:px-16 lg:py-16 ${boxClassName}`}
       >
         {decoration}
+        <MatteGrain variant="panel" />
         <div className="relative">
           <motion.h2
             {...reveal(reduce)}
             id={titleId}
-            className="font-serif text-[clamp(28px,3vw,40px)] font-light uppercase leading-none tracking-[0.2em] text-aura-white"
+            className="font-serif text-[clamp(28px,3vw,40px)] font-light uppercase leading-none tracking-[0.2em] text-aura-heading"
           >
             {title}
           </motion.h2>

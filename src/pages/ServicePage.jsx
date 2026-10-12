@@ -26,7 +26,6 @@ function ServiceDetail({ service }) {
 
   return (
     <>
-      <div className="grain" aria-hidden="true" />
       <SiteHeader />
       {/* Clip so the title ring never widens the page. */}
       <main className="relative z-10 overflow-x-clip">
@@ -35,24 +34,24 @@ function ServiceDetail({ service }) {
           <div className="relative">
             <h1
               id="service-title"
-              className="max-w-[14ch] font-serif text-[clamp(34px,7vw,84px)] font-light uppercase leading-[1] tracking-[0.08em] text-aura-white"
+              className="max-w-[14ch] font-serif text-[clamp(34px,7vw,84px)] font-light uppercase leading-[1] tracking-[0.08em] text-aura-heading"
             >
               {service.name}
             </h1>
-            <p className="mt-8 max-w-[60ch] font-serif text-[clamp(19px,1.6vw,22px)] font-light leading-relaxed text-aura-white/80">
+            <p className="mt-8 max-w-[60ch] font-serif text-[clamp(19px,1.6vw,22px)] font-light leading-relaxed text-aura-body">
               {service.startLine}
             </p>
             <div className="mt-12">
               <ConsultCta service={service} />
             </div>
-            <p className="mt-10 font-serif text-[17px] italic text-aura-white/50">{service.pricingNote}</p>
+            <p className="mt-10 font-serif text-[17px] italic text-aura-muted">{service.pricingNote}</p>
           </div>
         </section>
 
         <section aria-labelledby="plans-title" className={`pb-16 lg:pb-20 ${container}`}>
           <h2
             id="plans-title"
-            className="mb-10 font-serif text-[clamp(28px,3vw,40px)] font-light uppercase leading-none tracking-[0.2em] text-aura-white lg:mb-14"
+            className="mb-10 font-serif text-[clamp(28px,3vw,40px)] font-light uppercase leading-none tracking-[0.2em] text-aura-heading lg:mb-14"
           >
             {page.plans}
           </h2>
@@ -68,7 +67,7 @@ function ServiceDetail({ service }) {
           <ConsultCta service={service} centered />
           <Link
             to={page.back.href}
-            className="font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-white/50 transition-colors duration-500 hover:text-aura-white"
+            className="font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-muted transition-colors duration-500 hover:text-aura-heading"
           >
             {page.back.label}
           </Link>

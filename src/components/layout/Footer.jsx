@@ -21,7 +21,7 @@ export default function Footer({ credit = false }) {
           draggable={false}
         />
       </Link>
-      <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-4 font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-white/50">
+      <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-4 font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-muted">
         <span>{site.footer.text}</span>
         <a
           href={`mailto:${site.contact.email}`}

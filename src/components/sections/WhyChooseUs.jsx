@@ -20,10 +20,10 @@ export default function WhyChooseUs() {
             <span aria-hidden="true" className="font-serif text-[clamp(48px,5vw,64px)] font-light leading-none text-aura-gold lining-nums">
               {i + 1}
             </span>
-            <h3 className="font-serif text-[28px] font-normal leading-[1.1] tracking-[0.04em] text-aura-white">
+            <h3 className="font-serif text-[28px] font-normal leading-[1.1] tracking-[0.04em] text-aura-heading">
               {item.title}
             </h3>
-            <p className="max-w-[44ch] font-serif text-[17px] leading-relaxed text-aura-white/60">{item.body}</p>
+            <p className="max-w-[44ch] font-serif text-[17px] leading-relaxed text-aura-muted">{item.body}</p>
           </motion.li>
         ))}
       </ol>

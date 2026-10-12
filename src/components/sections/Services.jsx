@@ -17,7 +17,7 @@ function BeamGlow() {
   const place = { left: 'var(--beam-x, 50%)', opacity: 'var(--beam-glow, 0)' }
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0">
-      <div className="absolute -top-px h-px w-[min(360px,70%)] -translate-x-1/2 bg-gradient-to-r from-transparent via-aura-ring to-transparent transition-opacity duration-1000" style={place} />
+      <div className="absolute -top-[2px] h-[2px] w-[min(360px,70%)] -translate-x-1/2 bg-gradient-to-r from-transparent via-aura-ring to-transparent transition-opacity duration-1000" style={place} />
       <div className="absolute top-0 h-20 w-[min(520px,90%)] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-1000" style={{ ...place, background: BLOOM }} />
     </div>
   )
@@ -34,6 +34,8 @@ export default function Services() {
       spacing="pb-14 pt-24"
       // The box stays put (no reveal transform): the beam is aimed at its top edge.
       boxProps={{ 'data-beam-target': '' }}
+      // Unclipped, so the glow can sit on the top border and bloom above it.
+      boxClassName="overflow-visible"
       decoration={<BeamGlow />}
     >
       <div className="mt-10 grid gap-5 lg:mt-14">

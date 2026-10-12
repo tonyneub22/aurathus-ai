@@ -13,7 +13,7 @@ const MenuButton = forwardRef(function MenuButton({ open, controls, onClick }, r
       aria-expanded={open}
       aria-controls={controls}
       onClick={onClick}
-      className="relative h-11 w-11 text-aura-white transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
+      className="relative h-11 w-11 text-aura-text transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
     >
       <span aria-hidden="true" className={`${bar} ${open ? 'rotate-45' : '-translate-y-[7px]'}`} />
       <span aria-hidden="true" className={`${bar} ${open ? 'opacity-0' : ''}`} />

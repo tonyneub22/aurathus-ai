@@ -4,6 +4,7 @@ import { serviceBySlug } from '../config/services'
 import usePageMeta from '../lib/usePageMeta'
 import ConsultForm from '../components/consult/ConsultForm'
 import SiteHeader from '../components/layout/header/SiteHeader'
+import MatteGrain from '../components/effects/MatteGrain'
 
 export default function ConsultRequest() {
   const { consult } = site
@@ -15,7 +16,6 @@ export default function ConsultRequest() {
 
   return (
     <>
-      <div className="grain" aria-hidden="true" />
       <SiteHeader />
       <div className="relative z-10 mx-auto w-full max-w-[720px] px-5 pb-20 pt-32 sm:px-10">
         <main>
@@ -25,20 +25,25 @@ export default function ConsultRequest() {
             </p>
             <h1
               id="consult-title"
-              className="mt-4 font-serif text-[clamp(36px,6vw,64px)] font-light uppercase leading-[1.05] tracking-[0.08em] text-aura-white"
+              className="mt-4 font-serif text-[clamp(36px,6vw,64px)] font-light uppercase leading-[1.05] tracking-[0.08em] text-aura-heading"
             >
               {consult.title}
             </h1>
-            <p className="mb-12 mt-5 max-w-[46ch] font-serif text-[18px] leading-relaxed text-aura-white/60">
+            <p className="mb-12 mt-5 max-w-[46ch] font-serif text-[18px] leading-relaxed text-aura-muted">
               {consult.intro}
             </p>
-            <ConsultForm interest={interest} />
+            <div className="matte-panel px-6 py-10 sm:px-10 sm:py-12">
+              <MatteGrain variant="panel" />
+              <div className="relative">
+                <ConsultForm interest={interest} />
+              </div>
+            </div>
           </section>
         </main>
 
         <Link
           to="/"
-          className="mt-16 inline-block font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-white/50 transition-colors hover:text-aura-white"
+          className="mt-16 inline-block font-serif text-[13px] font-medium uppercase tracking-[0.28em] text-aura-muted transition-colors hover:text-aura-heading"
         >
           {consult.back}
         </Link>
