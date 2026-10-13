@@ -3,7 +3,7 @@ import MatteGrain from '../effects/MatteGrain'
 /** The band under the plans: what every plan comes with. */
 export default function IncludesBand({ includes }) {
   return (
-    <div data-testid="includes" className="matte-panel mt-6 px-8 py-8 lg:px-10 lg:py-10">
+    <div data-testid="includes" className="matte-panel mt-6 p-6 sm:p-7 lg:p-8">
       <MatteGrain variant="panel" />
       <div className="relative">
         <h3 className="font-serif text-[13px] font-medium uppercase tracking-[0.3em] text-aura-gold/80">{includes.heading}</h3>

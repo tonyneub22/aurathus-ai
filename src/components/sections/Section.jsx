@@ -8,7 +8,7 @@ export const sectionTitle = 'font-serif text-[clamp(28px,3vw,40px)] font-light u
  * title. Space separates sections, not frames. `aside` sets the title in a
  * left column on wide screens, with the content beside it.
  */
-export default function Section({ id, title, aside = false, className = 'py-28 lg:py-40', children }) {
+export default function Section({ id, title, aside = false, className = 'py-24 lg:py-32', children }) {
   const reduce = useReducedMotion()
   const titleId = `${id}-title`
   const heading = (
@@ -25,7 +25,8 @@ export default function Section({ id, title, aside = false, className = 'py-28 l
     >
       {aside ? (
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-4">{heading}</div>
+          {/* Pinned while the content beside it scrolls, so the column never sits empty. */}
+          <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">{heading}</div>
           <div className="lg:col-span-8">{children}</div>
         </div>
       ) : (

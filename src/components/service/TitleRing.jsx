@@ -9,7 +9,7 @@ export default function TitleRing() {
     <svg
       aria-hidden="true"
       viewBox="0 0 200 200"
-      className="pointer-events-none absolute -right-[14vw] top-20 w-[66vw] opacity-40 sm:-right-[6vw] sm:w-[52vw] [filter:drop-shadow(0_0_10px_color-mix(in_srgb,var(--color-aura-ring)_45%,transparent))] lg:right-0 lg:top-1/2 lg:w-[min(560px,46vw)] lg:-translate-y-1/2 lg:opacity-80"
+      className="pointer-events-none absolute -right-[18vw] top-14 w-[56vw] opacity-25 sm:-right-[6vw] sm:w-[46vw] sm:opacity-35 [filter:drop-shadow(0_0_10px_color-mix(in_srgb,var(--color-aura-ring)_45%,transparent))] lg:right-0 lg:top-1/2 lg:w-[min(520px,42vw)] lg:-translate-y-1/2 lg:opacity-70"
     >
       <motion.circle
         cx="100"

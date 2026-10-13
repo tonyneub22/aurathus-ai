@@ -89,8 +89,9 @@ test.describe('home: services', () => {
       expect(boxes[0].p).toBeGreaterThan(boxes[0].h3)
       expect(boxes[0].a).toBeGreaterThan(boxes[0].p)
     } else {
-      // Stacked: card line and Read more start at the row's left edge.
-      expect(boxes[0].a).toBe(boxes[0].p)
+      // Phones: the card line starts under the name; the arrow sits beside the name.
+      expect(boxes[0].p).toBe(boxes[0].h3)
+      expect(boxes[0].a).toBeGreaterThan(boxes[0].h3 + 150)
     }
   })
 

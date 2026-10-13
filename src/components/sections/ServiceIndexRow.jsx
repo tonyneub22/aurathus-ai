@@ -20,18 +20,21 @@ export default function ServiceIndexRow({ service, index }) {
       />
       <motion.div
         {...reveal(reduce, index * 0.1)}
-        className="grid gap-y-4 py-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_10.5rem] lg:items-baseline lg:gap-x-12 lg:py-12"
+        className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-6 gap-y-3 py-6 md:grid-cols-[minmax(0,4fr)_minmax(0,6fr)_9.5rem] md:items-baseline md:gap-x-10 lg:py-7"
       >
-        <h3 className="font-serif text-[clamp(32px,3.4vw,50px)] font-light leading-[1.05] tracking-[0.01em] text-aura-heading transition-colors duration-500 group-focus-within:text-aura-gold-hot group-hover:text-aura-gold-hot">
+        <h3 className="font-serif text-[clamp(24px,2.3vw,32px)] font-normal leading-[1.15] tracking-[0.01em] text-aura-heading transition-colors duration-500 group-focus-within:text-aura-gold-hot group-hover:text-aura-gold-hot">
           {service.name}
         </h3>
-        <p className="max-w-[46ch] font-sans text-[17px] leading-[1.7] text-aura-body">{service.cardLine}</p>
-        <div className="pt-2 lg:pt-0">
+        <p className="col-span-2 max-w-[52ch] font-sans md:col-span-1 text-[16px] leading-[1.6] text-aura-body">{service.cardLine}</p>
+        {/* Phones: the arrow alone, beside the name. Wider: the full Read more in its own column.
+            Never positioned itself, so the stretched link still covers the whole row. */}
+        <div className="col-start-2 row-start-1 self-center md:col-start-auto md:row-start-auto md:self-auto">
           <ReadMoreLink
             to={`/services/${service.slug}`}
             label={services.readMore}
             ariaLabel={services.readMoreAbout(service.name)}
             stretched
+            compact
           />
         </div>
       </motion.div>

@@ -29,15 +29,15 @@ export default function Services() {
   const { cta } = site.hero
 
   return (
-    <Section id="services" title={site.services.title} className="pb-28 pt-24 lg:pb-40">
+    <Section id="services" title={site.services.title} className="pb-24 pt-24 lg:pb-32">
       {/* The beam is aimed at this rule; it stays put (no reveal transform). */}
-      <div data-beam-target="" className="relative mt-12 border-t border-aura-gold/25 lg:mt-16">
+      <div data-beam-target="" className="relative mt-10 border-t border-aura-gold/25 lg:mt-12">
         <BeamGlow />
         {services.map((service, i) => (
           <ServiceIndexRow key={service.slug} service={service} index={i} />
         ))}
       </div>
-      <CtaButton {...reveal(reduce, 0.2)} to={cta.href} className="mt-14">
+      <CtaButton {...reveal(reduce, 0.2)} to={cta.href} className="mt-12">
         {cta.label}
       </CtaButton>
     </Section>
