@@ -5,10 +5,12 @@ export const sectionTitle = 'font-serif text-[clamp(28px,3vw,40px)] font-light u
 
 /**
  * An unboxed home-page section on the matte page: a labelled region with its
- * title. Space separates sections, not frames. `aside` sets the title in a
- * left column on wide screens, with the content beside it.
+ * title. Space separates sections, not frames. `figure` sets an image in a
+ * left column on wide screens with the title and content beside it, and above
+ * them on smaller screens. Its glow may spill past the section; the page's
+ * <main> clips sideways, so it never widens the page.
  */
-export default function Section({ id, title, aside = false, className = 'py-24 lg:py-32', children }) {
+export default function Section({ id, title, figure, className = 'py-24 lg:py-32', children }) {
   const reduce = useReducedMotion()
   const titleId = `${id}-title`
   const heading = (
@@ -23,11 +25,14 @@ export default function Section({ id, title, aside = false, className = 'py-24 l
       aria-labelledby={titleId}
       className={`relative z-10 mx-auto w-full max-w-[1180px] px-5 sm:px-10 xl:px-0 ${className}`}
     >
-      {aside ? (
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* Pinned while the content beside it scrolls, so the column never sits empty. */}
-          <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">{heading}</div>
-          <div className="lg:col-span-8">{children}</div>
+      {figure ? (
+        <div className="grid items-end gap-14 lg:grid-cols-12 lg:gap-16">
+          {/* Bleeds a little past the column on wide screens. */}
+          <div className="lg:col-span-5 lg:-ml-10">{figure}</div>
+          <div className="lg:col-span-7 lg:pb-6">
+            {heading}
+            <div className="mt-10 lg:mt-12">{children}</div>
+          </div>
         </div>
       ) : (
         <>

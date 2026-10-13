@@ -1,8 +1,9 @@
 import { Link } from 'react-router'
 import { site } from '../../config/site'
 import StatueCredit from '../brand/StatueCredit'
+import ImageCredit from '../brand/ImageCredit'
 
-/** `credit`: show the CC BY statue credit. Only pages that show the statue (home) need it. */
+/** `credit`: show the statue credits (the CC BY hero figure, the Met Thinker). Only home shows them. */
 export default function Footer({ credit = false }) {
   return (
     <footer
@@ -31,7 +32,12 @@ export default function Footer({ credit = false }) {
         </a>
         <span>{site.location}</span>
       </div>
-      {credit && <StatueCredit className="mt-8" />}
+      {credit && (
+        <>
+          <StatueCredit className="mt-8" />
+          <ImageCredit className="mt-2" />
+        </>
+      )}
     </footer>
   )
 }

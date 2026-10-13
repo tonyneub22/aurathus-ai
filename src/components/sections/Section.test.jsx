@@ -14,12 +14,15 @@ describe('<Section />', () => {
     expect(container.querySelector('.matte-panel')).not.toBeInTheDocument()
   })
 
-  it('can set the title in a column beside the content', () => {
+  it('sets a figure in its own column, before the title and content', () => {
     render(
-      <Section id="demo" title="Demo" aside>
+      <Section id="demo" title="Demo" figure={<img alt="" data-testid="fig" />}>
         <p>Body</p>
       </Section>,
     )
-    expect(screen.getByRole('heading', { level: 2, name: 'Demo' }).parentElement).toHaveClass('lg:col-span-4')
+    const fig = screen.getByTestId('fig')
+    const heading = screen.getByRole('heading', { level: 2, name: 'Demo' })
+    expect(fig.compareDocumentPosition(heading) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(fig.parentElement).toHaveClass('lg:col-span-5')
   })
 })

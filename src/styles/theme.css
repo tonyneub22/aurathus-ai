@@ -122,6 +122,43 @@ html {
   scrollbar-color: #4a3727 var(--bg-base);
 }
 
+/*
+ * Candlelight halo behind the Why Us statue (WhyStatue.jsx). Only transform and
+ * opacity move; the blur and mask are static, so the browser rasterises the
+ * layer once and turns it on the compositor. Paused while off screen.
+ */
+@keyframes aura-halo-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes aura-halo-breath {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .why-halo-turn {
+    animation: aura-halo-turn 21s linear infinite;
+    will-change: transform;
+  }
+
+  .why-halo-breath {
+    animation: aura-halo-breath 8s var(--ease-aura-soft) infinite;
+  }
+
+  [data-active='false'] .why-halo-turn,
+  [data-active='false'] .why-halo-breath {
+    animation-play-state: paused;
+  }
+}
+
 /* Keyboard focus ring in brand gold. */
 :focus-visible {
   outline: 1px solid var(--color-aura-gold);

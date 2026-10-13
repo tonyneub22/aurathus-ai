@@ -26,4 +26,18 @@ describe('<Footer />', () => {
     render(<Footer credit />)
     expect(screen.getByTestId('statue-credit')).toBeInTheDocument()
   })
+
+  it('credits the Met photograph of the Thinker beside the David credit, with its link', () => {
+    const { unmount } = render(<Footer />)
+    expect(screen.queryByTestId('image-credit')).not.toBeInTheDocument()
+    unmount()
+    render(<Footer credit />)
+    const credit = screen.getByTestId('image-credit')
+    expect(credit).toHaveTextContent('The Thinker')
+    expect(credit).toHaveTextContent('Auguste Rodin')
+    expect(credit).toHaveTextContent('Public Domain (CC0)')
+    const link = screen.getByRole('link', { name: 'The Thinker' })
+    expect(link).toHaveAttribute('href', 'https://www.metmuseum.org/art/collection/search/191811')
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+  })
 })

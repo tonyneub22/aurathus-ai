@@ -137,12 +137,15 @@ test.describe('home page', () => {
       }, id)
       // Wait for the on-screen reveal fades to finish rather than guessing a delay: headless
       // software GL is slow, and anything below the fold legitimately hasn't revealed yet.
+      // A reveal fires once a quarter of its element is visible, so a sliver at the
+      // screen's edge stays hidden by design; only wait on what is well in view.
       await page.waitForFunction(
         (target) =>
           [...document.querySelectorAll(`#${target} h2, #${target} h3, #${target} p, #${target} a, #${target} li`)]
             .filter((el) => {
               const r = el.getBoundingClientRect()
-              return r.top < window.innerHeight && r.bottom > 0
+              const seen = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0)
+              return r.height > 0 && seen / r.height > 0.4
             })
             .every((el) => getComputedStyle(el).opacity === '1'),
         id,

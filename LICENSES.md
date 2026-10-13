@@ -18,6 +18,21 @@ Attribution for CC BY assets must stay visible on the site wherever the asset ap
 - **Downloaded:** 2026-10-03
 - **License checked:** 2026-10-03 (license.txt bundled with the download confirms CC-BY-4.0)
 
+## Images
+
+### The Thinker — Auguste Rodin, via The Met
+
+- **Used in:** the Why Choose Us section on the home page (`src/components/sections/WhyStatue.jsx`)
+- **Object:** *The Thinker*, Auguste Rodin (French, Paris 1840–1917 Meudon), modeled ca. 1880, cast ca. 1910. Bronze. The Metropolitan Museum of Art, Gift of Thomas F. Ryan, 1910 (11.173.9).
+- **Object page:** https://www.metmuseum.org/art/collection/search/191811
+- **Image:** `DP-13618-012.jpg`, the object's primary image (`https://images.metmuseum.org/CRDImages/es/original/DP-13618-012.jpg`)
+- **License:** Public Domain (CC0), via The Met Open Access. The collection API record for object 191811 reports `isPublicDomain: true` and names this file as its primary image.
+- **Files:** untouched original in `brand-source/met/the-thinker-DP-13618-012.jpg` (not served); optimised exports in `public/images/why/` (AVIF and WebP, 400 and 800 px wide). Never hotlinked.
+- **Modifications made:** background removed (macOS Vision subject lift, edge decontaminated and the matte tightened ~1px), re-graded to the hero's warm stone (slightly desaturated, warmed, shadows opened, keyed from the upper left), resized and compressed.
+- **Credit shown on site:** not required by CC0; given anyway in the home footer beside the David credit (`src/components/brand/ImageCredit.jsx`, strings in `site.whyUs.statue.credit`). Covered by `site.test.js` and `Footer.test.jsx`.
+- **Downloaded:** 2026-10-13
+- **License checked:** 2026-10-13
+
 ## Own brand assets
 
 - `public/brand/aurathus-*`, the favicons, `site.webmanifest` and `og-image.png` in `public/` are Aurathus AI LLC's own brand assets, from `brand-source/aurathus-ai-brand/`. The wordmark is Cormorant Garamond (SIL OFL 1.1) converted to outlines.
@@ -25,6 +40,7 @@ Attribution for CC BY assets must stay visible on the site wherever the asset ap
 ## Fonts
 
 - **Cormorant Garamond** — SIL Open Font License 1.1, served by Google Fonts
+- **Hanken Grotesk** — SIL Open Font License 1.1, served by Google Fonts
 
 ## Code
 

@@ -2,14 +2,15 @@ import { motion, useReducedMotion } from 'motion/react'
 import { site } from '../../config/site'
 import Section from './Section'
 import { reveal } from './reveal'
+import WhyStatue from './WhyStatue'
 
-/** The reasons, unboxed: the title holds the left column, four short statements under gold rules fill the right. */
+/** The reasons beside Rodin's Thinker: the figure holds the left column, title and four ruled statements the right. */
 export default function WhyChooseUs() {
   const reduce = useReducedMotion()
   const { whyUs } = site
 
   return (
-    <Section id="why-us" title={whyUs.title} aside>
+    <Section id="why-us" title={whyUs.title} figure={<WhyStatue />}>
       <ul className="grid gap-x-12 gap-y-10 md:grid-cols-2 lg:gap-y-12">
         {whyUs.items.map((item, i) => (
           <motion.li key={item.title} {...reveal(reduce, (i % 2) * 0.12)} className="grid content-start gap-3 border-t border-aura-gold/25 pt-6">
