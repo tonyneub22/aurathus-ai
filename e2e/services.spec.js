@@ -95,6 +95,21 @@ test.describe('home: services', () => {
     }
   })
 
+  test('hovering a row changes no sizes: Read more stays on one line and the row keeps its height', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'hover is a pointer interaction')
+    await page.goto('/')
+    const row = page.getByRole('region', { name: 'Services' }).getByRole('article').nth(1)
+    await row.scrollIntoViewIfNeeded()
+    await page.waitForTimeout(2500) // reveals finished
+    const measure = () => row.evaluate((el) => ({ row: el.getBoundingClientRect().height, link: el.querySelector('a').getBoundingClientRect().height }))
+    const before = await measure()
+    await row.hover({ position: { x: 40, y: 30 } })
+    await page.waitForTimeout(1200) // hover transitions finished
+    const after = await measure()
+    expect(after).toEqual(before)
+    expect(after.link).toBeLessThan(36) // one line
+  })
+
   test('the whole index row is the link, not only its label', async ({ page }) => {
     await page.goto('/')
     const row = page.getByRole('region', { name: 'Services' }).getByRole('article').nth(1)
