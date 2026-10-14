@@ -5,6 +5,7 @@ import ConsultRequest from './pages/ConsultRequest'
 import NotFound from './pages/NotFound'
 import ScrollManager from './components/routing/ScrollManager'
 import MatteGrain from './components/effects/MatteGrain'
+import SmoothScroll from './components/routing/SmoothScroll'
 
 // Service pages are their own chunk, so the home bundle doesn't carry them.
 // vercel.json rewrites every path to index.html so deep links load in production.
@@ -13,6 +14,7 @@ const ServicePage = lazy(() => import('./pages/ServicePage'))
 export function AppRoutes() {
   return (
     <>
+      <SmoothScroll />
       <ScrollManager />
       {/* One matte layer for every page, between the body background and the content. */}
       <MatteGrain variant="page" />

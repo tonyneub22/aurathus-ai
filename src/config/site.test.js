@@ -32,24 +32,6 @@ describe('statue attribution', () => {
   })
 })
 
-describe('Why Us statue', () => {
-  const { statue } = site.whyUs
-
-  it('credits The Met object and its public-domain licence', () => {
-    expect(statue.credit).toMatchObject({ title: 'The Thinker', artist: 'Auguste Rodin', license: 'Public Domain (CC0)' })
-    expect(statue.credit.titleUrl).toBe('https://www.metmuseum.org/art/collection/search/191811')
-    expect(statue.credit.changes).toMatch(/background removed/i)
-  })
-
-  it('points at image files shipped with the site, never the Met host', () => {
-    const files = [statue.src, ...statue.sources.flatMap((s) => s.srcSet.split(',').map((part) => part.trim().split(' ')[0]))]
-    for (const file of files) {
-      expect(file).toMatch(/^\/images\/why\//)
-      expect(existsSync(resolve(process.cwd(), 'public', file.slice(1)))).toBe(true)
-    }
-  })
-})
-
 describe('copy', () => {
   it('has the hero headline and subtitle', () => {
     expect(site.hero.headline.join(' ')).toBe('Aurathus AI')

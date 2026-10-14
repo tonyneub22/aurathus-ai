@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { EASE } from '../sections/reveal'
+import { EASE } from '../../lib/ease'
 
 /** Collapsed-by-default disclosure for the technical paragraphs. A plus turns into a cross when open. */
 export default function TechnicalDetails({ id, label, paragraphs }) {

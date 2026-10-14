@@ -20,18 +20,7 @@ Attribution for CC BY assets must stay visible on the site wherever the asset ap
 
 ## Images
 
-### The Thinker — Auguste Rodin, via The Met
-
-- **Used in:** the Why Choose Us section on the home page (`src/components/sections/WhyStatue.jsx`)
-- **Object:** *The Thinker*, Auguste Rodin (French, Paris 1840–1917 Meudon), modeled ca. 1880, cast ca. 1910. Bronze. The Metropolitan Museum of Art, Gift of Thomas F. Ryan, 1910 (11.173.9).
-- **Object page:** https://www.metmuseum.org/art/collection/search/191811
-- **Image:** `DP-13618-012.jpg`, the object's primary image (`https://images.metmuseum.org/CRDImages/es/original/DP-13618-012.jpg`)
-- **License:** Public Domain (CC0), via The Met Open Access. The collection API record for object 191811 reports `isPublicDomain: true` and names this file as its primary image.
-- **Files:** untouched original in `brand-source/met/the-thinker-DP-13618-012.jpg` (not served); optimised exports in `public/images/why/` (AVIF and WebP, 400 and 800 px wide). Never hotlinked.
-- **Modifications made:** background removed (macOS Vision subject lift, edge decontaminated and the matte tightened ~1px), re-graded to the hero's warm stone (slightly desaturated, warmed, shadows opened, keyed from the upper left), resized and compressed.
-- **Credit shown on site:** not required by CC0; given anyway in the home footer beside the David credit (`src/components/brand/ImageCredit.jsx`, strings in `site.whyUs.statue.credit`). Covered by `site.test.js` and `Footer.test.jsx`.
-- **Downloaded:** 2026-10-13
-- **License checked:** 2026-10-13
+- None. (Rodin's *The Thinker*, The Met, CC0, was used in Why Us from 2026-10-13 and removed on 2026-10-14; see git history.)
 
 ## Own brand assets
 
@@ -61,6 +50,20 @@ Attribution for CC BY assets must stay visible on the site wherever the asset ap
 - **License:** MIT + Commons Clause v1.0, Copyright (c) 2026 David Haz. **Not plain MIT.** Same terms as Laser Flow above, and the full text is kept in the header of `ghostFibersShader.js`. `src/three/licenseHeaders.test.js` fails if either header is lost.
 - **Modifications made:** runs on three.js instead of the `ogl` library (so no new dependency); GLSL ES 3.00 converted to WebGL1 syntax; `uBackdrop` uniform replaces the hard-coded indigo-black backdrop; recoloured to brand gold (`--color-aura-gold`, `--color-aura-gold-soft`) with the blue boost off; rendered at 1x pixel density and 30 fps; a still mode for reduced motion.
 - **Copied:** 2026-10-04 (license checked the same day)
+
+### GSAP — GreenSock (Webflow)
+
+- **Used in:** scroll entrances (`src/lib/useReveal.js`), the smooth-scroll ticker (`src/lib/smoothScroll.js`), the phone menu's stagger (`MenuPanel.jsx`)
+- **Package:** `gsap` (npm), version 3
+- **License:** GSAP Standard "no charge" license, https://gsap.com/standard-license. **Not MIT.** Free for commercial use, including on client sites. It may not be used in a product that competes with Webflow's own tools (a no-code visual animation builder); a website using it is fine.
+- **Checked:** 2026-10-14
+
+### Lenis — darkroom.engineering
+
+- **Used in:** site-wide smooth scrolling (`src/lib/smoothScroll.js`), off under reduced motion
+- **Package:** `lenis` (npm), version 1
+- **License:** MIT
+- **Checked:** 2026-10-14
 
 ### Other
 

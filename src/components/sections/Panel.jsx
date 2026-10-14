@@ -1,15 +1,14 @@
-import { motion, useReducedMotion } from 'motion/react'
-import { reveal } from './reveal'
 import MatteGrain from '../effects/MatteGrain'
-import { sectionTitle } from './Section'
+import { sectionTitle } from './sectionTitle'
 
 /**
- * A section set in one leather box (About): a labelled region with a title
- * and the matte panel surface. Other home sections are unboxed (Section.jsx). `decoration` renders behind the grain and
- * the content (a glow, a background); `boxProps` / `boxClassName` land on the box itself.
+ * A home-page section set in one dark matte box: a labelled region with its
+ * title. `bordered={false}` drops the gold frame (Services: its top edge is
+ * where the beam lands instead). `decoration` renders behind the grain and the
+ * content (a glow, a background); `boxProps` / `boxClassName` land on the box.
+ * Entrances come from the page's useReveal (data-reveal).
  */
-export default function Panel({ id, title, decoration, boxProps, boxClassName = '', spacing = 'pb-14', children }) {
-  const reduce = useReducedMotion()
+export default function Panel({ id, title, decoration, boxProps, boxClassName = '', bordered = true, spacing = 'pb-6 lg:pb-10', children }) {
   const titleId = `${id}-title`
 
   return (
@@ -20,18 +19,14 @@ export default function Panel({ id, title, decoration, boxProps, boxClassName = 
     >
       <div
         {...boxProps}
-        className={`matte-panel px-6 py-12 sm:px-12 lg:px-16 lg:py-16 ${boxClassName}`}
+        className={`matte-panel matte-dark ${bordered ? '' : 'matte-borderless'} px-6 py-14 sm:px-12 lg:px-16 lg:py-20 ${boxClassName}`}
       >
         {decoration}
         <MatteGrain variant="panel" />
         <div className="relative">
-          <motion.h2
-            {...reveal(reduce)}
-            id={titleId}
-            className={sectionTitle}
-          >
+          <h2 data-reveal="" id={titleId} className={sectionTitle}>
             {title}
-          </motion.h2>
+          </h2>
           {children}
         </div>
       </div>

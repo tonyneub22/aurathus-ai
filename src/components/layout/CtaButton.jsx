@@ -15,7 +15,7 @@ export default function CtaButton({ to, className = '', children, ...props }) {
       {children}
       <span
         aria-hidden="true"
-        className="relative h-px w-7 bg-aura-gold transition-all duration-500 ease-aura after:absolute after:-top-[3px] after:right-0 after:h-[6px] after:w-[6px] after:rotate-45 after:border-r after:border-t after:border-aura-gold motion-safe:group-hover:w-11"
+        className="relative h-px w-7 bg-aura-gold transition-[width] duration-500 ease-aura after:absolute after:-top-[3px] after:right-0 after:h-[6px] after:w-[6px] after:rotate-45 after:border-r after:border-t after:border-aura-gold motion-safe:group-hover:w-11"
       />
     </MotionLink>
   )

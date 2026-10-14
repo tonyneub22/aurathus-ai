@@ -1,29 +1,23 @@
-import { motion, useReducedMotion } from 'motion/react'
-import { EASE, reveal } from '../sections/reveal'
 import MatteGrain from '../effects/MatteGrain'
 
-const small = 'font-serif text-[12px] font-medium uppercase tracking-[0.28em]'
+const small = 'font-serif text-[13px] font-medium uppercase tracking-[0.28em]'
 
-/** One plan. A gold rule draws across the top as it reveals, staggered by `index`. */
+/** One plan. A gold rule draws across its top edge as it enters (useReveal on the page). */
 export default function TierCard({ tier, index }) {
-  const reduce = useReducedMotion()
   const titleId = `tier-${index + 1}-title`
 
   return (
-    <motion.article
-      {...reveal(reduce, index * 0.15)}
+    <article
+      data-reveal=""
       aria-labelledby={titleId}
       data-testid="tier"
       // Unclipped, so the gold rule can draw over the top border.
       className="matte-panel flex h-full flex-col overflow-visible p-6 sm:p-7 lg:p-8"
     >
-      <motion.span
+      <span
         aria-hidden="true"
+        data-reveal="rule"
         className="absolute -left-[2px] -right-[2px] -top-[2px] z-[1] h-[2px] origin-left bg-aura-gold"
-        initial={reduce ? false : { scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 1.4, delay: 0.3 + index * 0.18, ease: EASE }}
       />
       <MatteGrain variant="panel" />
       <div className="relative flex flex-1 flex-col">
@@ -36,6 +30,6 @@ export default function TierCard({ tier, index }) {
         </h3>
         <p className="mt-4 border-t border-aura-line pt-4 font-sans text-[16px] leading-[1.65] text-aura-body">{tier.body}</p>
       </div>
-    </motion.article>
+    </article>
   )
 }

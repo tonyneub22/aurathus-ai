@@ -1,16 +1,17 @@
+import { useRef } from 'react'
 import { Link, useParams } from 'react-router'
 import { site } from '../config/site'
 import { serviceBySlug } from '../config/services'
 import usePageMeta from '../lib/usePageMeta'
+import useReveal from '../lib/useReveal'
 import SiteHeader from '../components/layout/header/SiteHeader'
 import Footer from '../components/layout/Footer'
-import TitleRing from '../components/service/TitleRing'
 import ConsultCta from '../components/service/ConsultCta'
 import TierGrid from '../components/service/TierGrid'
 import IncludesBand from '../components/service/IncludesBand'
 import TechnicalDetails from '../components/service/TechnicalDetails'
 import NotFound from './NotFound'
-import { sectionTitle } from '../components/sections/Section'
+import { sectionTitle } from '../components/sections/sectionTitle'
 
 const container = 'mx-auto w-full max-w-[1180px] px-5 sm:px-10 xl:px-0'
 
@@ -24,19 +25,19 @@ export default function ServicePage() {
 function ServiceDetail({ service }) {
   const page = site.servicePage
   usePageMeta(`${service.name} — ${site.companyName}`, service.cardLine)
+  const main = useRef(null)
+  useReveal(main)
 
   return (
     <>
       <SiteHeader />
       {/* Clip so the title ring never widens the page. */}
-      <main className="relative z-10 overflow-x-clip">
+      <main ref={main} className="relative z-10 overflow-x-clip">
         <section aria-labelledby="service-title" className={`relative pb-16 pt-32 lg:pb-24 lg:pt-44 ${container}`}>
-          <TitleRing />
-          {/* Held to the left half on desktop so the copy never meets the ring. */}
-          <div className="relative lg:max-w-[52%]">
+          <div className="relative mx-auto flex max-w-[60ch] flex-col items-center text-center">
             <h1
               id="service-title"
-              className="max-w-[14ch] font-serif text-[clamp(34px,5vw,68px)] font-light uppercase leading-[1.02] tracking-[0.08em] text-balance text-aura-heading"
+              className="max-w-[16ch] font-serif text-[clamp(34px,5vw,68px)] font-light uppercase leading-[1.02] tracking-[0.08em] text-balance text-aura-heading"
             >
               {service.name}
             </h1>
@@ -44,14 +45,14 @@ function ServiceDetail({ service }) {
               {service.startLine}
             </p>
             <div className="mt-10">
-              <ConsultCta service={service} />
+              <ConsultCta service={service} centered />
             </div>
             <p className="mt-8 font-sans text-[15px] text-aura-muted">{service.pricingNote}</p>
           </div>
         </section>
 
         <section aria-labelledby="plans-title" className={`pb-16 lg:pb-20 ${container}`}>
-          <h2 id="plans-title" className={`mb-8 lg:mb-10 ${sectionTitle}`}>
+          <h2 id="plans-title" data-reveal="" className={`mb-8 text-center lg:mb-10 ${sectionTitle}`}>
             {page.plans}
           </h2>
           <TierGrid tiers={service.tiers} />

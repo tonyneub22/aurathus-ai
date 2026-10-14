@@ -220,7 +220,7 @@ test.describe('service pages', () => {
     await expect(page.getByLabel('What do you need?')).toHaveValue('Video')
   })
 
-  test('Back to services and the menu return to the home sections', async ({ page }) => {
+  test('Back to services and the nav return to the home sections', async ({ page }, testInfo) => {
     test.setTimeout(60_000) // lands on the WebGL home twice
     await page.goto('/services/software-development')
     const back = page.getByRole('link', { name: 'Back to services' })
@@ -230,8 +230,12 @@ test.describe('service pages', () => {
     await expect(page.locator('#services')).toBeInViewport(HOME)
 
     await page.goto('/services/video')
-    await page.getByRole('button', { name: 'Menu' }).click()
-    await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: 'Contact', exact: true }).click()
+    if (testInfo.project.name === 'desktop') {
+      await page.locator('header nav').getByRole('link', { name: 'Contact', exact: true }).click()
+    } else {
+      await page.getByRole('button', { name: 'Menu' }).click()
+      await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: 'Contact', exact: true }).click()
+    }
     await expect(page).toHaveURL(/\/#contact$/)
     await expect(page.locator('#contact')).toBeInViewport(HOME)
   })

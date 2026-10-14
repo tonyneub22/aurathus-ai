@@ -26,7 +26,7 @@ test.describe('home page', () => {
     await expect(page.locator('#top').getByRole('link', { name: /request consult/i })).toBeVisible()
   })
 
-  test('has no scroll cue and a framed Services box with four services', async ({ page }) => {
+  test('has no scroll cue and a Services box with four services', async ({ page }) => {
     await expect(page.getByText(/^scroll$/i)).toHaveCount(0)
     const services = page.getByRole('region', { name: 'Services' })
     await expect(services.getByRole('heading', { level: 2, name: 'Services' })).toBeVisible()
@@ -115,13 +115,16 @@ test.describe('home page', () => {
     await expect(page.getByRole('img', { name: /loading figure/i })).toBeHidden({ timeout: 20_000 })
     await page.waitForTimeout(5000) // intro complete, beam faded in
     await shot('hero')
-    await page.getByRole('button', { name: 'Menu' }).click()
-    await expect(page.getByRole('dialog', { name: 'Menu' })).toBeInViewport()
-    await page.waitForTimeout(900) // slide-in finished
-    await shot('menu-open')
-    await page.keyboard.press('Escape')
-    await page.waitForTimeout(900)
-    await page.evaluate(() => document.activeElement.blur()) // the returned focus ring would sit in every later shot
+    if (testInfo.project.name !== 'desktop') {
+      // Phones only: wide screens show the links inline in the bar.
+      await page.getByRole('button', { name: 'Menu' }).click()
+      await expect(page.getByRole('dialog', { name: 'Menu' })).toBeInViewport()
+      await page.waitForTimeout(1200) // fade and stagger finished
+      await shot('menu-open')
+      await page.keyboard.press('Escape')
+      await page.waitForTimeout(900)
+      await page.evaluate(() => document.activeElement.blur()) // the returned focus ring would sit in every later shot
+    }
     // Instant scroll: the page uses smooth scrolling, which makes captures land mid-animation.
     // Frame the beam landing: box top a little below the middle of the screen.
     await page.evaluate(() => {
@@ -210,17 +213,51 @@ test.describe('brand and head', () => {
 test.describe('header and menu', () => {
   const overflow = (page) =>
     page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+  const wide = (testInfo) => testInfo.project.name === 'desktop'
 
-  test('the Home icon returns to the top of the page', async ({ page }) => {
+  /** Follow a nav link: inline in the header on wide screens, through the full-screen menu on phones. */
+  async function followNav(page, testInfo, name) {
+    if (wide(testInfo)) {
+      await page.locator('header nav').getByRole('link', { name, exact: true }).click()
+    } else {
+      await page.getByRole('button', { name: 'Menu' }).click()
+      await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name, exact: true }).click()
+      // Long timeout: software WebGL in headless Chrome can starve the fade-out's frames.
+      await expect(page.getByRole('dialog', { name: 'Menu' })).toBeHidden({ timeout: 20_000 })
+    }
+  }
+
+  test('the bar tucks away reading down and returns on the way up', async ({ page }) => {
+    await page.goto('/')
+    const bar = page.getByTestId('header-bar')
+    await page.evaluate(() => window.scrollTo({ top: 1600, behavior: 'instant' }))
+    await expect.poll(async () => (await bar.boundingBox()).y, { timeout: 10_000 }).toBeLessThan(-40)
+    await page.evaluate(() => window.scrollTo({ top: 1400, behavior: 'instant' }))
+    await expect.poll(async () => (await bar.boundingBox()).y, { timeout: 10_000 }).toBeGreaterThanOrEqual(0)
+    await expect(page.getByTestId('header-backing')).toHaveCSS('opacity', '1') // matte bar once scrolled
+  })
+
+  test('the brand link returns to the top of the page', async ({ page }) => {
     await page.goto('/')
     await page.evaluate(() => window.scrollTo({ top: 2000, behavior: 'instant' }))
-    const home = page.getByRole('link', { name: 'Home', exact: true })
+    await page.evaluate(() => window.scrollTo({ top: 1900, behavior: 'instant' })) // a step up brings the bar back
+    const home = page.getByRole('link', { name: 'Aurathus AI, Home' })
     await expect(home).toBeInViewport()
     await home.click()
     await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 10_000 }).toBe(0)
   })
 
-  test('opens, traps focus, closes on Esc and returns focus', async ({ page }) => {
+  test('wide screens show the section links and Request Consult in the bar', async ({ page }, testInfo) => {
+    test.skip(!wide(testInfo), 'phones use the menu')
+    await page.goto('/')
+    const nav = page.locator('header nav')
+    for (const label of ['Services', 'Why Us', 'Studio', 'Contact']) await expect(nav.getByRole('link', { name: label, exact: true })).toBeVisible()
+    await expect(page.locator('header').getByRole('link', { name: /request consult/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Menu' })).toBeHidden()
+  })
+
+  test('the phone menu opens full screen, traps focus, closes on Esc and returns focus', async ({ page }, testInfo) => {
+    test.skip(wide(testInfo), 'wide screens show the links inline')
     await page.goto('/')
     const button = page.getByRole('button', { name: 'Menu' })
     const dialog = page.getByRole('dialog', { name: 'Menu' })
@@ -229,11 +266,13 @@ test.describe('header and menu', () => {
     await button.click()
     await expect(button).toHaveAttribute('aria-expanded', 'true')
     await expect(dialog).toBeInViewport()
+    const box = await dialog.boundingBox()
+    expect(box.width).toBeGreaterThanOrEqual(page.viewportSize().width - 1) // full screen
     await expect(dialog.getByRole('link', { name: 'Services' })).toBeFocused()
     expect(await page.evaluate(() => getComputedStyle(document.documentElement).overflow)).toBe('hidden')
     expect(await overflow(page)).toBeLessThanOrEqual(0)
 
-    for (let i = 0; i < 8; i++) await page.keyboard.press('Tab')
+    for (let i = 0; i < 9; i++) await page.keyboard.press('Tab')
     const focusInMenu = await page.evaluate(
       () => !!document.activeElement.closest('#site-menu') || document.activeElement.getAttribute('aria-label') === 'Menu',
     )
@@ -246,34 +285,23 @@ test.describe('header and menu', () => {
     expect(await page.evaluate(() => getComputedStyle(document.documentElement).overflow)).not.toBe('hidden')
   })
 
-  test('closes when the backdrop is clicked', async ({ page }) => {
-    await page.goto('/')
-    const button = page.getByRole('button', { name: 'Menu' })
-    await button.click()
-    await page.getByTestId('menu-backdrop').click({ position: { x: 10, y: 300 } })
-    await expect(button).toHaveAttribute('aria-expanded', 'false')
-  })
-
   for (const [label, id] of [
     ['Services', 'services'],
     ['Why Us', 'why-us'],
     ['Studio', 'about'],
     ['Contact', 'contact'],
   ]) {
-    test(`the ${label} link reaches #${id}, clear of the header`, async ({ page }) => {
+    test(`the ${label} link reaches #${id}, clear of the header`, async ({ page }, testInfo) => {
       await page.goto('/')
-      await page.getByRole('button', { name: 'Menu' }).click()
-      await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: label, exact: true }).click()
+      await followNav(page, testInfo, label)
       await expect(page).toHaveURL(new RegExp(`/#${id}$`))
-      // Long timeout: software WebGL in headless Chrome can starve the slide-out's frames.
-      await expect(page.getByRole('dialog', { name: 'Menu' })).toBeHidden({ timeout: 20_000 })
       const target = page.locator(`#${id}`)
-      await expect(target).toBeInViewport()
+      await expect(target).toBeInViewport({ timeout: 10_000 })
       // Smooth scroll: wait for it to settle, then check the section isn't tucked under the header.
       await expect
         .poll(async () => {
           const a = await page.evaluate(() => window.scrollY)
-          await page.waitForTimeout(250)
+          await page.waitForTimeout(300)
           return a === (await page.evaluate(() => window.scrollY))
         }, { timeout: 10_000 })
         .toBe(true)
@@ -285,16 +313,19 @@ test.describe('header and menu', () => {
     })
   }
 
-  test('Request Consult opens /consult, whose menu links back to the home sections', async ({ page }) => {
+  test('Request Consult opens /consult, whose nav links back to the home sections', async ({ page }, testInfo) => {
     await page.goto('/')
-    await page.getByRole('button', { name: 'Menu' }).click()
-    await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: /request consult/i }).click()
+    if (wide(testInfo)) {
+      await page.locator('header').getByRole('link', { name: /request consult/i }).click()
+    } else {
+      await page.getByRole('button', { name: 'Menu' }).click()
+      await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: /request consult/i }).click()
+    }
     await expect(page).toHaveURL(/\/consult$/)
     await expect(page).toHaveTitle(/Aurathus AI LLC/)
-    await expect(page.getByRole('link', { name: 'Home', exact: true })).toHaveAttribute('href', '/#top')
+    await expect(page.getByRole('link', { name: 'Aurathus AI, Home' })).toHaveAttribute('href', '/#top')
 
-    await page.getByRole('button', { name: 'Menu' }).click()
-    await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: 'Services', exact: true }).click()
+    await followNav(page, testInfo, 'Services')
     await expect(page).toHaveURL(/\/#services$/)
     // Landing on home boots the WebGL hero, which can hold the main thread for seconds headless.
     await expect(page.locator('#services')).toBeInViewport({ timeout: 20_000 })
@@ -336,6 +367,11 @@ test.describe('consult request', () => {
   })
 })
 
+test('scrolls smoothly with Lenis when motion is allowed', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('html')).toHaveClass(/\blenis\b/)
+})
+
 test.describe('reduced motion', () => {
   test.use({ reducedMotion: 'reduce' })
 
@@ -344,5 +380,12 @@ test.describe('reduced motion', () => {
     await page.getByRole('region', { name: 'About' }).scrollIntoViewIfNeeded()
     await expect(page.getByTestId('ghost-fibers').locator('canvas')).toBeAttached({ timeout: 20_000 })
     await expect(page.getByTestId('services-beam').locator('canvas')).toHaveCount(0) // the beam falls back to a still line
+  })
+
+  test('scrolls natively and shows every section without entrance motion', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('html')).not.toHaveClass(/\blenis\b/)
+    const styled = await page.evaluate(() => [...document.querySelectorAll('[data-reveal]')].filter((el) => el.getAttribute('style')).length)
+    expect(styled).toBe(0)
   })
 })

@@ -91,31 +91,6 @@ export const site = {
 
   whyUs: {
     title: 'Why Choose Us?',
-    /**
-     * Rodin's Thinker beside the reasons. Cut out from its studio backdrop and
-     * re-graded to the hero's warm stone; the untouched original is in
-     * brand-source/met/. Decorative next to the copy, so alt is empty.
-     */
-    statue: {
-      src: '/images/why/the-thinker-400.webp',
-      width: 400,
-      height: 616,
-      alt: '',
-      sources: [
-        { type: 'image/avif', srcSet: '/images/why/the-thinker-400.avif 1x, /images/why/the-thinker-800.avif 2x' },
-        { type: 'image/webp', srcSet: '/images/why/the-thinker-400.webp 1x, /images/why/the-thinker-800.webp 2x' },
-      ],
-      // CC0 asks for no credit; we give one anyway, beside the David credit. See LICENSES.md.
-      credit: {
-        title: 'The Thinker',
-        titleUrl: 'https://www.metmuseum.org/art/collection/search/191811',
-        artist: 'Auguste Rodin',
-        date: 'modeled ca. 1880, cast ca. 1910',
-        source: 'The Metropolitan Museum of Art',
-        license: 'Public Domain (CC0)',
-        changes: 'Background removed, re-graded.',
-      },
-    },
     items: [
       {
         title: 'Built by hand',

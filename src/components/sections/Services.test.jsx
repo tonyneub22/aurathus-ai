@@ -13,14 +13,12 @@ const ORDER = [
 ]
 
 describe('<Services />', () => {
-  it('is an unboxed region titled "Services" whose top rule the beam aims at', () => {
-    const { container } = render(<Services />)
+  it('is a dark matte box with no gold frame, titled "Services", whose top edge the beam aims at', () => {
+    render(<Services />)
     const region = screen.getByRole('region', { name: 'Services' })
     expect(within(region).getAllByRole('heading', { level: 2 })).toHaveLength(1)
-    const target = region.querySelector('[data-beam-target]')
-    expect(target).toHaveClass('border-t')
-    expect(target.firstElementChild.nextElementSibling.tagName).toBe('ARTICLE')
-    expect(container.querySelector('.matte-panel')).not.toBeInTheDocument()
+    const box = region.querySelector('[data-beam-target]')
+    expect(box).toHaveClass('matte-panel', 'matte-dark', 'matte-borderless')
   })
 
   it('indexes four services in order, each a whole-row link to its page', () => {

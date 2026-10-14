@@ -1,9 +1,7 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { Link } from 'react-router'
 import { site } from '../../config/site'
-import MotionLink from '../routing/MotionLink'
 import Panel from './Panel'
 import GhostFibersBackground from '../effects/GhostFibersBackground'
-import { reveal } from './reveal'
 
 /** Dims the fibers behind the text column so the copy reads, and lets them show on the right. */
 function Scrim() {
@@ -16,7 +14,6 @@ function Scrim() {
 }
 
 export default function About() {
-  const reduce = useReducedMotion()
   const { about, hero } = site
 
   return (
@@ -24,7 +21,7 @@ export default function About() {
       id="about"
       title={about.title}
       spacing="pb-28 lg:pb-40"
-      boxClassName="matte-dark isolate overflow-hidden"
+      boxClassName="isolate overflow-hidden"
       decoration={
         <>
           <GhostFibersBackground />
@@ -34,21 +31,22 @@ export default function About() {
     >
       <div className="mt-10 grid max-w-[58ch] gap-6 lg:mt-14">
         {about.paragraphs.map((text, i) => (
-          <motion.p
-            key={i}
-            {...reveal(reduce, i * 0.12)}
-            className="font-sans text-[18px] leading-[1.75] text-aura-body"
-          >
+          <p key={i} data-reveal="" className="font-sans text-[18px] leading-[1.75] text-aura-body">
             {text}
-          </motion.p>
+          </p>
         ))}
-        <MotionLink
-          {...reveal(reduce, 0.3)}
-          to={hero.cta.href}
-          className="mt-4 justify-self-start font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-gold transition-colors duration-500 hover:text-aura-gold-hot"
-        >
-          {hero.cta.label} →
-        </MotionLink>
+        <div data-reveal="" className="mt-4">
+          <Link
+            to={hero.cta.href}
+            className="group inline-flex items-center gap-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-gold transition-colors duration-500 hover:text-aura-gold-hot"
+          >
+            {hero.cta.label}
+            <span
+              aria-hidden="true"
+              className="relative h-px w-6 bg-current transition-[translate] duration-500 ease-aura after:absolute after:-top-[3px] after:right-0 after:h-[6px] after:w-[6px] after:rotate-45 after:border-r after:border-t after:border-current motion-safe:group-hover:translate-x-1"
+            />
+          </Link>
+        </div>
       </div>
     </Panel>
   )

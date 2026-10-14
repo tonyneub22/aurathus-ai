@@ -1,21 +1,22 @@
 import { Link } from 'react-router'
 import { site } from '../../../config/site'
 
-/** Thin-line house that returns to the top of the home page, from any page. */
+/**
+ * The brand mark and name, back to the top of the home page from anywhere.
+ * Named "Aurathus AI, Home" so the visible words lead the accessible name.
+ */
 export default function HomeLink() {
   const { home } = site.nav
 
   return (
     <Link
       to={home.href}
-      aria-label={home.label}
-      className="flex h-11 w-11 items-center justify-center text-aura-text transition-colors duration-500 hover:text-aura-gold focus-visible:text-aura-gold"
+      aria-label={`${site.shortName}, ${home.label}`}
+      className="group flex h-11 items-center gap-3 text-aura-text transition-colors duration-500 hover:text-aura-gold-hot focus-visible:text-aura-gold-hot"
     >
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true">
-        <path d="M3 11.5 12 4l9 7.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M5.5 9.5V20h13V9.5" strokeLinejoin="round" />
-        <path d="M10 20v-5.5h4V20" strokeLinejoin="round" />
-      </svg>
+      {/* The small mark: the full icon is too heavy below 64px (CLAUDE.md). */}
+      <img src="/brand/aurathus-icon-small.svg" width="30" height="30" alt="" className="h-[30px] w-[30px] select-none" draggable={false} />
+      <span translate="no" className="font-serif text-[15px] font-medium uppercase tracking-[0.3em]">{site.shortName}</span>
     </Link>
   )
 }

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router'
 import { scrollToHash } from '../../lib/scrollToHash'
+import { getLenis } from '../../lib/smoothScroll'
 
 /**
  * Router navigations don't scroll by themselves. A link with a hash goes to
@@ -16,7 +17,10 @@ export default function ScrollManager() {
     const firstRender = previousPath.current === null
     previousPath.current = pathname
     if (hash) scrollToHash(hash, samePage ? 'auto' : 'instant')
-    else if (!firstRender && !samePage) window.scrollTo({ top: 0, behavior: 'instant' })
+    else if (!firstRender && !samePage) {
+      window.scrollTo({ top: 0, behavior: 'instant' })
+      getLenis()?.resize()
+    }
   }, [pathname, hash, key])
 
   return null

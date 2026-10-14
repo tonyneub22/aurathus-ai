@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import SiteHeader from '../components/layout/header/SiteHeader'
 import Hero from '../components/hero/Hero'
 import Services from '../components/sections/Services'
@@ -8,15 +9,18 @@ import ServicesBeam from '../components/effects/ServicesBeam'
 import Footer from '../components/layout/Footer'
 import { site } from '../config/site'
 import usePageMeta from '../lib/usePageMeta'
+import useReveal from '../lib/useReveal'
 
 export default function Home() {
   usePageMeta(site.meta.title, site.meta.description)
+  const root = useRef(null)
+  useReveal(root)
 
   return (
     <>
       {/* Fixed, so it floats over the hero without taking layout space; fades in after the intro. */}
       <SiteHeader introDelay={1.8} />
-      <div className="relative">
+      <div ref={root} className="relative">
         {/* The beam is positioned against this; clip stops its flare widening the page. */}
         <main className="relative overflow-x-clip">
           <Hero />

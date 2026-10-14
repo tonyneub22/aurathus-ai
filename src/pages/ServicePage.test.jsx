@@ -72,4 +72,12 @@ describe('<ServicePage />', () => {
     renderAt('not-a-service')
     expect(screen.getByRole('heading', { level: 1, name: 'Page not found' })).toBeInTheDocument()
   })
+
+  it('centres the hero with no title ring, and sets the includes band in dark matte', () => {
+    const { container } = renderAt('web-development')
+    const hero = container.querySelector('section[aria-labelledby="service-title"]')
+    expect(hero.querySelector('svg')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1 }).parentElement).toHaveClass('text-center', 'items-center')
+    expect(screen.getByTestId('includes')).toHaveClass('matte-dark')
+  })
 })

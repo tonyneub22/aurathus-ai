@@ -26,12 +26,19 @@ describe('home page sections', () => {
     expect(site.nav.links.map((l) => l.href)).not.toContain('/#testimonials')
   })
 
-  it('box only About: the rest sit on the page itself', () => {
+  it('sets each section in a dark matte box; only Services has no gold frame', () => {
     const { container } = render(<Home />)
     const boxes = [...container.querySelectorAll('.matte-panel')]
-    expect(boxes).toHaveLength(1)
-    expect(boxes[0].closest('section')).toHaveAttribute('id', 'about')
-    expect(boxes[0]).toHaveClass('matte-dark') // dark matte, in step with the page, not leather
+    expect(boxes.map((b) => b.closest('section').id)).toEqual(['services', 'why-us', 'about'])
+    for (const box of boxes) expect(box).toHaveClass('matte-dark')
+    expect(boxes.map((b) => b.classList.contains('matte-borderless'))).toEqual([true, false, false])
+  })
+
+  it('shows no statue in Why Choose Us, and the fibers only behind About', () => {
+    const { container } = render(<Home />)
+    expect(container.querySelector('#why-us img, #why-us picture')).not.toBeInTheDocument()
+    expect(container.querySelectorAll('[data-testid="ghost-fibers"]')).toHaveLength(1)
+    expect(screen.getByTestId('ghost-fibers').closest('section')).toHaveAttribute('id', 'about')
   })
 
   it('makes each section a labelled region with a matching anchor', () => {
@@ -72,7 +79,6 @@ describe('<Testimonials />', () => {
 describe('<WhyChooseUs />', () => {
   it('carries no decorative section numbers', () => {
     const { container } = render(<WhyChooseUs />)
-    expect(container.querySelectorAll('li > span[aria-hidden="true"]')).toHaveLength(0)
     expect(container.textContent).not.toMatch(/\b0?[1-4]\b/)
   })
 

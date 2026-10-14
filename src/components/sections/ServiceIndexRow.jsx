@@ -1,6 +1,4 @@
-import { motion, useReducedMotion } from 'motion/react'
 import { site } from '../../config/site'
-import { reveal } from './reveal'
 import ReadMoreLink from './ReadMoreLink'
 
 /**
@@ -12,8 +10,7 @@ import ReadMoreLink from './ReadMoreLink'
  * sweeping the pointer across rows doesn't set each one off), out a little
  * quicker. Nothing changes size, so the row never reflows.
  */
-export default function ServiceIndexRow({ service, index }) {
-  const reduce = useReducedMotion()
+export default function ServiceIndexRow({ service }) {
   const { services } = site
 
   return (
@@ -22,8 +19,8 @@ export default function ServiceIndexRow({ service, index }) {
         aria-hidden="true"
         className="absolute inset-x-0 -top-px h-px origin-left scale-x-0 bg-aura-gold transition-transform duration-[450ms] ease-aura group-focus-within:scale-x-100 group-hover:scale-x-100 group-hover:delay-[60ms] group-hover:duration-[900ms] motion-reduce:transition-none"
       />
-      <motion.div
-        {...reveal(reduce, index * 0.1)}
+      <div
+        data-reveal=""
         className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-6 gap-y-3 py-6 md:grid-cols-[minmax(0,4fr)_minmax(0,6fr)_10rem] md:items-baseline md:gap-x-10 lg:py-7"
       >
         <h3 className="font-serif text-[clamp(24px,2.3vw,32px)] font-normal leading-[1.15] tracking-[0.01em] text-aura-heading transition-colors duration-[450ms] ease-aura group-focus-within:text-aura-gold-hot group-hover:text-aura-gold-hot group-hover:delay-[60ms] group-hover:duration-700">
@@ -41,7 +38,7 @@ export default function ServiceIndexRow({ service, index }) {
             compact
           />
         </div>
-      </motion.div>
+      </div>
     </article>
   )
 }

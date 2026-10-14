@@ -59,6 +59,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Whatever scrolls into view (an anchor, a focused link) clears the fixed header. */
+  scroll-padding-top: 5.5rem;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--color-aura-gold) 18%, transparent);
 }
 
 /* Anchor targets land below the fixed header. */
@@ -96,9 +100,15 @@ body {
       box-shadow 0.4s ease;
   }
 
-  /* A dark matte box (About), in step with the black page rather than the leather. */
+  /* A dark matte box (the home sections), in step with the black page rather than the leather. */
   .matte-panel.matte-dark {
     background: var(--panel-dark);
+  }
+
+  /* No gold frame (Services): the box reads by its tone step alone, at rest and on hover. */
+  .matte-panel.matte-borderless,
+  .matte-panel.matte-borderless:hover {
+    border-color: transparent;
   }
 
   /* A box inside a box: the second, darker leather. Use with .matte-panel. */
@@ -129,43 +139,6 @@ html {
   scrollbar-color: #4a3727 var(--bg-base);
 }
 
-/*
- * Candlelight halo behind the Why Us statue (WhyStatue.jsx). Only transform and
- * opacity move; the blur and mask are static, so the browser rasterises the
- * layer once and turns it on the compositor. Paused while off screen.
- */
-@keyframes aura-halo-turn {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes aura-halo-breath {
-  0%,
-  100% {
-    opacity: 0.72;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .why-halo-turn {
-    animation: aura-halo-turn 21s linear infinite;
-    will-change: transform;
-  }
-
-  .why-halo-breath {
-    animation: aura-halo-breath 8s var(--ease-aura-soft) infinite;
-  }
-
-  [data-active='false'] .why-halo-turn,
-  [data-active='false'] .why-halo-breath {
-    animation-play-state: paused;
-  }
-}
-
 /* Keyboard focus ring in brand gold. */
 :focus-visible {
   outline: 1px solid var(--color-aura-gold);
@@ -176,4 +149,18 @@ html {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* Lenis drives scrolling when it runs; the native smooth behaviour would fight it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.lenis {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }

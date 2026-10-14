@@ -1,17 +1,15 @@
-import { useReducedMotion } from 'motion/react'
 import { site } from '../../config/site'
 import { services } from '../../config/services'
 import CtaButton from '../layout/CtaButton'
-import Section from './Section'
+import Panel from './Panel'
 import ServiceIndexRow from './ServiceIndexRow'
-import { reveal } from './reveal'
 
 const BLOOM = 'radial-gradient(ellipse at center, color-mix(in srgb, var(--color-aura-ring) 22%, transparent), transparent 70%)'
 
 /**
- * Where the beam lands: a brighter stretch of the index's top rule and a soft
+ * Where the beam lands: a brighter stretch of the box's top edge and a soft
  * bloom either side of it. ServicesBeam sets --beam-x (landing point) and
- * --beam-glow (0..1, tracks the beam's own opacity) on the rule.
+ * --beam-glow (0..1, tracks the beam's own opacity) on the box.
  */
 function BeamGlow() {
   const place = { left: 'var(--beam-x, 50%)', opacity: 'var(--beam-glow, 0)' }
@@ -23,23 +21,29 @@ function BeamGlow() {
   )
 }
 
-/** The services as an editorial index on the matte page: no boxes, gold rules between entries. */
+/** The services as an editorial index in a dark matte box with no frame; the beam lands on its top edge. */
 export default function Services() {
-  const reduce = useReducedMotion()
   const { cta } = site.hero
 
   return (
-    <Section id="services" title={site.services.title} className="pb-24 pt-24 lg:pb-32">
-      {/* The beam is aimed at this rule; it stays put (no reveal transform). */}
-      <div data-beam-target="" className="relative mt-10 border-t border-aura-gold/25 lg:mt-12">
-        <BeamGlow />
-        {services.map((service, i) => (
-          <ServiceIndexRow key={service.slug} service={service} index={i} />
+    <Panel
+      id="services"
+      title={site.services.title}
+      bordered={false}
+      spacing="pb-6 pt-24"
+      // The box stays put (no entrance transform): the beam is aimed at its top edge.
+      boxProps={{ 'data-beam-target': '' }}
+      boxClassName="overflow-visible"
+      decoration={<BeamGlow />}
+    >
+      <div className="mt-10 border-t border-aura-gold/25 lg:mt-12">
+        {services.map((service) => (
+          <ServiceIndexRow key={service.slug} service={service} />
         ))}
       </div>
-      <CtaButton {...reveal(reduce, 0.2)} to={cta.href} className="mt-12">
-        {cta.label}
-      </CtaButton>
-    </Section>
+      <div data-reveal="" className="mt-12">
+        <CtaButton to={cta.href}>{cta.label}</CtaButton>
+      </div>
+    </Panel>
   )
 }

@@ -1,13 +1,21 @@
-import { fireEvent, screen } from '@testing-library/react'
+import { fireEvent, screen, within } from '@testing-library/react'
 import { renderInRouter as render } from '../../../test/router'
 import { describe, expect, it } from 'vitest'
 import { site } from '../../../config/site'
 import SiteHeader from './SiteHeader'
 
 describe('<SiteHeader />', () => {
-  it('links Home to the top of the home page', () => {
+  it('links the brand to the top of the home page, named for what it is and does', () => {
     render(<SiteHeader />)
-    expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/#top')
+    expect(screen.getByRole('link', { name: 'Aurathus AI, Home' })).toHaveAttribute('href', '/#top')
+  })
+
+  it('shows the section links and Request Consult inline for wide screens', () => {
+    const { container } = render(<SiteHeader />)
+    const header = container.querySelector('header')
+    const links = [...header.querySelectorAll('nav a')].map((a) => [a.textContent, a.getAttribute('href')])
+    expect(links).toEqual(site.nav.links.map((l) => [l.label, l.href]))
+    expect(within(header).getByRole('link', { name: site.nav.cta.label })).toHaveAttribute('href', site.nav.cta.href)
   })
 
   it('toggles the menu and reports it with aria-expanded', () => {
@@ -42,18 +50,20 @@ describe('<SiteHeader />', () => {
       ['Studio', '/#about'],
       ['Contact', '/#contact'],
       [site.nav.cta.label, '/consult'],
+      [site.contact.email, `mailto:${site.contact.email}`],
     ])
   })
 
-  it('closes when a link or the backdrop is clicked', () => {
+  it('closes when a menu link is clicked or Esc is pressed', () => {
     render(<SiteHeader />)
     const button = screen.getByRole('button', { name: 'Menu' })
     fireEvent.click(button)
-    fireEvent.click(screen.getByRole('link', { name: 'Services' }))
+    const dialog = screen.getByRole('dialog', { name: 'Menu' })
+    fireEvent.click(within(dialog).getByRole('link', { name: 'Services' }))
     expect(button).toHaveAttribute('aria-expanded', 'false')
 
     fireEvent.click(button)
-    fireEvent.click(screen.getByTestId('menu-backdrop'))
+    fireEvent.keyDown(window, { key: 'Escape' })
     expect(button).toHaveAttribute('aria-expanded', 'false')
   })
 })
