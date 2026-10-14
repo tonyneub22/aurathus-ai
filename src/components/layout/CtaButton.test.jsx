@@ -15,4 +15,15 @@ describe('<CtaButton />', () => {
     render(<CtaButton to="/consult" className="mt-12">Go</CtaButton>)
     expect(screen.getByRole('link', { name: 'Go' })).toHaveClass('mt-12', 'border')
   })
+
+  it('comes in a small size and without its arrow, for the header bar and the menu', () => {
+    render(
+      <CtaButton to="/consult" size="sm" arrow={false}>
+        Small
+      </CtaButton>,
+    )
+    const link = screen.getByRole('link', { name: 'Small' })
+    expect(link).toHaveClass('px-5', 'py-2.5')
+    expect(link.querySelector('span[aria-hidden]')).not.toBeInTheDocument()
+  })
 })

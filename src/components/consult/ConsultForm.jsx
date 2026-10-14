@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { site } from '../../config/site'
 import { submitConsult } from '../../lib/consult'
+import { outlineButton } from '../layout/buttonStyles'
 
 const { consult } = site
 
@@ -74,7 +75,7 @@ export default function ConsultForm({ send = submitConsult, interest = consult.i
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="justify-self-start border border-aura-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-text transition-colors duration-500 hover:border-aura-gold disabled:opacity-50"
+          className={`justify-self-start ${outlineButton()} disabled:opacity-50`}
         >
           {status === 'sending' ? consult.sending : consult.submit}
         </button>

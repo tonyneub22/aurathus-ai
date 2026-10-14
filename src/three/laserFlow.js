@@ -16,7 +16,7 @@ import { RING_LIGHT } from './palette.js'
 import { FRAG, VERT } from './laserFlowShader.js'
 
 /** Prop names and defaults follow the React Bits component; `color` defaults to brand gold. */
-export const LASER_DEFAULTS = {
+const LASER_DEFAULTS = {
   wispDensity: 1,
   mouseTiltStrength: 0.01,
   horizontalBeamOffset: 0.1,
@@ -55,7 +55,7 @@ const UNIFORM_FOR = {
   beamReach: 'uReach',
 }
 
-export const MAX_DPR = 1.5
+const MAX_DPR = 1.5
 
 /**
  * Mounts a canvas filling `mount` and returns a controller.

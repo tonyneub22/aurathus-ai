@@ -12,7 +12,7 @@ export default function TierCard({ tier, index }) {
       aria-labelledby={titleId}
       data-testid="tier"
       // Unclipped, so the gold rule can draw over the top border.
-      className="matte-panel flex h-full flex-col overflow-visible p-6 sm:p-7 lg:p-8"
+      className="matte-panel matte-brown flex h-full flex-col overflow-visible p-6 sm:p-7 lg:p-8"
     >
       <span
         aria-hidden="true"

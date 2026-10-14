@@ -32,7 +32,6 @@ export const site = {
       { label: 'Services', href: '/#services' },
       { label: 'Why Us', href: '/#why-us' },
       ...(showTestimonials ? [{ label: 'Work', href: '/#testimonials' }] : []),
-      { label: 'Studio', href: '/#about' },
       { label: 'Contact', href: '/#contact' },
     ],
     cta: { label: 'Request Consult', href: '/consult' },

@@ -2,6 +2,8 @@ import { useEffect, useLayoutEffect } from 'react'
 import { Link } from 'react-router'
 import { gsap } from 'gsap'
 import { site } from '../../../config/site'
+import { prefersReducedMotion } from '../../../lib/motionPreference'
+import CtaButton from '../CtaButton'
 
 /**
  * Phones and tablets: a full-screen matte overlay with the section links set
@@ -19,7 +21,7 @@ export default function MenuPanel({ id, open, onClose, panelRef }) {
 
   useLayoutEffect(() => {
     const panel = panelRef.current
-    if (!open || !panel || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined
+    if (!open || !panel || prefersReducedMotion()) return undefined
     const tween = gsap.fromTo(
       panel.querySelectorAll('[data-menu-item]'),
       { opacity: 0, y: 28 },
@@ -55,13 +57,9 @@ export default function MenuPanel({ id, open, onClose, panelRef }) {
         </ul>
       </nav>
       <div data-menu-item="" className="mt-12 grid justify-items-start gap-6 border-t border-aura-gold/20 pt-8">
-        <Link
-          to={cta.href}
-          onClick={onClose}
-          className="border border-aura-gold/50 px-8 py-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-text transition-colors duration-500 hover:border-aura-gold focus-visible:border-aura-gold"
-        >
+        <CtaButton to={cta.href} arrow={false} onClick={onClose}>
           {cta.label}
-        </Link>
+        </CtaButton>
         <a href={`mailto:${email}`} className="font-sans text-[15px] text-aura-gold transition-colors duration-500 hover:text-aura-gold-hot">
           {email}
         </a>

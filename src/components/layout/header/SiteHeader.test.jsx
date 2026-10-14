@@ -47,7 +47,6 @@ describe('<SiteHeader />', () => {
     expect(links).toEqual([
       ['Services', '/#services'],
       ['Why Us', '/#why-us'],
-      ['Studio', '/#about'],
       ['Contact', '/#contact'],
       [site.nav.cta.label, '/consult'],
       [site.contact.email, `mailto:${site.contact.email}`],

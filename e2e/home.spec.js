@@ -251,8 +251,9 @@ test.describe('header and menu', () => {
     test.skip(!wide(testInfo), 'phones use the menu')
     await page.goto('/')
     const nav = page.locator('header nav')
-    for (const label of ['Services', 'Why Us', 'Studio', 'Contact']) await expect(nav.getByRole('link', { name: label, exact: true })).toBeVisible()
+    for (const label of ['Services', 'Why Us', 'Contact']) await expect(nav.getByRole('link', { name: label, exact: true })).toBeVisible()
     await expect(page.locator('header').getByRole('link', { name: /request consult/i })).toBeVisible()
+    await expect(page.locator('header nav').getByRole('link', { name: 'Studio' })).toHaveCount(0) // removed on request
     await expect(page.getByRole('button', { name: 'Menu' })).toBeHidden()
   })
 
@@ -288,7 +289,6 @@ test.describe('header and menu', () => {
   for (const [label, id] of [
     ['Services', 'services'],
     ['Why Us', 'why-us'],
-    ['Studio', 'about'],
     ['Contact', 'contact'],
   ]) {
     test(`the ${label} link reaches #${id}, clear of the header`, async ({ page }, testInfo) => {

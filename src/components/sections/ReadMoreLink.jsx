@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import Arrow from '../layout/Arrow'
 
 /**
  * "Read more" with a thin gold rule under the label and arrow. Hover and
@@ -18,10 +19,7 @@ export default function ReadMoreLink({ to, label, ariaLabel, stretched = false, 
     >
       {/* not-sr-only resets white-space, so restore nowrap: the label must never wrap. */}
       <span className={compact ? 'sr-only md:not-sr-only md:whitespace-nowrap' : 'whitespace-nowrap'}>{label}</span>
-      <span
-        aria-hidden="true"
-        className="relative h-px w-6 shrink-0 bg-aura-gold transition-[translate,box-shadow] duration-[450ms] ease-aura group-hover/link:delay-[60ms] group-hover/link:duration-700 after:absolute after:-top-[3px] after:right-0 after:h-[6px] after:w-[6px] after:rotate-45 after:border-r after:border-t after:border-aura-gold group-hover/link:shadow-[0_0_8px_color-mix(in_srgb,var(--color-aura-gold)_80%,transparent)] group-focus-visible/link:shadow-[0_0_8px_color-mix(in_srgb,var(--color-aura-gold)_80%,transparent)] motion-safe:group-hover/link:translate-x-1.5 motion-safe:group-focus-visible/link:translate-x-1.5"
-      />
+      <Arrow className="w-6 text-aura-gold transition-[translate,box-shadow] duration-[450ms] ease-aura group-hover/link:delay-[60ms] group-hover/link:duration-700 group-hover/link:shadow-[0_0_8px_color-mix(in_srgb,var(--color-aura-gold)_80%,transparent)] group-focus-visible/link:shadow-[0_0_8px_color-mix(in_srgb,var(--color-aura-gold)_80%,transparent)] motion-safe:group-hover/link:translate-x-1.5 motion-safe:group-focus-visible/link:translate-x-1.5" />
     </Link>
   )
 }

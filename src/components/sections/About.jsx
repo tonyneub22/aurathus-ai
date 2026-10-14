@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { site } from '../../config/site'
 import Panel from './Panel'
+import Arrow from '../layout/Arrow'
 import GhostFibersBackground from '../effects/GhostFibersBackground'
 
 /** Dims the fibers behind the text column so the copy reads, and lets them show on the right. */
@@ -41,10 +42,7 @@ export default function About() {
             className="group inline-flex items-center gap-4 font-serif text-[13px] font-medium uppercase tracking-[0.34em] text-aura-gold transition-colors duration-500 hover:text-aura-gold-hot"
           >
             {hero.cta.label}
-            <span
-              aria-hidden="true"
-              className="relative h-px w-6 bg-current transition-[translate] duration-500 ease-aura after:absolute after:-top-[3px] after:right-0 after:h-[6px] after:w-[6px] after:rotate-45 after:border-r after:border-t after:border-current motion-safe:group-hover:translate-x-1"
-            />
+            <Arrow className="w-6 transition-[translate] duration-500 ease-aura motion-safe:group-hover:translate-x-1" />
           </Link>
         </div>
       </div>

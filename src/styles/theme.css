@@ -43,6 +43,8 @@
   --bg-gradient: radial-gradient(ellipse 120% 80% at 50% 0%, #100e0c 0%, #0a0908 50%, #060505 100%);
   --panel: linear-gradient(180deg, #3f2d20 0%, #33251a 100%);
   --panel-inset: linear-gradient(180deg, #241a13 0%, #1d1510 100%);
+  /* Plan cards: a deep matte brown, darker than the leather, so they sit with the dark boxes. */
+  --panel-brown: linear-gradient(180deg, #2a1f17 0%, #221912 100%);
   /* About: matte warm black, a step up from the page, so it sits with the hero and the index. */
   --panel-dark: linear-gradient(180deg, #161412 0%, #100f0e 100%);
   --panel-border: rgba(212, 195, 154, 0.55);
@@ -98,6 +100,11 @@ body {
     transition:
       border-color 0.4s ease,
       box-shadow 0.4s ease;
+  }
+
+  /* A deep matte brown box (the plan cards). Use with .matte-panel. */
+  .matte-panel.matte-brown {
+    background: var(--panel-brown);
   }
 
   /* A dark matte box (the home sections), in step with the black page rather than the leather. */

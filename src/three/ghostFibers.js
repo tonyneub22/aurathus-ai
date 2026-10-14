@@ -15,7 +15,7 @@ import { FRAG, VERT } from './ghostFibersShader.js'
  */
 
 /** Names follow the React Bits component. Defaults here are our tuned, restrained look. */
-export const FIBER_DEFAULTS = {
+const FIBER_DEFAULTS = {
   lineColor: GOLD_SOFT,
   glowColor: GOLD,
   backdrop: SURFACE, // the box surface, so the canvas blends into it
@@ -70,8 +70,8 @@ const NUMBER_UNIFORMS = {
 }
 
 // Soft, blurry threads gain nothing from extra pixels, and this shader is per-pixel heavy.
-export const MAX_DPR = 1
-export const STILL_TIME = 12 // seconds into the animation; a well-developed frame for the still version
+const MAX_DPR = 1
+const STILL_TIME = 12 // seconds into the animation; a well-developed frame for the still version
 
 /**
  * Mounts a canvas filling `mount` and returns a controller.

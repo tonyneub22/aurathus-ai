@@ -1,6 +1,7 @@
 import { useLayoutEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from './motionPreference'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -24,7 +25,7 @@ const rootContains = (root, el) => root === el || root.contains(el)
 export default function useReveal(rootRef, deps = []) {
   useLayoutEffect(() => {
     const root = rootRef.current
-    if (!root || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined
+    if (!root || prefersReducedMotion()) return undefined
 
     const ctx = gsap.context(() => {
       const below = (el) => el.getBoundingClientRect().top > window.innerHeight * 0.92

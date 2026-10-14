@@ -1,12 +1,11 @@
 import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from './motionPreference'
 
 gsap.registerPlugin(ScrollTrigger)
 
 let lenis = null
-
-const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 
 /**
  * One Lenis instance for the whole site, ticked by GSAP so ScrollTrigger and
