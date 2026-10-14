@@ -31,6 +31,7 @@ describe('home page sections', () => {
     const boxes = [...container.querySelectorAll('.matte-panel')]
     expect(boxes).toHaveLength(1)
     expect(boxes[0].closest('section')).toHaveAttribute('id', 'about')
+    expect(boxes[0]).toHaveClass('matte-dark') // dark matte, in step with the page, not leather
   })
 
   it('makes each section a labelled region with a matching anchor', () => {

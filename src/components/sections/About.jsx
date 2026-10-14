@@ -24,7 +24,7 @@ export default function About() {
       id="about"
       title={about.title}
       spacing="pb-28 lg:pb-40"
-      boxClassName="isolate overflow-hidden"
+      boxClassName="matte-dark isolate overflow-hidden"
       decoration={
         <>
           <GhostFibersBackground />

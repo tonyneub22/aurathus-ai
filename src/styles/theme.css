@@ -8,7 +8,7 @@
  */
 @theme {
   --color-aura-black: var(--bg-base);
-  --color-aura-black-2: #392920; /* flat stand-in for --panel (its midpoint), for surfaces that can't take the gradient */
+  --color-aura-black-2: #131110; /* flat stand-in for --panel-dark (its midpoint): the About fibers' backdrop, its scrim, the menu drawer */
   --color-aura-gold: #d4c39a;
   --color-aura-gold-hot: #f3dfb4; /* highlight on the ring rim */
   --color-aura-gold-soft: #a29578;
@@ -43,6 +43,8 @@
   --bg-gradient: radial-gradient(ellipse 120% 80% at 50% 0%, #100e0c 0%, #0a0908 50%, #060505 100%);
   --panel: linear-gradient(180deg, #3f2d20 0%, #33251a 100%);
   --panel-inset: linear-gradient(180deg, #241a13 0%, #1d1510 100%);
+  /* About: matte warm black, a step up from the page, so it sits with the hero and the index. */
+  --panel-dark: linear-gradient(180deg, #161412 0%, #100f0e 100%);
   --panel-border: rgba(212, 195, 154, 0.55);
   --panel-border-hover: rgba(212, 195, 154, 0.9);
   --panel-shadow: inset 0 1px 0 rgba(255, 236, 205, 0.03), 0 18px 40px -18px rgba(0, 0, 0, 0.7);
@@ -92,6 +94,11 @@ body {
     transition:
       border-color 0.4s ease,
       box-shadow 0.4s ease;
+  }
+
+  /* A dark matte box (About), in step with the black page rather than the leather. */
+  .matte-panel.matte-dark {
+    background: var(--panel-dark);
   }
 
   /* A box inside a box: the second, darker leather. Use with .matte-panel. */

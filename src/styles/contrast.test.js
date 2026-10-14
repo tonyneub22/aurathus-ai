@@ -24,6 +24,7 @@ describe('matte surfaces', () => {
     ...hexes(value('bg-gradient')),
     ...hexes(value('panel')),
     ...hexes(value('panel-inset')),
+    ...hexes(value('panel-dark')),
     value('color-aura-panel'),
     value('color-aura-panel-open'),
   ]
