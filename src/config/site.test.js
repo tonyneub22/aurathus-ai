@@ -66,8 +66,26 @@ describe('brand', () => {
     expect(site.footer.text).toBe('© 2026 Aurathus AI LLC')
   })
 
-  it('points at brand files that exist in public/', () => {
-    expect(existsSync(resolve(process.cwd(), 'public', site.brand.logo.src.slice(1)))).toBe(true)
+  it('points at brand files that exist in public/, sized from their viewBoxes', () => {
+    for (const key of ['header', 'footer', 'icon']) {
+      const { src, width, height } = site.brand[key]
+      expect(src).toMatch(/^\/brand\/aurathus-(logo-header|logo-footer|icon)\.svg$/)
+      expect(existsSync(resolve(process.cwd(), 'public', src.slice(1))), src).toBe(true)
+      expect(width).toBeGreaterThan(0)
+      expect(height).toBeGreaterThan(0)
+    }
+    expect(site.brand.header).toMatchObject({ width: 890, height: 200 })
+    expect(site.brand.footer).toMatchObject({ width: 1058, height: 200 })
+  })
+
+  it('links the favicons in the order that lets browsers pick the adaptive SVG', () => {
+    const links = [...html.matchAll(/<link rel="(icon|apple-touch-icon|manifest)"[^>]*>/g)].map((m) => m[0])
+    expect(links[0]).toContain('href="/favicon.ico" sizes="32x32"')
+    expect(links[0]).not.toContain('sizes="any"') // Chrome would prefer the .ico over the SVG
+    expect(links[1]).toContain('href="/favicon.svg" type="image/svg+xml"')
+    expect(links.join('\n')).toMatch(/favicon-16x16\.png[\s\S]*apple-touch-icon\.png[\s\S]*site\.webmanifest/)
+    expect(existsSync(resolve(process.cwd(), 'public/favicon.svg'))).toBe(true)
+    expect(html).toContain('content="__SITE_OG_IMAGE_ALT__"')
   })
 
   it('takes the domain, title and description in index.html from site.js, never hardcoded', () => {
@@ -79,7 +97,7 @@ describe('brand', () => {
   })
 
   it('links every icon and the manifest that index.html names', () => {
-    for (const [, path] of html.matchAll(/href="\/([^"]+\.(?:ico|png|webmanifest))"/g)) {
+    for (const [, path] of html.matchAll(/href="\/([^"]+\.(?:ico|png|svg|webmanifest))"/g)) {
       expect(existsSync(resolve(process.cwd(), 'public', path)), path).toBe(true)
     }
   })

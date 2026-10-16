@@ -2,7 +2,7 @@
 
 /*
  * Brand tokens for the site. These are the site's own values, separate from the
- * gold in the logo artwork (brand-source/aurathus-ai-brand/). Adjust here and the
+ * logo artwork (brand-source/aurathus-logo-v2/, which uses the same golds). Adjust here and the
  * whole app follows. Three.js colours come from src/three/palette.js, which
  * mirrors these (tested).
  */

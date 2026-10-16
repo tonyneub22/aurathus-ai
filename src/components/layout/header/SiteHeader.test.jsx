@@ -7,7 +7,14 @@ import SiteHeader from './SiteHeader'
 describe('<SiteHeader />', () => {
   it('links the brand to the top of the home page, named for what it is and does', () => {
     render(<SiteHeader />)
-    expect(screen.getByRole('link', { name: 'Aurathus AI, Home' })).toHaveAttribute('href', '/#top')
+    const home = screen.getByRole('link', { name: 'Aurathus AI, Home' })
+    expect(home).toHaveAttribute('href', '/#top')
+    // The header lockup, decorative inside the named link, sized from its viewBox.
+    const img = home.querySelector('img')
+    expect(img).toHaveAttribute('src', '/brand/aurathus-logo-header.svg')
+    expect(img).toHaveAttribute('alt', '')
+    expect(img).toHaveAttribute('width', '890')
+    expect(img).toHaveAttribute('height', '200')
   })
 
   it('shows the section links and Request Consult inline for wide screens', () => {

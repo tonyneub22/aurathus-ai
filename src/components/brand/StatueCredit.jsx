@@ -7,7 +7,8 @@ import { site } from '../../config/site'
  */
 export default function StatueCredit({ className = '' }) {
   const c = site.statue.credit
-  const link = 'underline decoration-aura-gold/30 underline-offset-4 transition hover:decoration-aura-gold'
+  // nowrap: a title, name or licence never splits across lines ("CC BY / 4.0").
+  const link = 'whitespace-nowrap underline decoration-aura-gold/30 underline-offset-4 transition hover:decoration-aura-gold'
 
   return (
     <p

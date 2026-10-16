@@ -3,14 +3,15 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { site } from './src/config/site.js'
 
-// index.html writes the domain, title and description as placeholders so they come from site.js, like all other copy.
+// index.html writes the domain, title, description and preview-image alt as placeholders so they come from site.js, like all other copy.
 const siteMeta = () => ({
   name: 'site-meta',
   transformIndexHtml: (html) =>
     html
       .replaceAll('__SITE_URL__', site.siteUrl)
       .replaceAll('__SITE_TITLE__', site.meta.title)
-      .replaceAll('__SITE_DESCRIPTION__', site.meta.description),
+      .replaceAll('__SITE_DESCRIPTION__', site.meta.description)
+      .replaceAll('__SITE_OG_IMAGE_ALT__', site.meta.ogImageAlt),
 })
 
 export default defineConfig({

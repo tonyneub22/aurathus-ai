@@ -11,6 +11,8 @@ export const site = {
   // Home page <title> and description. index.html gets them at build time too.
   meta: {
     title: 'Aurathus AI LLC — Design Services',
+    // Describes /og-image.png for link previews (index.html's og:image:alt).
+    ogImageAlt: 'Aurathus AI logo: a classical profile inside a gold ring beside the wordmark, on black',
     description:
       'Aurathus AI designs and builds websites, software and AI systems for businesses in Grand Rapids, Michigan and beyond.',
   },
@@ -148,9 +150,12 @@ export const site = {
     text: '© 2026 Aurathus AI LLC',
   },
 
-  // Brand pack: brand-source/aurathus-ai-brand/. Every logo is made for dark backgrounds only.
+  // Brand pack: brand-source/aurathus-logo-v2/ (copies in public/brand/). Every logo is made for dark
+  // backgrounds only. Sizes are each file's viewBox, so images reserve their space before loading.
   brand: {
-    logo: { src: '/brand/aurathus-logo-horizontal.svg', width: 3892, height: 1000 }, // size from its viewBox
+    header: { src: '/brand/aurathus-logo-header.svg', width: 890, height: 200 },
+    footer: { src: '/brand/aurathus-logo-footer.svg', width: 1058, height: 200 },
+    icon: { src: '/brand/aurathus-icon.svg', width: 512, height: 512 },
     logoAlt: 'Aurathus AI LLC',
   },
 

@@ -24,7 +24,7 @@ Attribution for CC BY assets must stay visible on the site wherever the asset ap
 
 ## Own brand assets
 
-- `public/brand/aurathus-*`, the favicons, `site.webmanifest` and `og-image.png` in `public/` are Aurathus AI LLC's own brand assets, from `brand-source/aurathus-ai-brand/`. The wordmark is Cormorant Garamond (SIL OFL 1.1) converted to outlines.
+- `public/brand/aurathus-*`, the favicons, `site.webmanifest` and `og-image.png` in `public/` are Aurathus AI LLC's own brand assets, from `brand-source/aurathus-logo-v2/` (an original line drawing, not traced from the CC BY 3D model). The wordmark is Cormorant Garamond (SIL OFL 1.1) converted to outlines.
 
 ## Fonts
 

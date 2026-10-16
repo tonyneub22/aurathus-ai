@@ -187,7 +187,7 @@ test.describe('brand and head', () => {
     expect(await attr('meta[property="og:image"]', 'content')).toBe('https://aurathus-ai.com/og-image.png')
     expect(await attr('meta[property="og:image:width"]', 'content')).toBe('1200')
     expect(await attr('meta[property="og:image:height"]', 'content')).toBe('630')
-    expect(await attr('meta[property="og:image:alt"]', 'content')).toBeTruthy()
+    expect(await attr('meta[property="og:image:alt"]', 'content')).toBe('Aurathus AI logo: a classical profile inside a gold ring beside the wordmark, on black')
     expect(await attr('meta[name="twitter:card"]', 'content')).toBe('summary_large_image')
     expect(await attr('meta[name="twitter:image"]', 'content')).toBe('https://aurathus-ai.com/og-image.png')
     expect(await attr('meta[name="theme-color"]', 'content')).toBe('#090807')
@@ -195,10 +195,11 @@ test.describe('brand and head', () => {
     // Icons, manifest and the og image, as served by this build (the absolute URLs point at production).
     const paths = await page.locator('head link[rel="icon"], head link[rel="apple-touch-icon"], head link[rel="manifest"]')
       .evaluateAll((links) => links.map((l) => new URL(l.href).pathname))
-    expect(paths).toEqual(
-      expect.arrayContaining(['/favicon.ico', '/favicon-32x32.png', '/favicon-16x16.png', '/apple-touch-icon.png', '/site.webmanifest']),
-    )
-    for (const path of [...paths, '/og-image.png', '/icon-192.png', '/icon-512.png']) {
+    // The .ico first and without sizes="any", then the adaptive SVG, so browsers that can pick the SVG do.
+    expect(paths).toEqual(['/favicon.ico', '/favicon.svg', '/favicon-16x16.png', '/apple-touch-icon.png', '/site.webmanifest'])
+    expect(await attr('link[rel="icon"][href="/favicon.ico"]', 'sizes')).toBe('32x32')
+    expect(await attr('link[rel="icon"][href="/favicon.svg"]', 'type')).toBe('image/svg+xml')
+    for (const path of [...paths, '/og-image.png', '/icon-192.png', '/icon-512.png', '/favicon-32x32.png']) {
       expect((await request.get(path)).status(), path).toBe(200)
     }
     const manifest = await (await request.get('/site.webmanifest')).json()
@@ -238,13 +239,21 @@ test.describe('header and menu', () => {
   })
 
   test('the brand link returns to the top of the page', async ({ page }) => {
+    test.setTimeout(60_000)
     await page.goto('/')
+    const bar = page.getByTestId('header-bar')
     await page.evaluate(() => window.scrollTo({ top: 2000, behavior: 'instant' }))
+    // Two separate scrolls: back to back, the browser can merge them into one "down" event.
+    await expect.poll(async () => (await bar.boundingBox()).y, { timeout: 15_000 }).toBeLessThan(-40)
     await page.evaluate(() => window.scrollTo({ top: 1900, behavior: 'instant' })) // a step up brings the bar back
     const home = page.getByRole('link', { name: 'Aurathus AI, Home' })
+    // Wait for the bar to finish sliding back, so the click lands on the link.
+    await expect.poll(async () => (await bar.boundingBox()).y, { timeout: 15_000 }).toBeGreaterThanOrEqual(0)
     await expect(home).toBeInViewport()
     await home.click()
-    await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 10_000 }).toBe(0)
+    await expect(page).toHaveURL(/\/#top$/)
+    // Long timeout: the glide passes over the WebGL hero, which software GL in headless Chrome renders slowly.
+    await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 30_000 }).toBeLessThanOrEqual(2)
   })
 
   test('wide screens show the section links and Request Consult in the bar', async ({ page }, testInfo) => {
@@ -331,11 +340,36 @@ test.describe('header and menu', () => {
     await expect(page.locator('#services')).toBeInViewport({ timeout: 20_000 })
   })
 
-  test('the footer logo is labelled and links to the top', async ({ page }) => {
+  test('the header and footer show the v2 lockups, and every brand file loads', async ({ page, request }) => {
     await page.goto('/')
+    const header = page.getByRole('link', { name: 'Aurathus AI, Home' }).locator('img')
+    await expect(header).toHaveAttribute('src', '/brand/aurathus-logo-header.svg')
+    expect(await header.evaluate((img) => img.complete && img.naturalWidth)).toBeGreaterThan(0)
     const logo = page.locator('footer').getByRole('img', { name: 'Aurathus AI LLC' })
     await expect(logo).toHaveAttribute('alt', 'Aurathus AI LLC')
+    await expect(logo).toHaveAttribute('src', '/brand/aurathus-logo-footer.svg')
     await expect(logo.locator('xpath=..')).toHaveAttribute('href', '/#top')
+    for (const file of ['aurathus-logo-header.svg', 'aurathus-logo-footer.svg', 'aurathus-icon.svg', 'aurathus-logo-header.png', 'aurathus-logo-footer.png', 'aurathus-icon.png']) {
+      expect((await request.get(`/brand/${file}`)).status(), file).toBe(200)
+    }
+  })
+
+  test('the footer is compact: under 200px tall on wide screens, before the credit line', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'measured at 1440')
+    await page.goto('/')
+    const footer = page.locator('footer')
+    await footer.scrollIntoViewIfNeeded()
+    const height = await footer.evaluate((el) => {
+      const credit = el.querySelector('[data-testid="statue-credit"]')
+      const creditBlock = credit ? credit.getBoundingClientRect().height + parseFloat(getComputedStyle(credit).marginTop) : 0
+      return el.getBoundingClientRect().height - creditBlock
+    })
+    expect(height).toBeLessThan(200)
+    // One row: logo, email · location, © share a line.
+    const tops = await footer.evaluate((el) =>
+      [el.querySelector('img'), el.querySelector('a[href^="mailto:"]'), [...el.querySelectorAll('p')].at(-2)].map((n) => Math.round(n.getBoundingClientRect().top + n.getBoundingClientRect().height / 2)),
+    )
+    expect(Math.max(...tops) - Math.min(...tops)).toBeLessThanOrEqual(6)
   })
 })
 
